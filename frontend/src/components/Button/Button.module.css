@@ -1,0 +1,46 @@
+.button {
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button span {
+  color: inherit;
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+  color: var(--on-primary);
+}
+
+.primary:hover {
+  opacity: 0.9;
+}
+
+.secondary {
+  background-color: var(--surface-container-highest);
+  color: var(--primary);
+}
+
+.secondary:hover {
+  background-color: var(--surface-container-high);
+}
+
+.tertiary {
+  background-color: var(--tertiary);
+  color: var(--on-tertiary);
+}
+
+.tertiary:hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,21 @@
+.badge {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.neutral {
+  background-color: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+.error {
+  background-color: var(--error-container);
+  color: var(--error);
+}
+
+.success {
+  background-color: #d1f1d1;
+  color: #1e4620;
+}
