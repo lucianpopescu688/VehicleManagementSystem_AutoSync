@@ -14,10 +14,25 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
+      {
+        ...reactRefresh.configs.vite,
+        rules: {
+          ...reactRefresh.configs.vite.rules,
+          // TanStack Router exports `Route` alongside components in route files
+          'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+        },
+      },
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+  },
+  {
+    // TanStack Router route files always export a `Route` constant alongside component
+    // helper functions — fast-refresh can't reasonably be applied here.
+    files: ['src/routes/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
   eslintConfigPrettier
