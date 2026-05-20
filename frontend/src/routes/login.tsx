@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { login, decodeJwtPayload } from '@/api/auth'
-import { LoginSchema } from '@/api/types'
+import { decodeJwtPayload } from '@/api/auth'
+import { authenticate } from '@/api/generated/auth-controller/auth-controller'
+import { LoginSchema } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
 import type { Role } from '@/store/auth.store'
 
@@ -12,7 +13,7 @@ export const Route = createFileRoute('/login')({
 function FleetMasterLogo() {
   return (
     <div className="flex items-center gap-2.5">
-      <div className="w-9 h-9 bg-[#0052CC] rounded-lg flex items-center justify-center flex-shrink-0">
+      <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shrink-0">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <rect x="2" y="2" width="3" height="3" rx="0.5" fill="white" />
           <rect x="7" y="2" width="3" height="3" rx="0.5" fill="white" />
@@ -58,11 +59,11 @@ function LoginPage() {
     setLoading(true)
 
     try {
-      const data = await login(result.data)
-      const payload = decodeJwtPayload(data.token)
+      const data = await authenticate(result.data)
+      const payload = decodeJwtPayload(data.token ?? '')
       const email = typeof payload.sub === 'string' ? payload.sub : form.email
       const role = (payload.role ?? null) as Role | null
-      storeLogin(data.token, email, role)
+      storeLogin(data.token ?? '', email, role)
       navigate({ to: '/dashboard' })
     } catch {
       setServerError('Invalid email or password. Please try again.')
@@ -110,7 +111,7 @@ function LoginPage() {
               'Comprehensive analytics',
             ].map((feat) => (
               <div key={feat} className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[#0052CC] flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -133,7 +134,7 @@ function LoginPage() {
           {/* Mobile logo */}
           <div className="lg:hidden mb-8 flex justify-center">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-[#0052CC] rounded-lg flex items-center justify-center">
+              <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <rect x="2" y="2" width="3" height="3" rx="0.5" fill="white" />
                   <rect x="7" y="2" width="3" height="3" rx="0.5" fill="white" />
@@ -146,7 +147,7 @@ function LoginPage() {
                 </svg>
               </div>
               <div>
-                <div className="font-[Manrope] font-extrabold text-sm leading-tight text-[#0F172A]">FLEET MASTER</div>
+                <div className="font-[Manrope] font-extrabold text-sm leading-tight text-neutral-dark">FLEET MASTER</div>
                 <div className="font-[Inter] text-[10px] text-slate-400 tracking-widest leading-tight">PRECISION CONTROL</div>
               </div>
             </div>
@@ -154,7 +155,7 @@ function LoginPage() {
 
           {/* Form header */}
           <div className="mb-8">
-            <h1 className="font-[Manrope] text-2xl font-extrabold text-[#0F172A]">Welcome back</h1>
+            <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Welcome back</h1>
             <p className="text-slate-500 text-sm mt-1">Sign in to your Fleet Master account</p>
           </div>
 
@@ -162,7 +163,7 @@ function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {serverError && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-                <svg className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <p className="text-red-700 text-sm">{serverError}</p>
@@ -194,7 +195,7 @@ function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#0052CC] hover:bg-[#003d99] disabled:opacity-50 text-white font-semibold rounded-lg py-2.5 text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
+              className="w-full bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg py-2.5 text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -213,7 +214,7 @@ function LoginPage() {
           {/* Register link */}
           <p className="text-center text-sm text-slate-500 mt-6">
             Don&apos;t have an account?{' '}
-            <Link to="/register" className="text-[#0052CC] hover:text-[#003d99] font-semibold hover:underline transition-colors">
+            <Link to="/register" className="text-primary hover:text-primary-dark font-semibold hover:underline transition-colors">
               Create account
             </Link>
           </p>
@@ -242,4 +243,4 @@ function Field({
 }
 
 const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
+  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'

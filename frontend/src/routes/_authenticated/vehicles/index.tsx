@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { getVehicles, createVehicle, deleteVehicle } from '@/api/vehicles'
-import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/types'
+import { list, create, _delete } from '@/api/generated/vehicle-controller/vehicle-controller'
+import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
-import { StatusBadge, vehicleStatusFor } from '@/components/StatusBadge'
+import { StatusBadge } from '@/components/StatusBadge'
+import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/')({
@@ -28,11 +29,11 @@ function VehiclesPage() {
   const qc = useQueryClient()
   const { data: vehicles = [], isLoading } = useQuery({
     queryKey: queryKeys.vehicles.all,
-    queryFn: getVehicles,
+    queryFn: async () => ((await list()).content ?? []) as Vehicle[],
   })
 
   const createMutation = useMutation({
-    mutationFn: createVehicle,
+    mutationFn: (data: CreateVehicleInput) => create(data) as Promise<Vehicle>,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.vehicles.all })
       setModalOpen(false)
@@ -42,7 +43,7 @@ function VehiclesPage() {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: deleteVehicle,
+    mutationFn: (id: string) => _delete(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.vehicles.all }),
   })
 
@@ -88,7 +89,7 @@ function VehiclesPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Fleet</p>
-          <h1 className="font-[Manrope] text-2xl font-extrabold text-[#0F172A]">Fleet Details</h1>
+          <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Fleet Details</h1>
           <p className="text-sm text-slate-500 mt-0.5">
             {isLoading ? 'Loading…' : `${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''} in fleet`}
           </p>
@@ -100,7 +101,7 @@ function VehiclesPage() {
               setFormErrors({})
               setModalOpen(true)
             }}
-            className="flex items-center gap-2 bg-[#0052CC] hover:bg-[#003d99] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+            className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -226,7 +227,7 @@ function VehiclesPage() {
               <button
                 type="submit"
                 disabled={createMutation.isPending}
-                className="px-4 py-2 text-sm bg-[#0052CC] hover:bg-[#003d99] disabled:opacity-50 text-white font-semibold rounded-lg transition-colors cursor-pointer"
+                className="px-4 py-2 text-sm bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg transition-colors cursor-pointer"
               >
                 {createMutation.isPending ? 'Saving…' : 'Save Vehicle'}
               </button>
@@ -239,13 +240,13 @@ function VehiclesPage() {
       {deleteConfirmId !== null && (
         <Modal title="Delete Vehicle" onClose={() => setDeleteConfirmId(null)}>
           <div className="flex items-start gap-3 mb-5">
-            <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center shrink-0">
               <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#0F172A]">
+              <p className="text-sm font-semibold text-neutral-dark">
                 Delete &ldquo;{deleteVehicleName}&rdquo;?
               </p>
               <p className="text-sm text-slate-500 mt-1">
@@ -296,7 +297,7 @@ function VehicleRow({
       {/* Vehicle info */}
       <td className="px-5 py-3.5">
         <div>
-          <p className="font-semibold text-[#0F172A]">{v.name}</p>
+          <p className="font-semibold text-neutral-dark">{v.name}</p>
           <p className="text-xs text-slate-400 mt-0.5">
             {v.model} &middot; {v.year} &middot; <span className="font-mono">{v.vin}</span>
           </p>
@@ -331,7 +332,7 @@ function VehicleRow({
             <Link
               to="/vehicles/$vehicleId"
               params={{ vehicleId: String(v.id) }}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0052CC] hover:text-[#003d99] bg-[#E6F0FF] hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-dark bg-primary-light hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition-colors"
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -370,7 +371,7 @@ function Modal({
         style={{ borderRadius: '16px' }}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="font-[Manrope] font-bold text-[#0F172A]">{title}</h3>
+          <h3 className="font-[Manrope] font-bold text-neutral-dark">{title}</h3>
           <button
             onClick={onClose}
             className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
@@ -406,4 +407,4 @@ function FormField({
 }
 
 const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
+  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
