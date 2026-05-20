@@ -9,7 +9,7 @@ export async function getVehicles(): Promise<Vehicle[]> {
   return res.data
 }
 
-export async function getVehicle(id: number): Promise<Vehicle> {
+export async function getVehicle(id: string): Promise<Vehicle> {
   const res = await api.get<Vehicle>(`/vehicles/${id}`)
   return res.data
 }
@@ -19,11 +19,11 @@ export async function createVehicle(data: CreateVehicleInput): Promise<Vehicle> 
   return res.data
 }
 
-export async function updateVehicle(id: number, data: Partial<CreateVehicleInput>): Promise<Vehicle> {
+export async function updateVehicle(id: string, data: Partial<CreateVehicleInput>): Promise<Vehicle> {
   const res = await api.put<Vehicle>(`/vehicles/${id}`, data)
   return res.data
 }
 
-export async function deleteVehicle(id: number): Promise<void> {
+export async function deleteVehicle(id: string): Promise<void> {
   await api.delete(`/vehicles/${id}`)
 }

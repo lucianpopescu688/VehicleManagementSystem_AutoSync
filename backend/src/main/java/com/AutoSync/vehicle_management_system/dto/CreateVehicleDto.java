@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,7 +30,5 @@ public class CreateVehicleDto {
     @NotNull
     private Integer currentMileage;
 
-    // optional: id of assigned driver (can be null)
-    private Long assignedDriverId;
+    private UUID assignedDriverId;
 }
-

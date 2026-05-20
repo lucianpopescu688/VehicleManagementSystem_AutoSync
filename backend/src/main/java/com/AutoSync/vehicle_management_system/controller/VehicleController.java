@@ -7,58 +7,61 @@ import com.AutoSync.vehicle_management_system.model.Vehicle;
 import com.AutoSync.vehicle_management_system.service.VehicleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/vehicles")
+@RequestMapping("/v1/vehicles")
 @RequiredArgsConstructor
 public class VehicleController {
+
     private final VehicleService vehicleService;
     private final VehicleMapper vehicleMapper;
 
     @PostMapping
     public ResponseEntity<VehicleDto> create(@RequestBody @Valid CreateVehicleDto dto) {
-        Vehicle created = vehicleService.createVehicle(vehicleMapper.toEntity(dto));
+        Vehicle created = vehicleService.createVehicle(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleMapper.toDto(created));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleDto> get(@PathVariable Long id) {
+    public ResponseEntity<VehicleDto> get(@PathVariable UUID id) {
         return ResponseEntity.ok(vehicleMapper.toDto(vehicleService.getVehicle(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleDto> update(@PathVariable Long id, @RequestBody @Valid CreateVehicleDto dto) {
-        Vehicle updated = vehicleService.updateVehicle(id, vehicleMapper.toEntity(dto));
-        return ResponseEntity.ok(vehicleMapper.toDto(updated));
+    public ResponseEntity<VehicleDto> update(@PathVariable UUID id, @RequestBody @Valid CreateVehicleDto dto) {
+        return ResponseEntity.ok(vehicleMapper.toDto(vehicleService.updateVehicle(id, dto)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<VehicleDto>> list() {
-        List<Vehicle> vehicles = vehicleService.listAll();
-        List<VehicleDto> dtos = vehicles.stream()
-                .map(vehicleMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<Page<VehicleDto>> list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "name") String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return ResponseEntity.ok(vehicleService.listAll(pageable).map(vehicleMapper::toDto));
     }
 
     @GetMapping("/owner/{ownerId}")
-    public ResponseEntity<List<VehicleDto>> listByOwner(@PathVariable Long ownerId) {
-        List<Vehicle> vehicles = vehicleService.listByOwner(ownerId);
-        List<VehicleDto> dtos = vehicles.stream()
-                .map(vehicleMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<Page<VehicleDto>> listByOwner(
+            @PathVariable UUID ownerId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(vehicleService.listByOwner(ownerId, pageable).map(vehicleMapper::toDto));
     }
 }

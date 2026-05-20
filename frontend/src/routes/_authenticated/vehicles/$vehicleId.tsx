@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { getVehicle, updateVehicle } from '@/api/vehicles'
 import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/types'
+import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/$vehicleId')({
   component: VehicleDetailPage,
@@ -11,12 +12,11 @@ export const Route = createFileRoute('/_authenticated/vehicles/$vehicleId')({
 function VehicleDetailPage() {
   const { vehicleId } = Route.useParams()
   const navigate = useNavigate()
-  const id = parseInt(vehicleId)
 
   const { data: vehicle, isLoading, isError } = useQuery({
-    queryKey: ['vehicles', id],
-    queryFn: () => getVehicle(id),
-    enabled: !isNaN(id),
+    queryKey: queryKeys.vehicles.detail(vehicleId),
+    queryFn: () => getVehicle(vehicleId),
+    enabled: !!vehicleId,
   })
 
   if (isLoading) {
@@ -90,7 +90,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
   const updateMutation = useMutation({
     mutationFn: (data: Partial<CreateVehicleInput>) => updateVehicle(vehicle.id, data),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['vehicles'] })
+      qc.invalidateQueries({ queryKey: queryKeys.vehicles.all })
       setSavedOk(true)
     },
     onError: () => {

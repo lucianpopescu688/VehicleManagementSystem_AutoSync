@@ -30,7 +30,7 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user); // role-aware overload
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
