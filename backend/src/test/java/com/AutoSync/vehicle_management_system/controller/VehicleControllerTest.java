@@ -1,17 +1,15 @@
 package com.AutoSync.vehicle_management_system.controller;
 
 import com.AutoSync.vehicle_management_system.dto.CreateVehicleDto;
-import com.AutoSync.vehicle_management_system.model.Role;
-import com.AutoSync.vehicle_management_system.model.User;
-import com.AutoSync.vehicle_management_system.security.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,19 +20,7 @@ class VehicleControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtService jwtService;
-
-    private String bearerToken() {
-        User user = User.builder()
-                .email("test@example.com")
-                .role(Role.STANDARD_USER)
-                .build();
-        return "Bearer " + jwtService.generateToken(user);
-    }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void listVehicles_withoutAuth_returns401() throws Exception {
@@ -44,8 +30,7 @@ class VehicleControllerTest {
 
     @Test
     void listVehicles_withAuth_returns200() throws Exception {
-        mockMvc.perform(get("/v1/vehicles")
-                        .header("Authorization", bearerToken()))
+        mockMvc.perform(get("/v1/vehicles").with(user("test@example.com").roles("STANDARD_USER")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray());
     }
@@ -60,7 +45,7 @@ class VehicleControllerTest {
                 .build();
 
         mockMvc.perform(post("/v1/vehicles")
-                        .header("Authorization", bearerToken())
+                        .with(user("test@example.com").roles("STANDARD_USER"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
@@ -69,7 +54,7 @@ class VehicleControllerTest {
     @Test
     void getVehicle_notFound_returns404() throws Exception {
         mockMvc.perform(get("/v1/vehicles/00000000-0000-7000-0000-000000000000")
-                        .header("Authorization", bearerToken()))
+                        .with(user("test@example.com").roles("STANDARD_USER")))
                 .andExpect(status().isNotFound());
     }
 }

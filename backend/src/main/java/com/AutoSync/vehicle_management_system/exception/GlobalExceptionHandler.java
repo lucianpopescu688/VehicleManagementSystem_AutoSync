@@ -3,6 +3,7 @@ package com.AutoSync.vehicle_management_system.exception;
 import com.AutoSync.vehicle_management_system.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,9 +54,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    /**
-     * Handle validation errors from @Valid annotations (400)
-     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(
+            BadCredentialsException ex,
+            WebRequest request) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .message("Invalid credentials")
+                .error("Unauthorized")
+                .timestamp(LocalDateTime.now())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(
             MethodArgumentNotValidException ex,

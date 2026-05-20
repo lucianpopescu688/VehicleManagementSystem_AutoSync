@@ -5,8 +5,8 @@ import type { Vehicle, CreateVehicleInput } from './types'
 // TanStack Query hooks from src/api/generated/.
 
 export async function getVehicles(): Promise<Vehicle[]> {
-  const res = await api.get<Vehicle[]>('/vehicles')
-  return res.data
+  const res = await api.get<{ content: Vehicle[] }>('/vehicles')
+  return res.data.content
 }
 
 export async function getVehicle(id: string): Promise<Vehicle> {

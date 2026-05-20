@@ -33,6 +33,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(401, "Unauthorized"))
+                )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
