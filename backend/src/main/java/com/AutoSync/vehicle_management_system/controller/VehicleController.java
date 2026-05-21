@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class VehicleController {
     private final VehicleMapper vehicleMapper;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'FLEET_MANAGER', 'STANDARD_USER')")
     public ResponseEntity<VehicleDto> create(@RequestBody @Valid CreateVehicleDto dto) {
         Vehicle created = vehicleService.createVehicle(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleMapper.toDto(created));
@@ -37,11 +39,13 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FLEET_MANAGER', 'STANDARD_USER')")
     public ResponseEntity<VehicleDto> update(@PathVariable UUID id, @RequestBody @Valid CreateVehicleDto dto) {
         return ResponseEntity.ok(vehicleMapper.toDto(vehicleService.updateVehicle(id, dto)));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FLEET_MANAGER', 'STANDARD_USER')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();

@@ -5,6 +5,8 @@ import com.AutoSync.vehicle_management_system.repository.UserRepository;
 import com.AutoSync.vehicle_management_system.security.dto.AuthenticationResponse;
 import com.AutoSync.vehicle_management_system.security.dto.LoginRequest;
 import com.AutoSync.vehicle_management_system.security.dto.RegisterRequest;
+import com.AutoSync.vehicle_management_system.model.Role;
+import com.AutoSync.vehicle_management_system.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,11 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (request.getRole() == Role.ADMIN && 
+            (request.getEmail() == null || !request.getEmail().endsWith("@fleetmaster.com"))) {
+            throw new BadRequestException("Admin registration is restricted to @fleetmaster.com emails");
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
