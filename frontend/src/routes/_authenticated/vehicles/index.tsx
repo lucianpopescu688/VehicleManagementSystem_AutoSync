@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { getVehicles, createVehicle, deleteVehicle } from '@/api/vehicles'
 import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/types'
 import { useAuthStore } from '@/store/auth.store'
+import { StatusBadge, vehicleStatusFor } from '@/components/StatusBadge'
+import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/')({
   component: VehiclesPage,
@@ -19,48 +21,20 @@ type FormState = {
 
 const emptyForm: FormState = { vin: '', name: '', model: '', year: '', currentMileage: '' }
 
-function statusFor(v: Vehicle): 'ACTIVE' | 'IN SERVICE' | 'NEEDS ATTENTION' {
-  if (v.assignedDriverId !== null) return 'ACTIVE'
-  if (v.currentMileage > 100000) return 'NEEDS ATTENTION'
-  return 'IN SERVICE'
-}
-
-function StatusBadge({ status }: { status: 'ACTIVE' | 'IN SERVICE' | 'NEEDS ATTENTION' }) {
-  if (status === 'ACTIVE') {
-    return (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#E6F0FF] text-[#0052CC] uppercase tracking-wide">
-        Active
-      </span>
-    )
-  }
-  if (status === 'IN SERVICE') {
-    return (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-orange-50 text-[#F97316] uppercase tracking-wide">
-        In Service
-      </span>
-    )
-  }
-  return (
-    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-red-50 text-red-600 uppercase tracking-wide">
-      Needs Attention
-    </span>
-  )
-}
-
 function VehiclesPage() {
   const role = useAuthStore((s) => s.role)
   const canManage = role === 'FLEET_MANAGER' || role === 'ADMIN' || role === 'STANDARD_USER'
 
   const qc = useQueryClient()
   const { data: vehicles = [], isLoading } = useQuery({
-    queryKey: ['vehicles'],
+    queryKey: queryKeys.vehicles.all,
     queryFn: getVehicles,
   })
 
   const createMutation = useMutation({
     mutationFn: createVehicle,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['vehicles'] })
+      qc.invalidateQueries({ queryKey: queryKeys.vehicles.all })
       setModalOpen(false)
       setForm(emptyForm)
       setFormErrors({})
@@ -69,13 +43,13 @@ function VehiclesPage() {
 
   const deleteMutation = useMutation({
     mutationFn: deleteVehicle,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['vehicles'] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.vehicles.all }),
   })
 
   const [modalOpen, setModalOpen] = useState(false)
   const [form, setForm] = useState<FormState>(emptyForm)
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof CreateVehicleInput, string>>>({})
-  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
   const [deleteVehicleName, setDeleteVehicleName] = useState<string>('')
 
   const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
@@ -314,7 +288,7 @@ function VehicleRow({
   canManage: boolean
   onDelete: () => void
 }) {
-  const status = statusFor(v)
+  const status = vehicleStatusFor(v)
   const pct = Math.min(100, Math.round((v.currentMileage / maxMileage) * 100))
 
   return (

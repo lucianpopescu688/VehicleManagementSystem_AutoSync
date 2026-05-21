@@ -20,13 +20,14 @@ export const RegisterSchema = z.object({
 })
 
 export const VehicleSchema = z.object({
-  id: z.number(),
+  id: z.string().uuid(),
   vin: z.string(),
   name: z.string(),
   model: z.string(),
   year: z.number(),
   currentMileage: z.number(),
-  assignedDriverId: z.number().nullable(),
+  assignedDriverId: z.string().uuid().nullable(),
+  ownerId: z.string().uuid().nullable(),
 })
 
 export const CreateVehicleSchema = z.object({
@@ -43,7 +44,7 @@ export const CreateVehicleSchema = z.object({
     .min(1900, 'Year must be 1900 or later')
     .max(new Date().getFullYear() + 1, 'Year is too far in the future'),
   currentMileage: z.number({ error: 'Mileage must be a number' }).min(0),
-  assignedDriverId: z.number().optional(),
+  assignedDriverId: z.string().uuid().optional(),
 })
 
 export type LoginInput = z.infer<typeof LoginSchema>

@@ -5,17 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleDto {
-    private Long id;
+    private UUID id;
     private String vin;
     private String name;
     private String model;
     private Integer year;
     private Integer currentMileage;
-    private Long assignedDriverId; // null if not assigned
+    private UUID assignedDriverId;
+    private UUID ownerId;
 }
-

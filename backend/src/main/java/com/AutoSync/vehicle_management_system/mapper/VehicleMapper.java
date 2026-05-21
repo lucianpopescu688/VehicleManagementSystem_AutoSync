@@ -2,53 +2,40 @@ package com.AutoSync.vehicle_management_system.mapper;
 
 import com.AutoSync.vehicle_management_system.dto.CreateVehicleDto;
 import com.AutoSync.vehicle_management_system.dto.VehicleDto;
+import com.AutoSync.vehicle_management_system.model.User;
 import com.AutoSync.vehicle_management_system.model.Vehicle;
 import com.AutoSync.vehicle_management_system.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Component
-@RequiredArgsConstructor
-public class VehicleMapper {
-    private final UserRepository userRepository;
+import java.util.UUID;
 
-    /**
-     * Convert CreateVehicleDto to Vehicle entity
-     */
-    public Vehicle toEntity(CreateVehicleDto dto) {
-        if (dto == null) {
-            return null;
-        }
-        Vehicle v = new Vehicle();
-        v.setVin(dto.getVin());
-        v.setName(dto.getName());
-        v.setModel(dto.getModel());
-        v.setYear(dto.getYear());
-        v.setCurrentMileage(dto.getCurrentMileage());
+@Mapper(componentModel = "spring")
+public abstract class VehicleMapper {
 
-        if (dto.getAssignedDriverId() != null) {
-            userRepository.findById(dto.getAssignedDriverId()).ifPresent(v::setAssignedDriver);
-        }
-        return v;
-    }
+    @Autowired
+    protected UserRepository userRepository;
 
-    /**
-     * Convert Vehicle entity to VehicleDto
-     */
-    public VehicleDto toDto(Vehicle vehicle) {
-        if (vehicle == null) {
-            return null;
-        }
-        Long driverId = vehicle.getAssignedDriver() != null ? vehicle.getAssignedDriver().getId() : null;
-        return VehicleDto.builder()
-                .id(vehicle.getId())
-                .vin(vehicle.getVin())
-                .name(vehicle.getName())
-                .model(vehicle.getModel())
-                .year(vehicle.getYear())
-                .currentMileage(vehicle.getCurrentMileage())
-                .assignedDriverId(driverId)
-                .build();
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "assignedDriver", expression = "java(resolveUser(dto.getAssignedDriverId()))")
+    public abstract Vehicle toEntity(CreateVehicleDto dto);
+
+    @Mapping(target = "assignedDriverId", source = "assignedDriver.id")
+    @Mapping(target = "ownerId", source = "owner.id")
+    public abstract VehicleDto toDto(Vehicle vehicle);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "assignedDriver", expression = "java(resolveUser(dto.getAssignedDriverId()))")
+    public abstract void updateVehicleFromDto(CreateVehicleDto dto, @MappingTarget Vehicle vehicle);
+
+    protected User resolveUser(UUID userId) {
+        if (userId == null) return null;
+        return userRepository.findById(userId).orElse(null);
     }
 }
-

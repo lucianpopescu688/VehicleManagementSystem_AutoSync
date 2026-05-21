@@ -2,7 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { getVehicles } from '@/api/vehicles'
 import { useAuthStore } from '@/store/auth.store'
-import type { Vehicle } from '@/api/types'
+import { StatusBadge, vehicleStatusFor } from '@/components/StatusBadge'
+import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/dashboard')({
   component: DashboardPage,
@@ -16,39 +17,11 @@ const roleLabelMap: Record<string, string> = {
   STANDARD_USER: 'Standard User',
 }
 
-function statusFor(v: Vehicle): 'ACTIVE' | 'IN SERVICE' | 'NEEDS ATTENTION' {
-  if (v.assignedDriverId !== null) return 'ACTIVE'
-  if (v.currentMileage > 100000) return 'NEEDS ATTENTION'
-  return 'IN SERVICE'
-}
-
-function StatusBadge({ status }: { status: 'ACTIVE' | 'IN SERVICE' | 'NEEDS ATTENTION' }) {
-  if (status === 'ACTIVE') {
-    return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#E6F0FF] text-[#0052CC] uppercase tracking-wide">
-        Active
-      </span>
-    )
-  }
-  if (status === 'IN SERVICE') {
-    return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-50 text-[#F97316] uppercase tracking-wide">
-        In Service
-      </span>
-    )
-  }
-  return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-50 text-red-600 uppercase tracking-wide">
-      Needs Attention
-    </span>
-  )
-}
-
 function DashboardPage() {
   const role = useAuthStore((s) => s.role)
 
   const { data: vehicles, isLoading } = useQuery({
-    queryKey: ['vehicles'],
+    queryKey: queryKeys.vehicles.all,
     queryFn: getVehicles,
   })
 
@@ -150,7 +123,7 @@ function DashboardPage() {
               </thead>
               <tbody>
                 {previewVehicles.map((v) => {
-                  const status = statusFor(v)
+                  const status = vehicleStatusFor(v)
                   const maxMileage = 200000
                   const pct = Math.min(100, Math.round((v.currentMileage / maxMileage) * 100))
                   return (
