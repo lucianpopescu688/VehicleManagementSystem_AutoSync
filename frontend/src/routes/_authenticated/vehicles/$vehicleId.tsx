@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { getVehicle, updateVehicle } from '@/api/vehicles'
-import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/types'
+import { get, update } from '@/api/generated/vehicle-controller/vehicle-controller'
+import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/schemas'
 import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/$vehicleId')({
@@ -15,7 +15,7 @@ function VehicleDetailPage() {
 
   const { data: vehicle, isLoading, isError } = useQuery({
     queryKey: queryKeys.vehicles.detail(vehicleId),
-    queryFn: () => getVehicle(vehicleId),
+    queryFn: () => get(vehicleId) as Promise<Vehicle>,
     enabled: !!vehicleId,
   })
 
@@ -49,7 +49,7 @@ function VehicleDetailPage() {
           <p className="text-xs text-slate-400 mb-4">The vehicle you&apos;re looking for doesn&apos;t exist or was removed.</p>
           <button
             onClick={() => navigate({ to: '/vehicles' })}
-            className="text-sm font-semibold text-[#0052CC] hover:text-[#003d99] cursor-pointer"
+            className="text-sm font-semibold text-primary hover:text-primary-dark cursor-pointer"
           >
             ← Back to Fleet Details
           </button>
@@ -88,7 +88,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
   const [savedOk, setSavedOk] = useState(false)
 
   const updateMutation = useMutation({
-    mutationFn: (data: Partial<CreateVehicleInput>) => updateVehicle(vehicle.id, data),
+    mutationFn: (data: CreateVehicleInput) => update(vehicle.id, data) as Promise<Vehicle>,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.vehicles.all })
       setSavedOk(true)
@@ -136,7 +136,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
       <nav className="flex items-center gap-2 text-sm mb-4">
         <Link
           to="/vehicles"
-          className="text-slate-400 hover:text-[#0052CC] transition-colors font-medium"
+          className="text-slate-400 hover:text-primary transition-colors font-medium"
         >
           Fleet Details
         </Link>
@@ -148,7 +148,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
 
       {/* Page title */}
       <div className="mb-6">
-        <h1 className="font-[Manrope] text-2xl font-extrabold text-[#0F172A]">{vehicle.name}</h1>
+        <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">{vehicle.name}</h1>
         <p className="text-sm text-slate-400 mt-0.5">
           {vehicle.model} &middot; {vehicle.year} &middot; <span className="font-mono text-xs">{vehicle.vin}</span>
         </p>
@@ -160,12 +160,12 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
         style={{ borderRadius: '12px', boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}
       >
         <div className="flex items-center gap-2 mb-5">
-          <div className="w-7 h-7 bg-[#E6F0FF] rounded-lg flex items-center justify-center">
-            <svg className="w-3.5 h-3.5 text-[#0052CC]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="w-7 h-7 bg-primary-light rounded-lg flex items-center justify-center">
+            <svg className="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
           </div>
-          <h2 className="font-[Manrope] font-bold text-sm text-[#0F172A]">Edit Vehicle Details</h2>
+          <h2 className="font-[Manrope] font-bold text-sm text-neutral-dark">Edit Vehicle Details</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -199,7 +199,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
 
           {savedOk && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
-              <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-green-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
               <p className="text-green-700 text-xs font-medium">Changes saved successfully.</p>
@@ -217,7 +217,7 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
             <button
               type="submit"
               disabled={updateMutation.isPending}
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-[#0052CC] hover:bg-[#003d99] disabled:opacity-50 text-white font-semibold rounded-lg cursor-pointer transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg cursor-pointer transition-colors"
             >
               {updateMutation.isPending ? (
                 <>
@@ -257,4 +257,4 @@ function Field({
 }
 
 const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
+  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'

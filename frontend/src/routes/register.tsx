@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { register, decodeJwtPayload } from '@/api/auth'
-import { RegisterSchema } from '@/api/types'
+import { decodeJwtPayload } from '@/api/auth'
+import { register } from '@/api/generated/auth-controller/auth-controller'
+import { RegisterSchema } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
 import type { Role } from '@/store/auth.store'
 
@@ -19,7 +20,7 @@ const ROLE_LABELS: Record<Exclude<Role, 'ADMIN'>, string> = {
 function FleetMasterLogo() {
   return (
     <div className="flex items-center gap-2.5">
-      <div className="w-9 h-9 bg-[#0052CC] rounded-lg flex items-center justify-center flex-shrink-0">
+      <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shrink-0">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <rect x="2" y="2" width="3" height="3" rx="0.5" fill="white" />
           <rect x="7" y="2" width="3" height="3" rx="0.5" fill="white" />
@@ -72,10 +73,10 @@ function RegisterPage() {
 
     try {
       const data = await register(result.data)
-      const payload = decodeJwtPayload(data.token)
+      const payload = decodeJwtPayload(data.token ?? '')
       const email = typeof payload.sub === 'string' ? payload.sub : form.email
       const role = (payload.role ?? form.role) as Role
-      storeLogin(data.token, email, role)
+      storeLogin(data.token ?? '', email, role)
       navigate({ to: '/dashboard' })
     } catch {
       setServerError('Registration failed. The email may already be in use.')
@@ -128,7 +129,7 @@ function RegisterPage() {
               'Service & maintenance tracking',
             ].map((feat) => (
               <div key={feat} className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[#0052CC] flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -151,7 +152,7 @@ function RegisterPage() {
           {/* Mobile logo */}
           <div className="lg:hidden mb-8 flex justify-center">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-[#0052CC] rounded-lg flex items-center justify-center">
+              <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <rect x="2" y="2" width="3" height="3" rx="0.5" fill="white" />
                   <rect x="7" y="2" width="3" height="3" rx="0.5" fill="white" />
@@ -164,7 +165,7 @@ function RegisterPage() {
                 </svg>
               </div>
               <div>
-                <div className="font-[Manrope] font-extrabold text-sm leading-tight text-[#0F172A]">FLEET MASTER</div>
+                <div className="font-[Manrope] font-extrabold text-sm leading-tight text-neutral-dark">FLEET MASTER</div>
                 <div className="font-[Inter] text-[10px] text-slate-400 tracking-widest leading-tight">PRECISION CONTROL</div>
               </div>
             </div>
@@ -172,7 +173,7 @@ function RegisterPage() {
 
           {/* Form header */}
           <div className="mb-7">
-            <h1 className="font-[Manrope] text-2xl font-extrabold text-[#0F172A]">Create account</h1>
+            <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Create account</h1>
             <p className="text-slate-500 text-sm mt-1">Get started with Fleet Master today</p>
           </div>
 
@@ -180,7 +181,7 @@ function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {serverError && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-                <svg className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <p className="text-red-700 text-sm">{serverError}</p>
@@ -251,7 +252,7 @@ function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#0052CC] hover:bg-[#003d99] disabled:opacity-50 text-white font-semibold rounded-lg py-2.5 text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg py-2.5 text-sm transition-colors cursor-pointer flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
                 <>
@@ -270,7 +271,7 @@ function RegisterPage() {
           {/* Login link */}
           <p className="text-center text-sm text-slate-500 mt-6">
             Already have an account?{' '}
-            <Link to="/login" className="text-[#0052CC] hover:text-[#003d99] font-semibold hover:underline transition-colors">
+            <Link to="/login" className="text-primary hover:text-primary-dark font-semibold hover:underline transition-colors">
               Sign in
             </Link>
           </p>
@@ -299,7 +300,7 @@ function Field({
 }
 
 const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
+  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
 
 const selectCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
+  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'

@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { getVehicles } from '@/api/vehicles'
+import { list } from '@/api/generated/vehicle-controller/vehicle-controller'
+import type { Vehicle } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
-import { StatusBadge, vehicleStatusFor } from '@/components/StatusBadge'
+import { StatusBadge } from '@/components/StatusBadge'
+import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/dashboard')({
@@ -22,7 +24,7 @@ function DashboardPage() {
 
   const { data: vehicles, isLoading } = useQuery({
     queryKey: queryKeys.vehicles.all,
-    queryFn: getVehicles,
+    queryFn: async () => ((await list()).content ?? []) as Vehicle[],
   })
 
   const total = vehicles?.length ?? 0
@@ -37,7 +39,7 @@ function DashboardPage() {
         <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">
           {role ? (roleLabelMap[role] ?? role) : 'Dashboard'}
         </p>
-        <h1 className="font-[Manrope] text-2xl font-extrabold text-[#0F172A]">Kinetic Engine</h1>
+        <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Kinetic Engine</h1>
         <p className="text-sm text-slate-500 mt-0.5">Fleet Overview &amp; Management</p>
       </div>
 
@@ -97,12 +99,12 @@ function DashboardPage() {
         <div className="lg:col-span-3 bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden" style={{ borderRadius: '12px' }}>
           <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
             <div>
-              <h2 className="font-[Manrope] font-bold text-sm text-[#0F172A]">Fleet Inventory</h2>
+              <h2 className="font-[Manrope] font-bold text-sm text-neutral-dark">Fleet Inventory</h2>
               <p className="text-xs text-slate-400 mt-0.5">Recent vehicles</p>
             </div>
             <Link
               to="/vehicles"
-              className="text-xs font-semibold text-[#0052CC] hover:text-[#003d99] transition-colors"
+              className="text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
             >
               View All Vehicles →
             </Link>
@@ -129,7 +131,7 @@ function DashboardPage() {
                   return (
                     <tr key={v.id} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
                       <td className="px-5 py-3">
-                        <p className="font-semibold text-[#0F172A] text-sm">{v.name}</p>
+                        <p className="font-semibold text-neutral-dark text-sm">{v.name}</p>
                         <p className="text-xs text-slate-400 mt-0.5">{v.model} &middot; #{v.id}</p>
                       </td>
                       <td className="px-5 py-3">
@@ -137,9 +139,9 @@ function DashboardPage() {
                       </td>
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-2">
-                          <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden flex-shrink-0">
+                          <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden shrink-0">
                             <div
-                              className="h-full rounded-full bg-[#0052CC]"
+                              className="h-full rounded-full bg-primary"
                               style={{ width: `${pct}%` }}
                             />
                           </div>
@@ -157,14 +159,14 @@ function DashboardPage() {
         {/* Right column — 2/5 */}
         <div className="lg:col-span-2 flex flex-col gap-4">
           {/* Quick Actions dark panel */}
-          <div className="bg-[#0F172A] rounded-xl p-5" style={{ borderRadius: '12px' }}>
+          <div className="bg-neutral-dark rounded-xl p-5" style={{ borderRadius: '12px' }}>
             <h2 className="font-[Manrope] font-bold text-sm text-white mb-1">Quick Actions</h2>
             <p className="text-[11px] text-slate-400 mb-4">Manage your fleet</p>
 
             <div className="grid grid-cols-2 gap-3">
               <Link
                 to="/vehicles"
-                className="flex flex-col items-center justify-center gap-1.5 bg-[#0052CC] hover:bg-[#003d99] text-white rounded-lg py-3 px-2 transition-colors cursor-pointer text-center"
+                className="flex flex-col items-center justify-center gap-1.5 bg-primary hover:bg-primary-dark text-white rounded-lg py-3 px-2 transition-colors cursor-pointer text-center"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -205,7 +207,7 @@ function DashboardPage() {
           </div>
 
           {/* Export button */}
-          <button className="w-full bg-white border border-slate-200 hover:border-[#0052CC] hover:text-[#0052CC] text-slate-600 rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2" style={{ borderRadius: '12px' }}>
+          <button className="w-full bg-white border border-slate-200 hover:border-[#0052CC] hover:text-primary text-slate-600 rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2" style={{ borderRadius: '12px' }}>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
@@ -238,7 +240,7 @@ function StatCard({
       <div className="flex items-start justify-between mb-3">
         <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{title}</p>
         <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
           style={{ backgroundColor: accentBg, color: accent }}
         >
           {icon}
