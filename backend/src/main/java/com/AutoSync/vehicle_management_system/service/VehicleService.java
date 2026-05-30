@@ -13,5 +13,6 @@ public interface VehicleService {
     Vehicle getVehicle(UUID id);
     void deleteVehicle(UUID id);
     Page<Vehicle> listAll(Pageable pageable);
+    Page<Vehicle> listAccessibleByUser(UUID userId, Pageable pageable);
     Page<Vehicle> listByOwner(UUID ownerId, Pageable pageable);
 }

@@ -27,6 +27,38 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: vehicle_mailhog
+    restart: always
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vehicle_backend
+    restart: on-failure
+    environment:
+      DB_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - rabbitmq
+      - mailhog
+
 volumes:
   postgres_data:
   rabbitmq_data:

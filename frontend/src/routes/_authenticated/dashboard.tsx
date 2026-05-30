@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { list } from '@/api/generated/vehicle-controller/vehicle-controller'
 import type { Vehicle } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
 import { StatusBadge } from '@/components/StatusBadge'
 import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
+import { getUnresolved, resolve } from '@/api/generated/alert-controller/alert-controller'
+import type { MaintenanceAlert } from '@/api/schemas'
 
 export const Route = createFileRoute('/_authenticated/dashboard')({
   component: DashboardPage,
@@ -21,10 +23,37 @@ const roleLabelMap: Record<string, string> = {
 
 function DashboardPage() {
   const role = useAuthStore((s) => s.role)
+  const qc = useQueryClient()
 
   const { data: vehicles, isLoading } = useQuery({
     queryKey: queryKeys.vehicles.all,
     queryFn: async () => ((await list()).content ?? []) as Vehicle[],
+  })
+
+  const { data: alerts = [] } = useQuery({
+    queryKey: queryKeys.alerts.unresolved,
+    queryFn: async () => (await getUnresolved()) as MaintenanceAlert[],
+    refetchInterval: 60_000,
+  })
+
+  const resolveMutation = useMutation({
+    mutationFn: (id: string) => resolve(id),
+    onMutate: async (id) => {
+      await qc.cancelQueries({ queryKey: queryKeys.alerts.unresolved })
+      const previousAlerts = qc.getQueryData(queryKeys.alerts.unresolved)
+      qc.setQueryData(queryKeys.alerts.unresolved, (old: MaintenanceAlert[] | undefined) => 
+        old?.filter((a) => a.id !== id)
+      )
+      return { previousAlerts }
+    },
+    onError: (_err, _id, context) => {
+      if (context?.previousAlerts) {
+        qc.setQueryData(queryKeys.alerts.unresolved, context.previousAlerts)
+      }
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.alerts.unresolved })
+    },
   })
 
   const total = vehicles?.length ?? 0
@@ -82,7 +111,7 @@ function DashboardPage() {
         />
         <StatCard
           title="Active Alerts"
-          value="—"
+          value={String(alerts.length)}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -92,6 +121,38 @@ function DashboardPage() {
           accentBg="#FFF7ED"
         />
       </div>
+
+      {/* Alerts banner */}
+      {alerts.length > 0 && (
+        <div className="mb-6 bg-orange-50 border border-orange-200 rounded-xl overflow-hidden" style={{ borderRadius: '12px' }}>
+          <div className="flex items-center gap-2 px-5 py-3 border-b border-orange-200 bg-orange-100">
+            <svg className="w-4 h-4 text-orange-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <h3 className="text-sm font-bold text-orange-800">Maintenance Alerts ({alerts.length})</h3>
+          </div>
+          <ul className="divide-y divide-orange-100">
+            {alerts.map((alert: MaintenanceAlert) => (
+              <li key={alert.id} className="flex items-start justify-between gap-4 px-5 py-3">
+                <div className="flex items-start gap-2 min-w-0">
+                  <span className={`mt-0.5 shrink-0 inline-block w-2 h-2 rounded-full ${alert.alertType === 'WEAR' ? 'bg-red-500' : 'bg-amber-500'}`} />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-orange-900">{alert.vehicleName}</p>
+                    <p className="text-xs text-orange-700 mt-0.5">{alert.message}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => resolveMutation.mutate(alert.id)}
+                  disabled={resolveMutation.isPending}
+                  className="shrink-0 text-xs font-semibold text-orange-600 hover:text-orange-800 cursor-pointer disabled:opacity-50"
+                >
+                  Dismiss
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
