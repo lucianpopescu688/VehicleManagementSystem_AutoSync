@@ -12,10 +12,10 @@ dist
 dist-ssr
 *.local
 
-# Auto-generated files
-src/routeTree.gen.ts
-src/api/generated/
-openapi.json
+# Auto-generated files (These should be committed so CI passes without needing the backend)
+# src/routeTree.gen.ts
+# src/api/generated/
+# openapi.json
 
 # Editor directories and files
 .vscode/*

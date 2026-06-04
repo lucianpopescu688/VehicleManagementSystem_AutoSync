@@ -1,0 +1,117 @@
+Initialized native services in: /home/lev/.gradle/native
+Initialized jansi services in: /home/lev/.gradle/native
+Found daemon DaemonInfo{pid=983791, address=[000d6232-87df-42a3-9d55-946597f959aa port:37551, addresses:[/127.0.0.1]], state=Idle, lastBusy=1780591451775, context=DefaultDaemonContext[uid=2f51af43-2953-46b5-880a-814b399f9c4d,javaHome=/usr/lib/jvm/java-21-openjdk,javaVersion=21,javaVendor=Arch Linux,daemonRegistryDir=/home/lev/.gradle/daemon,pid=983791,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+At least one daemon option is different.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-21-openjdk (no Daemon JVM specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=384m, -XX:+HeapDumpOnOutOfMemoryError, -Xms256m, -Xmx512m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=2f51af43-2953-46b5-880a-814b399f9c4d,javaHome=/usr/lib/jvm/java-21-openjdk,javaVersion=21,javaVendor=Arch Linux,daemonRegistryDir=/home/lev/.gradle/daemon,pid=983791,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Found daemon DaemonInfo{pid=984211, address=[1c70bd99-5310-42e7-bac8-74e1ecfdd6bc port:43737, addresses:[/127.0.0.1]], state=Idle, lastBusy=1780591300166, context=DefaultDaemonContext[uid=3f2ad8cc-8e10-4375-81d2-5fd7524dec50,javaHome=/home/lev/.vscode/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/lev/.gradle/daemon,pid=984211,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-21-openjdk (no Daemon JVM specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=384m, -XX:+HeapDumpOnOutOfMemoryError, -Xms256m, -Xmx512m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=3f2ad8cc-8e10-4375-81d2-5fd7524dec50,javaHome=/home/lev/.vscode/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/lev/.gradle/daemon,pid=984211,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 968194). The daemon log file: /home/lev/.gradle/daemon/9.4.1/daemon-968194.out.log
+Starting 11th build in daemon [uptime: 19 mins 10.112 secs, performance: 100%, GC rate: 0.00/s, heap usage: 2% of 512 MiB, non-heap usage: 24% of 384 MiB]
+Using 16 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, resilientModelBuilding=false}
+Now considering [/home/lev/UNI/UNI.3/SE/backend] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+Now considering [/home/lev/UNI/UNI.3/SE/backend] as hierarchies to watch
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/home/lev/UNI/UNI.3/SE/backend/settings.gradle'.
+Projects loaded. Root project using build file '/home/lev/UNI/UNI.3/SE/backend/build.gradle'.
+Included projects: [root project 'vehicle-management-system']
+
+> Configure project :
+Evaluating root project 'vehicle-management-system' using build file '/home/lev/UNI/UNI.3/SE/backend/build.gradle'.
+Resolved plugin [id: 'java']
+Resolved plugin [id: 'org.springframework.boot', version: '4.0.6']
+Resolved plugin [id: 'io.spring.dependency-management', version: '1.1.7']
+Applying dependency management to configuration 'annotationProcessor' in project 'vehicle-management-system'
+Applying dependency management to configuration 'apiElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'archives' in project 'vehicle-management-system'
+Applying dependency management to configuration 'bootArchives' in project 'vehicle-management-system'
+Applying dependency management to configuration 'compileClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'compileOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'default' in project 'vehicle-management-system'
+Applying dependency management to configuration 'developmentOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'implementation' in project 'vehicle-management-system'
+Applying dependency management to configuration 'mainSourceElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'productionRuntimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testAndDevelopmentOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testAnnotationProcessor' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testCompileClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testCompileOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testImplementation' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testResultsElementsForTest' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testRuntimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testRuntimeOnly' in project 'vehicle-management-system'
+All projects evaluated.
+Task name matched 'test'
+Selected primary task 'test' from project :
+Path for java installation '/usr/lib/jvm/javafx-sdk-23.0.1' (Common Linux Locations) auto-detected does not contain a java executable
+Resolving global dependency management for project 'vehicle-management-system'
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#693,Execution worker,5,main]) started.
+:compileJava (Thread[#693,Execution worker,5,main]) started.
+
+> Task :compileJava UP-TO-DATE
+Custom actions are attached to task ':compileJava'.
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#693,Execution worker,5,main]) started.
+:processResources (Thread[#693,Execution worker,5,main]) started.
+
+> Task :processResources UP-TO-DATE
+Caching disabled for task ':processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':processResources' as it is up-to-date.
+Resolve mutations for :classes (Thread[#693,Execution worker,5,main]) started.
+:classes (Thread[#699,Execution worker Thread 7,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#699,Execution worker Thread 7,5,main]) started.
+:compileTestJava (Thread[#699,Execution worker Thread 7,5,main]) started.
+
+> Task :compileTestJava UP-TO-DATE
+Custom actions are attached to task ':compileTestJava'.
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Skipping task ':compileTestJava' as it is up-to-date.
+Resolve mutations for :processTestResources (Thread[#699,Execution worker Thread 7,5,main]) started.
+:processTestResources (Thread[#699,Execution worker Thread 7,5,main]) started.
+
+> Task :processTestResources NO-SOURCE
+Skipping task ':processTestResources' as it has no source files and no previous output files.
+Resolve mutations for :testClasses (Thread[#699,Execution worker Thread 7,5,main]) started.
+:testClasses (Thread[#704,Execution worker Thread 12,5,main]) started.
+
+> Task :testClasses UP-TO-DATE
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#704,Execution worker Thread 12,5,main]) started.
+:test (Thread[#704,Execution worker Thread 12,5,main]) started.
+
+> Task :test UP-TO-DATE
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Skipping task ':test' as it is up-to-date.
+
+BUILD SUCCESSFUL in 955ms
+4 actionable tasks: 4 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.4.1/userguide/configuration_cache_enabling.html

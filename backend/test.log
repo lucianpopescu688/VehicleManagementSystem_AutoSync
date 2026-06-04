@@ -1,0 +1,675 @@
+Initialized native services in: /home/lev/.gradle/native
+Initialized jansi services in: /home/lev/.gradle/native
+Found daemon DaemonInfo{pid=983791, address=[000d6232-87df-42a3-9d55-946597f959aa port:37551, addresses:[/127.0.0.1]], state=Idle, lastBusy=1780591451775, context=DefaultDaemonContext[uid=2f51af43-2953-46b5-880a-814b399f9c4d,javaHome=/usr/lib/jvm/java-21-openjdk,javaVersion=21,javaVendor=Arch Linux,daemonRegistryDir=/home/lev/.gradle/daemon,pid=983791,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+At least one daemon option is different.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-21-openjdk (no Daemon JVM specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=384m, -XX:+HeapDumpOnOutOfMemoryError, -Xms256m, -Xmx512m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=2f51af43-2953-46b5-880a-814b399f9c4d,javaHome=/usr/lib/jvm/java-21-openjdk,javaVersion=21,javaVendor=Arch Linux,daemonRegistryDir=/home/lev/.gradle/daemon,pid=983791,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Found daemon DaemonInfo{pid=984211, address=[1c70bd99-5310-42e7-bac8-74e1ecfdd6bc port:43737, addresses:[/127.0.0.1]], state=Idle, lastBusy=1780591300166, context=DefaultDaemonContext[uid=3f2ad8cc-8e10-4375-81d2-5fd7524dec50,javaHome=/home/lev/.vscode/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/lev/.gradle/daemon,pid=984211,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-21-openjdk (no Daemon JVM specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=384m, -XX:+HeapDumpOnOutOfMemoryError, -Xms256m, -Xmx512m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=3f2ad8cc-8e10-4375-81d2-5fd7524dec50,javaHome=/home/lev/.vscode/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/lev/.gradle/daemon,pid=984211,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 968194). The daemon log file: /home/lev/.gradle/daemon/9.4.1/daemon-968194.out.log
+Starting 8th build in daemon [uptime: 14 mins 38.777 secs, performance: 100%, GC rate: 0.00/s, heap usage: 2% of 512 MiB, non-heap usage: 24% of 384 MiB]
+Using 16 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, resilientModelBuilding=false}
+Now considering [/home/lev/UNI/UNI.3/SE/backend] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/home/lev/UNI/UNI.3/SE/backend/settings.gradle'.
+Projects loaded. Root project using build file '/home/lev/UNI/UNI.3/SE/backend/build.gradle'.
+Included projects: [root project 'vehicle-management-system']
+
+> Configure project :
+Evaluating root project 'vehicle-management-system' using build file '/home/lev/UNI/UNI.3/SE/backend/build.gradle'.
+Resolved plugin [id: 'java']
+Resolved plugin [id: 'org.springframework.boot', version: '4.0.6']
+Resolved plugin [id: 'io.spring.dependency-management', version: '1.1.7']
+Applying dependency management to configuration 'annotationProcessor' in project 'vehicle-management-system'
+Applying dependency management to configuration 'apiElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'archives' in project 'vehicle-management-system'
+Applying dependency management to configuration 'bootArchives' in project 'vehicle-management-system'
+Applying dependency management to configuration 'compileClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'compileOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'default' in project 'vehicle-management-system'
+Applying dependency management to configuration 'developmentOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'implementation' in project 'vehicle-management-system'
+Applying dependency management to configuration 'mainSourceElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'productionRuntimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeElements' in project 'vehicle-management-system'
+Applying dependency management to configuration 'runtimeOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testAndDevelopmentOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testAnnotationProcessor' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testCompileClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testCompileOnly' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testImplementation' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testResultsElementsForTest' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testRuntimeClasspath' in project 'vehicle-management-system'
+Applying dependency management to configuration 'testRuntimeOnly' in project 'vehicle-management-system'
+All projects evaluated.
+Task name matched 'test'
+Selected primary task 'test' from project :
+Path for java installation '/usr/lib/jvm/javafx-sdk-23.0.1' (Common Linux Locations) auto-detected does not contain a java executable
+Resolving global dependency management for project 'vehicle-management-system'
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Excluding []
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#515,Execution worker,5,main]) started.
+:compileJava (Thread[#515,Execution worker,5,main]) started.
+
+> Task :compileJava UP-TO-DATE
+Custom actions are attached to task ':compileJava'.
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#515,Execution worker,5,main]) started.
+:processResources (Thread[#529,Execution worker Thread 15,5,main]) started.
+
+> Task :processResources UP-TO-DATE
+Caching disabled for task ':processResources' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':processResources' as it is up-to-date.
+Resolve mutations for :classes (Thread[#529,Execution worker Thread 15,5,main]) started.
+:classes (Thread[#521,Execution worker Thread 7,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#521,Execution worker Thread 7,5,main]) started.
+:compileTestJava (Thread[#521,Execution worker Thread 7,5,main]) started.
+
+> Task :compileTestJava UP-TO-DATE
+Custom actions are attached to task ':compileTestJava'.
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Skipping task ':compileTestJava' as it is up-to-date.
+Resolve mutations for :processTestResources (Thread[#521,Execution worker Thread 7,5,main]) started.
+:processTestResources (Thread[#521,Execution worker Thread 7,5,main]) started.
+
+> Task :processTestResources NO-SOURCE
+Skipping task ':processTestResources' as it has no source files and no previous output files.
+Resolve mutations for :testClasses (Thread[#521,Execution worker Thread 7,5,main]) started.
+:testClasses (Thread[#529,Execution worker Thread 15,5,main]) started.
+
+> Task :testClasses UP-TO-DATE
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#529,Execution worker Thread 15,5,main]) started.
+:test (Thread[#529,Execution worker Thread 15,5,main]) started.
+Gradle Test Executor 5 started executing tests.
+
+> Task :test
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Task ':test' is not up-to-date because:
+  Task has failed previously.
+Starting process 'Gradle Test Executor 5'. Working directory: /home/lev/UNI/UNI.3/SE/backend Command: /usr/lib/jvm/java-21-openjdk/bin/java -Dorg.gradle.internal.worker.tmpdir=/home/lev/UNI/UNI.3/SE/backend/build/tmp/test/work @/home/lev/.gradle/.tmp/gradle-worker-classpath6600072820709145327txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 5'
+Successfully started process 'Gradle Test Executor 5'
+
+AuthControllerTest STANDARD_OUT
+    19:49:52.633 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    19:49:52.726 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.controller.AuthControllerTest
+    19:49:52.759 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    19:49:52.759 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.BaseIntegrationTest]: BaseIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    19:49:52.762 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.controller.AuthControllerTest
+    19:49:52.786 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+    19:49:52.787 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+    19:49:52.793 [Test worker] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+    19:49:52.901 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+    19:49:53.106 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+    19:49:53.107 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+    19:49:53.117 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+      Server Version: 29.5.1
+      API Version: 1.54
+      Operating System: Arch Linux
+      Total Memory: 27858 MB
+    19:49:53.131 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+    19:49:53.144 [Test worker] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-pass) does not have credentials for https://index.docker.io/v1/
+    19:49:53.273 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 8f74e5d6d38d93a0a6ac310a6ac8119a3c3d525bc57109ba27ec483935061eaf
+    19:49:53.533 [Test worker] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.401739972S
+    19:49:53.537 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+    19:49:53.537 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+    19:49:53.538 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+    19:49:53.538 [Test worker] INFO tc.rabbitmq:3-management-alpine -- Creating container for image: rabbitmq:3-management-alpine
+    19:49:53.623 [Test worker] INFO tc.rabbitmq:3-management-alpine -- Container rabbitmq:3-management-alpine is starting: 4d7053a2cc36d516a2026e3ddaf1986e764a29950715b96d4cb9e0a30db9f70a
+    19:49:58.319 [Test worker] INFO tc.rabbitmq:3-management-alpine -- Container rabbitmq:3-management-alpine started in PT4.780939389S
+    19:49:58.321 [Test worker] INFO tc.postgres:16-alpine -- Creating container for image: postgres:16-alpine
+    19:49:58.420 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine is starting: a24ee321dbf318bfb2ab289703e11da327b4ba2d5a34f306ef751fd13abb7524
+    19:50:00.138 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine started in PT1.817197194S
+    19:50:00.139 [Test worker] INFO tc.postgres:16-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:32821/vehicle_db_test?loggerLevel=OFF)
+
+      .   ____          _            __ _ _
+     /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      '  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+
+     :: Spring Boot ::                (v4.0.6)
+
+    2026-06-04T19:50:00.464+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] c.A.v.controller.AuthControllerTest      : Starting AuthControllerTest using Java 21.0.11 with PID 1007180 (started by lev in /home/lev/UNI/UNI.3/SE/backend)
+    2026-06-04T19:50:00.465+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] c.A.v.controller.AuthControllerTest      : No active profile set, falling back to 1 default profile: "default"
+    2026-06-04T19:50:00.929+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+    2026-06-04T19:50:00.977+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 8 JPA repository interfaces.
+    2026-06-04T19:50:01.483+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+    2026-06-04T19:50:01.566+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f57fa23
+    2026-06-04T19:50:01.567+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+    2026-06-04T19:50:01.585+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:32821/vehicle_db_test?loggerLevel=OFF (PostgreSQL 16.14)
+    2026-06-04T19:50:01.614+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+    2026-06-04T19:50:01.616+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.012s)
+    2026-06-04T19:50:01.626+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+    2026-06-04T19:50:01.664+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+    2026-06-04T19:50:01.672+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - initial schema"
+    2026-06-04T19:50:01.698+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - add maintenance and appointments"
+    2026-06-04T19:50:01.727+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - fix role column type"
+    2026-06-04T19:50:01.743+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - uuid v7 primary keys"
+    2026-06-04T19:50:01.796+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_vehicles_assigned_driver" does not exist, skipping
+    2026-06-04T19:50:01.797+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_maintenance_vehicle" does not exist, skipping
+    2026-06-04T19:50:01.798+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_vehicle" does not exist, skipping
+    2026-06-04T19:50:01.798+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_requested_by" does not exist, skipping
+    2026-06-04T19:50:01.799+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_shop" does not exist, skipping
+    2026-06-04T19:50:01.812+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - iteration2 tables"
+    2026-06-04T19:50:01.833+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - add reference id to alerts"
+    2026-06-04T19:50:01.839+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "public", now at version v6 (execution time 00:00.120s)
+    2026-06-04T19:50:01.904+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+    2026-06-04T19:50:01.931+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+    2026-06-04T19:50:02.133+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+    2026-06-04T19:50:02.181+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+    	Database JDBC URL [jdbc:postgresql://localhost:32821/vehicle_db_test?loggerLevel=OFF]
+    	Database driver: PostgreSQL JDBC Driver
+    	Database dialect: PostgreSQLDialect
+    	Database version: 16.14
+    	Default catalog/schema: vehicle_db_test/public
+    	Autocommit mode: undefined/unknown
+    	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+    	JDBC fetch size: none
+    	Pool: DataSourceConnectionProvider
+    	Minimum pool size: undefined/unknown
+    	Maximum pool size: undefined/unknown
+    2026-06-04T19:50:02.728+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+    2026-06-04T19:50:02.760+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+    2026-06-04T19:50:02.815+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+    2026-06-04T19:50:03.490+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+    2026-06-04T19:50:03.490+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+    2026-06-04T19:50:03.577+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+    2026-06-04T19:50:04.040+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+    2026-06-04T19:50:04.040+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-06-04T19:50:04.042+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+    2026-06-04T19:50:04.101+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:04.130+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#1bfa5069:0/SimpleConnection@1002a151 [delegate=amqp://guest@127.0.0.1:32818/, localPort=44822]
+    2026-06-04T19:50:04.236+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] c.A.v.controller.AuthControllerTest      : Started AuthControllerTest in 3.996 seconds (process running for 12.158)
+
+AuthControllerTest > register_thenAuthenticate_returnsToken() STANDARD_ERROR
+    Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+    WARNING: A Java agent has been loaded dynamically (/home/lev/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.8/f09415827a71be7ed621c7bd02550678f28bc81c/byte-buddy-agent-1.17.8.jar)
+    WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+    WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+    WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
+
+> Task :test
+
+AuthControllerTest > register_thenAuthenticate_returnsToken() STANDARD_OUT
+    Hibernate: 
+        insert 
+        into
+            users
+            (created_at, email, first_name, last_name, password, role, updated_at, id) 
+        values
+            (?, ?, ?, ?, ?, ?, ?, ?)
+    Hibernate: 
+        select
+            u1_0.id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.first_name,
+            u1_0.last_name,
+            u1_0.password,
+            u1_0.role,
+            u1_0.updated_at 
+        from
+            users u1_0 
+        where
+            u1_0.email=?
+    Hibernate: 
+        select
+            u1_0.id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.first_name,
+            u1_0.last_name,
+            u1_0.password,
+            u1_0.role,
+            u1_0.updated_at 
+        from
+            users u1_0 
+        where
+            u1_0.email=?
+
+AuthControllerTest > authenticate_withBadCredentials_returns403() STANDARD_OUT
+    Hibernate: 
+        select
+            u1_0.id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.first_name,
+            u1_0.last_name,
+            u1_0.password,
+            u1_0.role,
+            u1_0.updated_at 
+        from
+            users u1_0 
+        where
+            u1_0.email=?
+
+AuthControllerTest > register_returnsToken() STANDARD_OUT
+    Hibernate: 
+        insert 
+        into
+            users
+            (created_at, email, first_name, last_name, password, role, updated_at, id) 
+        values
+            (?, ?, ?, ?, ?, ?, ?, ?)
+
+AuthControllerTest STANDARD_OUT
+    2026-06-04T19:50:05.037+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] o.j.j.e.d.AbstractExtensionContext       : Type implements CloseableResource but not AutoCloseable: org.testcontainers.junit.jupiter.TestcontainersExtension$StoreAdapter
+
+VehicleManagementSystemApplicationTests STANDARD_OUT
+    2026-06-04T19:50:05.693+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.VehicleManagementSystemApplicationTests]: VehicleManagementSystemApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:05.698+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.VehicleManagementSystemApplicationTests
+    2026-06-04T19:50:05.699+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.VehicleManagementSystemApplicationTests]: VehicleManagementSystemApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:05.699+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.BaseIntegrationTest]: BaseIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:05.701+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.VehicleManagementSystemApplicationTests
+    2026-06-04T19:50:05.702+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Creating container for image: rabbitmq:3-management-alpine
+    2026-06-04T19:50:05.783+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Container rabbitmq:3-management-alpine is starting: cc46297a816f5d4644d5f1fef64c1c4be6501141e8afa24fcbf7515c0f419076
+    2026-06-04T19:50:06.230+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-1] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it
+
+    com.rabbitmq.client.ShutdownSignalException: connection error
+    	at com.rabbitmq.client.impl.AMQConnection.startShutdown(AMQConnection.java:1014) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.shutdown(AMQConnection.java:1004) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.handleFailure(AMQConnection.java:804) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.access$500(AMQConnection.java:49) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection$MainLoop.run(AMQConnection.java:703) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+    Caused by: java.io.EOFException
+    	at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:297) ~[na:na]
+    	at com.rabbitmq.client.impl.Frame.readFrom(Frame.java:92) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.SocketFrameHandler.readFrame(SocketFrameHandler.java:199) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection$MainLoop.run(AMQConnection.java:694) ~[amqp-client-5.27.1.jar:5.27.1]
+    	... 1 common frames omitted
+
+    2026-06-04T19:50:06.235+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-1] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@21ca5865: tags=[[amq.ctag-CcgOjf-24GtYuz26rHHWEg]], channel=Cached Rabbit Channel: AMQChannel(amqp://guest@127.0.0.1:32818/,1), conn: Proxy@16b6e5e Shared Rabbit Connection: SimpleConnection@1002a151 [delegate=amqp://guest@127.0.0.1:32818/, localPort=44822], acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:06.236+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:06.238+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+
+    org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:60) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:629) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:746) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:256) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.core.RabbitTemplate.doExecute(RabbitTemplate.java:2241) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2213) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2193) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.core.RabbitAdmin.getQueueInfo(RabbitAdmin.java:472) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.core.RabbitAdmin.getQueueProperties(RabbitAdmin.java:456) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.attemptDeclarations(AbstractMessageListenerContainer.java:1964) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.redeclareElementsIfNecessary(AbstractMessageListenerContainer.java:1928) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.initialize(SimpleMessageListenerContainer.java:1523) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1356) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+    Caused by: java.net.ConnectException: Connection refused
+    	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+    	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694) ~[na:na]
+    	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+    	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+    	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+    	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+    	at com.rabbitmq.client.impl.SocketFrameHandlerFactory.create(SocketFrameHandlerFactory.java:61) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1355) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1297) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:676) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:644) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:590) ~[spring-rabbit-4.0.3.jar:4.0.3]
+    	... 12 common frames omitted
+
+    2026-06-04T19:50:06.239+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:10.740+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Container rabbitmq:3-management-alpine started in PT5.038106294S
+    2026-06-04T19:50:10.741+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Creating container for image: postgres:16-alpine
+    2026-06-04T19:50:10.838+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container postgres:16-alpine is starting: 308e1b4765de9472643b33ebe696065e8d96f5625aafc051f31fb13b48ff83f3
+    2026-06-04T19:50:11.243+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:11.243+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@7a423814: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:11.244+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-3] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:11.245+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-3] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:11.245+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-3] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:12.560+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container postgres:16-alpine started in PT1.819123323S
+    2026-06-04T19:50:12.560+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container is started (JDBC URL: jdbc:postgresql://localhost:32826/vehicle_db_test?loggerLevel=OFF)
+    2026-06-04T19:50:12.568+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-4] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+    2026-06-04T19:50:12.568+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-4] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+
+      .   ____          _            __ _ _
+     /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      '  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+
+     :: Spring Boot ::                (v4.0.6)
+
+    2026-06-04T19:50:12.593+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .VehicleManagementSystemApplicationTests : Starting VehicleManagementSystemApplicationTests using Java 21.0.11 with PID 1007180 (started by lev in /home/lev/UNI/UNI.3/SE/backend)
+    2026-06-04T19:50:12.594+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .VehicleManagementSystemApplicationTests : No active profile set, falling back to 1 default profile: "default"
+    2026-06-04T19:50:12.701+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+    2026-06-04T19:50:12.712+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 8 JPA repository interfaces.
+    2026-06-04T19:50:12.770+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+    2026-06-04T19:50:12.783+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@287d872b
+    2026-06-04T19:50:12.784+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+    2026-06-04T19:50:12.785+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:32826/vehicle_db_test?loggerLevel=OFF (PostgreSQL 16.14)
+    2026-06-04T19:50:12.797+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+    2026-06-04T19:50:12.798+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.004s)
+    2026-06-04T19:50:12.805+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+    2026-06-04T19:50:12.823+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+    2026-06-04T19:50:12.825+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - initial schema"
+    2026-06-04T19:50:12.843+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - add maintenance and appointments"
+    2026-06-04T19:50:12.862+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - fix role column type"
+    2026-06-04T19:50:12.872+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - uuid v7 primary keys"
+    2026-06-04T19:50:12.917+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_vehicles_assigned_driver" does not exist, skipping
+    2026-06-04T19:50:12.918+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_maintenance_vehicle" does not exist, skipping
+    2026-06-04T19:50:12.918+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_vehicle" does not exist, skipping
+    2026-06-04T19:50:12.919+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_requested_by" does not exist, skipping
+    2026-06-04T19:50:12.919+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: index "idx_appointments_shop" does not exist, skipping
+    2026-06-04T19:50:12.931+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - iteration2 tables"
+    2026-06-04T19:50:12.948+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - add reference id to alerts"
+    2026-06-04T19:50:12.950+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 6 migrations to schema "public", now at version v6 (execution time 00:00.096s)
+    2026-06-04T19:50:12.961+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+    2026-06-04T19:50:12.976+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+    2026-06-04T19:50:12.986+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+    	Database JDBC URL [jdbc:postgresql://localhost:32826/vehicle_db_test?loggerLevel=OFF]
+    	Database driver: PostgreSQL JDBC Driver
+    	Database dialect: PostgreSQLDialect
+    	Database version: 16.14
+    	Default catalog/schema: vehicle_db_test/public
+    	Autocommit mode: undefined/unknown
+    	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+    	JDBC fetch size: none
+    	Pool: DataSourceConnectionProvider
+    	Minimum pool size: undefined/unknown
+    	Maximum pool size: undefined/unknown
+    2026-06-04T19:50:13.034+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+    2026-06-04T19:50:13.047+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+    2026-06-04T19:50:13.131+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+    2026-06-04T19:50:13.131+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+    2026-06-04T19:50:13.152+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+    2026-06-04T19:50:13.268+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32823]
+    2026-06-04T19:50:13.275+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#1f03c0e8:0/SimpleConnection@5733df81 [delegate=amqp://guest@127.0.0.1:32823/, localPort=47544]
+    2026-06-04T19:50:13.310+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .VehicleManagementSystemApplicationTests : Started VehicleManagementSystemApplicationTests in 0.736 seconds (process running for 21.232)
+
+VehicleControllerTest STANDARD_OUT
+    2026-06-04T19:50:13.947+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.controller.VehicleControllerTest]: VehicleControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:13.950+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.controller.VehicleControllerTest
+    2026-06-04T19:50:13.951+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.controller.VehicleControllerTest]: VehicleControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:13.951+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.AutoSync.vehicle_management_system.BaseIntegrationTest]: BaseIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-06-04T19:50:13.953+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.AutoSync.vehicle_management_system.VehicleManagementSystemApplication for test class com.AutoSync.vehicle_management_system.controller.VehicleControllerTest
+    2026-06-04T19:50:13.954+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+    2026-06-04T19:50:13.955+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+    2026-06-04T19:50:13.955+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:13.956+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] o.s.a.r.l.SimpleMessageListenerContainer : Broker not available; cannot force queue declarations during start: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:13.957+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-5] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:13.957+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-5] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:13.957+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-5] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:13.958+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Creating container for image: rabbitmq:3-management-alpine
+    2026-06-04T19:50:14.036+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Container rabbitmq:3-management-alpine is starting: eb94a788c240be7883bb29de232ca138266f1c0108f62390c2067556734c46c8
+    2026-06-04T19:50:14.308+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-1] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it
+
+    com.rabbitmq.client.ShutdownSignalException: connection error
+    	at com.rabbitmq.client.impl.AMQConnection.startShutdown(AMQConnection.java:1014) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.shutdown(AMQConnection.java:1004) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.handleFailure(AMQConnection.java:804) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection.access$500(AMQConnection.java:49) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection$MainLoop.run(AMQConnection.java:703) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+    Caused by: java.io.EOFException
+    	at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:297) ~[na:na]
+    	at com.rabbitmq.client.impl.Frame.readFrom(Frame.java:92) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.SocketFrameHandler.readFrame(SocketFrameHandler.java:199) ~[amqp-client-5.27.1.jar:5.27.1]
+    	at com.rabbitmq.client.impl.AMQConnection$MainLoop.run(AMQConnection.java:694) ~[amqp-client-5.27.1.jar:5.27.1]
+    	... 1 common frames omitted
+
+    2026-06-04T19:50:18.902+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.rabbitmq:3-management-alpine          : Container rabbitmq:3-management-alpine started in PT4.944182898S
+    2026-06-04T19:50:18.902+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Creating container for image: postgres:16-alpine
+    2026-06-04T19:50:18.960+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-5] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:18.960+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-5] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@6bd04f62: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:18.963+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-6] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:18.964+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-6] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:18.964+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-6] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:18.996+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container postgres:16-alpine is starting: d967f0435d0061a24a9bdfab08072366ee9a449652820af48fbb222feb586d0e
+    2026-06-04T19:50:20.677+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container postgres:16-alpine started in PT1.774557254S
+    2026-06-04T19:50:20.677+03:00  INFO 1007180 --- [vehicle-management-system] [    Test worker] tc.postgres:16-alpine                    : Container is started (JDBC URL: jdbc:postgresql://localhost:32831/vehicle_db_test?loggerLevel=OFF)
+
+VehicleControllerTest > getVehicle_notFound_returns404() STANDARD_OUT
+    2026-06-04T19:50:20.700+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@1f57fa23 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.701+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@4aa16b76 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.701+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@fb11c7d (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.701+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@4c8c2287 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.701+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@3ee15053 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.702+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@7f5a6622 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.702+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@788fdf40 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.702+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@55ba52cc (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.702+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@616de3e0 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:20.702+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@4d2af299 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+    2026-06-04T19:50:23.970+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-6] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:23.971+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-6] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@5f174a11: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:23.972+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-7] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:23.973+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-7] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:23.974+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-7] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:28.978+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-7] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:28.979+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-7] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@25d75fa2: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:28.980+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-8] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:28.981+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-8] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:28.981+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-8] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:33.987+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-8] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:33.987+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-8] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@54b09a79: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:33.989+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-9] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:33.990+03:00 ERROR 1007180 --- [vehicle-management-system] [ntContainer#0-9] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:33.990+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-9] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:38.994+03:00  WARN 1007180 --- [vehicle-management-system] [ntContainer#0-9] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:38.995+03:00  INFO 1007180 --- [vehicle-management-system] [ntContainer#0-9] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@2f26b2ef: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:38.996+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-10] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:38.996+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-10] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:38.996+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-10] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:44.002+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-10] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:44.004+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-10] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@178d83a5: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:44.006+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-11] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:44.007+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-11] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:44.007+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-11] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:49.012+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-11] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:49.012+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-11] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@23f52f61: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:49.013+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-12] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:49.014+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-12] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:49.014+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-12] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:50.703+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 08001
+    2026-06-04T19:50:50.703+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HikariPool-1 - Connection is not available, request timed out after 30001ms (total=0, active=0, idle=0, waiting=0)
+    2026-06-04T19:50:50.703+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 08001
+    2026-06-04T19:50:50.703+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HikariPool-1 - Connection is not available, request timed out after 30001ms (total=0, active=0, idle=0, waiting=0)
+
+    MockHttpServletRequest:
+          HTTP Method = GET
+          Request URI = /v1/vehicles/00000000-0000-7000-0000-000000000000
+           Parameters = {}
+              Headers = []
+                 Body = null
+        Session Attrs = {}
+
+    Handler:
+                 Type = com.AutoSync.vehicle_management_system.controller.VehicleController
+               Method = com.AutoSync.vehicle_management_system.controller.VehicleController#get(UUID)
+
+    Async:
+        Async started = false
+         Async result = null
+
+    Resolved Exception:
+                 Type = org.springframework.transaction.CannotCreateTransactionException
+
+    ModelAndView:
+            View name = null
+                 View = null
+                Model = null
+
+    FlashMap:
+           Attributes = null
+
+    MockHttpServletResponse:
+               Status = 500
+        Error message = null
+              Headers = [Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
+         Content type = application/json
+                 Body = {"status":500,"message":"An unexpected error occurred","error":"Internal Server Error","timestamp":"2026-06-04T19:50:50.708025516","path":"/v1/vehicles/00000000-0000-7000-0000-000000000000","details":["Could not open JPA EntityManager for transaction"]}
+        Forwarded URL = null
+       Redirected URL = null
+              Cookies = []
+
+VehicleControllerTest > getVehicle_notFound_returns404() FAILED
+    java.lang.AssertionError: Status expected:<404> but was:<500>
+        at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+        at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+        at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:600)
+        at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+        at com.AutoSync.vehicle_management_system.controller.VehicleControllerTest.getVehicle_notFound_returns404(VehicleControllerTest.java:66)
+
+VehicleControllerTest > listVehicles_withAuth_returns200() STANDARD_OUT
+    2026-06-04T19:50:54.020+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-12] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:54.020+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-12] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@61b82a: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:54.022+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-13] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:54.023+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-13] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:54.023+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-13] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:59.028+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-13] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:50:59.028+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-13] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@6281023b: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:50:59.030+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-14] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:50:59.030+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-14] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:50:59.031+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-14] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:04.035+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-14] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:51:04.036+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-14] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@671725c2: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:51:04.037+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-15] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:04.038+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-15] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:51:04.038+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-15] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:09.043+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-15] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:51:09.044+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-15] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@503182da: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:51:09.045+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-16] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:09.046+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-16] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:51:09.046+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-16] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:14.051+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-16] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:51:14.052+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-16] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@2e44df5e: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:51:14.053+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-17] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:14.054+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-17] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:51:14.054+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-17] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:19.059+03:00  WARN 1007180 --- [vehicle-management-system] [tContainer#0-17] o.s.a.r.l.SimpleMessageListenerContainer : Consumer raised exception, processing can restart if the connection factory supports it. Exception summary: org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+    2026-06-04T19:51:19.059+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-17] o.s.a.r.l.SimpleMessageListenerContainer : Restarting Consumer@66c99e7e: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+    2026-06-04T19:51:19.061+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-18] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:19.062+03:00 ERROR 1007180 --- [vehicle-management-system] [tContainer#0-18] o.s.a.r.l.SimpleMessageListenerContainer : Failed to check/redeclare auto-delete queue(s).
+    2026-06-04T19:51:19.062+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-18] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [localhost:32818]
+    2026-06-04T19:51:20.749+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 08001
+    2026-06-04T19:51:20.749+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HikariPool-1 - Connection is not available, request timed out after 30000ms (total=0, active=0, idle=0, waiting=0)
+    2026-06-04T19:51:20.749+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 08001
+    2026-06-04T19:51:20.750+03:00  WARN 1007180 --- [vehicle-management-system] [    Test worker] org.hibernate.orm.jdbc.error             : HikariPool-1 - Connection is not available, request timed out after 30000ms (total=0, active=0, idle=0, waiting=0)
+
+    MockHttpServletRequest:
+          HTTP Method = GET
+          Request URI = /v1/vehicles
+           Parameters = {}
+              Headers = []
+                 Body = null
+        Session Attrs = {}
+
+    Handler:
+                 Type = com.AutoSync.vehicle_management_system.controller.VehicleController
+               Method = com.AutoSync.vehicle_management_system.controller.VehicleController#list(int, int, String, User)
+
+    Async:
+        Async started = false
+         Async result = null
+
+    Resolved Exception:
+                 Type = org.springframework.dao.DataAccessResourceFailureException
+
+    ModelAndView:
+            View name = null
+                 View = null
+                Model = null
+
+    FlashMap:
+           Attributes = null
+
+    MockHttpServletResponse:
+               Status = 500
+        Error message = null
+              Headers = [Content-Type:"application/json", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
+         Content type = application/json
+                 Body = {"status":500,"message":"An unexpected error occurred","error":"Internal Server Error","timestamp":"2026-06-04T19:51:20.754382405","path":"/v1/vehicles","details":["Unable to acquire JDBC Connection [HikariPool-1 - Connection is not available, request timed out after 30000ms (total=0, active=0, idle=0, waiting=0)] [n/a]"]}
+        Forwarded URL = null
+       Redirected URL = null
+              Cookies = []
+
+VehicleControllerTest > listVehicles_withAuth_returns200() FAILED
+    java.lang.AssertionError: Status expected:<200> but was:<500>
+        at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+        at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+        at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:600)
+        at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+        at com.AutoSync.vehicle_management_system.controller.VehicleControllerTest.listVehicles_withAuth_returns200(VehicleControllerTest.java:42)
+
+VehicleControllerTest STANDARD_OUT
+    2026-06-04T19:51:20.836+03:00  WARN 1007180 --- [vehicle-management-system] [onnection-adder] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Pool is empty, failed to create/setup connection (785590a2-294d-4781-a073-7c1327f7659b)
+
+    org.postgresql.util.PSQLException: Connection to localhost:32821 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+    	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:373) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:290) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.Driver.makeConnection(Driver.java:448) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.10.jar:42.7.10]
+    	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144) ~[HikariCP-7.0.2.jar:na]
+    	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:373) ~[HikariCP-7.0.2.jar:na]
+    	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:210) ~[HikariCP-7.0.2.jar:na]
+    	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488) ~[HikariCP-7.0.2.jar:na]
+    	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752) ~[HikariCP-7.0.2.jar:na]
+    	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731) ~[HikariCP-7.0.2.jar:na]
+    	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+    	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[na:na]
+    	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
+    	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+    Caused by: java.net.ConnectException: Connection refused
+    	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+    	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694) ~[na:na]
+    	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+    	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+    	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+    	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+    	at org.postgresql.core.PGStream.createSocket(PGStream.java:261) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.core.PGStream.<init>(PGStream.java:122) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:146) ~[postgresql-42.7.10.jar:42.7.10]
+    	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289) ~[postgresql-42.7.10.jar:42.7.10]
+    	... 14 common frames omitted
+
+
+Gradle Test Executor 5 finished executing tests.
+2026-06-04T19:51:21.551+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-19] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2026-06-04T19:51:21.552+03:00  INFO 1007180 --- [vehicle-management-system] [tContainer#0-19] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
+2026-06-04T19:51:21.557+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T19:51:21.559+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T19:51:25.839+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-04T19:51:25.843+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T19:51:25.844+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-06-04T19:51:25.846+03:00  INFO 1007180 --- [vehicle-management-system] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+
+> Task :test FAILED
+Generating HTML test report...
+Finished generating test html results (0.005 secs) into: /home/lev/UNI/UNI.3/SE/backend/build/reports/tests/test
+Finished generating test XML results (0.001 secs) into: /home/lev/UNI/UNI.3/SE/backend/build/test-results/test
+4 actionable tasks: 1 executed, 3 up-to-date
