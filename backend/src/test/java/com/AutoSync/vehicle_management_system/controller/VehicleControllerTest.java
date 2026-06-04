@@ -22,6 +22,14 @@ class VehicleControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private com.AutoSync.vehicle_management_system.model.User createTestUser() {
+        return com.AutoSync.vehicle_management_system.model.User.builder()
+                .id(java.util.UUID.randomUUID())
+                .email("test@example.com")
+                .role(com.AutoSync.vehicle_management_system.model.Role.STANDARD_USER)
+                .build();
+    }
+
     @Test
     void listVehicles_withoutAuth_returns401() throws Exception {
         mockMvc.perform(get("/v1/vehicles"))
@@ -30,7 +38,7 @@ class VehicleControllerTest {
 
     @Test
     void listVehicles_withAuth_returns200() throws Exception {
-        mockMvc.perform(get("/v1/vehicles").with(user("test@example.com").roles("STANDARD_USER")))
+        mockMvc.perform(get("/v1/vehicles").with(user(createTestUser())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray());
     }
@@ -45,7 +53,7 @@ class VehicleControllerTest {
                 .build();
 
         mockMvc.perform(post("/v1/vehicles")
-                        .with(user("test@example.com").roles("STANDARD_USER"))
+                        .with(user(createTestUser()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
@@ -54,7 +62,7 @@ class VehicleControllerTest {
     @Test
     void getVehicle_notFound_returns404() throws Exception {
         mockMvc.perform(get("/v1/vehicles/00000000-0000-7000-0000-000000000000")
-                        .with(user("test@example.com").roles("STANDARD_USER")))
+                        .with(user(createTestUser())))
                 .andExpect(status().isNotFound());
     }
 }

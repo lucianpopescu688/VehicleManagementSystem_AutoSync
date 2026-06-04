@@ -1,6 +1,72 @@
 import { z } from 'zod'
+import type {
+  ConsumablePartRequest,
+  LegalDocumentRequest,
+} from './generated/zod'
 import type { Role } from '@/store/auth.store'
 
+// ─── Re-exports from generated schemas ────────────────────────────────────────
+export type { ConsumablePartRequest as ConsumablePartInput }
+export type { LegalDocumentRequest as LegalDocumentInput }
+
+export type DocumentType = 'INSURANCE' | 'INSPECTION' | 'REGISTRATION' | 'OTHER'
+export type AlertType = 'WEAR' | 'EXPIRY'
+
+// ─── Entity types (required fields for rendering) ─────────────────────────────
+export interface Vehicle {
+  id: string
+  vin: string
+  name: string
+  model: string
+  year: number
+  currentMileage: number
+  assignedDriverId: string | null
+  ownerId: string | null
+}
+
+export interface MileageLog {
+  id: string
+  vehicleId: string
+  recordedMileage: number
+  recordedById: string | null
+  createdAt: string
+}
+
+export interface ConsumablePart {
+  id: string
+  vehicleId: string
+  partName: string
+  lifespanKm: number
+  lastReplacedMileage: number
+  maintenanceRequired: boolean
+  notes: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface LegalDocument {
+  id: string
+  vehicleId: string
+  documentType: DocumentType
+  documentNumber: string | null
+  expiryDate: string
+  notes: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface MaintenanceAlert {
+  id: string
+  vehicleId: string
+  vehicleName: string
+  alertType: AlertType
+  message: string
+  resolved: boolean
+  resolvedAt: string | null
+  createdAt: string
+}
+
+// ─── Form validation schemas ───────────────────────────────────────────────────
 export const LoginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(1, 'Password is required'),
@@ -17,17 +83,6 @@ export const RegisterSchema = z.object({
     'FLEET_DRIVER',
     'SERVICE_SHOP_REPRESENTATIVE',
   ]) satisfies z.ZodType<Exclude<Role, 'ADMIN'>>,
-})
-
-export const VehicleSchema = z.object({
-  id: z.string().uuid(),
-  vin: z.string(),
-  name: z.string(),
-  model: z.string(),
-  year: z.number(),
-  currentMileage: z.number(),
-  assignedDriverId: z.string().uuid().nullable(),
-  ownerId: z.string().uuid().nullable(),
 })
 
 export const CreateVehicleSchema = z.object({
@@ -49,5 +104,4 @@ export const CreateVehicleSchema = z.object({
 
 export type LoginInput = z.infer<typeof LoginSchema>
 export type RegisterInput = z.infer<typeof RegisterSchema>
-export type Vehicle = z.infer<typeof VehicleSchema>
 export type CreateVehicleInput = z.infer<typeof CreateVehicleSchema>

@@ -17,6 +17,10 @@ export default defineConfig({
       target: 'src/api/generated',
       client: 'react-query',
       httpClient: 'axios',
+      schemas: {
+        path: 'src/api/generated/zod',
+        type: 'zod',
+      },
       override: {
         mutator: {
           path: 'src/lib/axios.ts',

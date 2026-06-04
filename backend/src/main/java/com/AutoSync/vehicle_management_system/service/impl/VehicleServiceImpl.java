@@ -3,6 +3,7 @@ package com.AutoSync.vehicle_management_system.service.impl;
 import com.AutoSync.vehicle_management_system.dto.CreateVehicleDto;
 import com.AutoSync.vehicle_management_system.exception.ResourceNotFoundException;
 import com.AutoSync.vehicle_management_system.mapper.VehicleMapper;
+import com.AutoSync.vehicle_management_system.model.Role;
 import com.AutoSync.vehicle_management_system.model.User;
 import com.AutoSync.vehicle_management_system.model.Vehicle;
 import com.AutoSync.vehicle_management_system.repository.VehicleRepository;
@@ -59,6 +60,11 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Page<Vehicle> listAll(Pageable pageable) {
         return vehicleRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Vehicle> listAccessibleByUser(UUID userId, Pageable pageable) {
+        return vehicleRepository.findAccessibleByUser(userId, pageable);
     }
 
     @Override

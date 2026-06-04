@@ -44,7 +44,22 @@ function VehiclesPage() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => _delete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.vehicles.all }),
+    onMutate: async (id) => {
+      await qc.cancelQueries({ queryKey: queryKeys.vehicles.all })
+      const previousVehicles = qc.getQueryData(queryKeys.vehicles.all)
+      qc.setQueryData(queryKeys.vehicles.all, (old: Vehicle[] | undefined) => 
+        old?.filter((v) => v.id !== id)
+      )
+      return { previousVehicles }
+    },
+    onError: (_err, _id, context) => {
+      if (context?.previousVehicles) {
+        qc.setQueryData(queryKeys.vehicles.all, context.previousVehicles)
+      }
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.vehicles.all })
+    },
   })
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -55,12 +70,14 @@ function VehiclesPage() {
 
   const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const yearParsed = parseInt(form.year, 10)
+    const mileageParsed = parseFloat(form.currentMileage)
     const parsed = {
       vin: form.vin,
       name: form.name,
       model: form.model,
-      year: parseInt(form.year),
-      currentMileage: parseFloat(form.currentMileage),
+      year: isNaN(yearParsed) ? new Date().getFullYear() : yearParsed,
+      currentMileage: isNaN(mileageParsed) ? 0 : mileageParsed,
     }
     const result = CreateVehicleSchema.safeParse(parsed)
     if (!result.success) {

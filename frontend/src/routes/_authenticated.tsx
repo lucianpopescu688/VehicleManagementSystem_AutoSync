@@ -5,7 +5,10 @@ import {
   redirect,
   useNavigate,
 } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/auth.store';
+import { queryKeys } from '@/lib/query-keys';
+import { getUnresolved } from '@/api/generated/alert-controller/alert-controller';
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: () => {
@@ -243,11 +246,35 @@ function TopBarGearIcon() {
   );
 }
 
+function AlertsNavIcon() {
+  return (
+    <svg
+      className="w-4 h-4 shrink-0"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+      />
+    </svg>
+  );
+}
+
 function AuthenticatedLayout() {
   const email = useAuthStore((s) => s.email);
   const role = useAuthStore((s) => s.role);
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
+
+  const { data: alerts = [] } = useQuery({
+    queryKey: queryKeys.alerts.unresolved,
+    queryFn: () => getUnresolved(),
+    refetchInterval: 60_000,
+  });
 
   const handleLogout = () => {
     logout();
@@ -288,6 +315,27 @@ function AuthenticatedLayout() {
           <NavItem to="/vehicles" label="Fleet Details">
             <FleetIcon />
           </NavItem>
+
+          <Link
+            to="/alerts"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+            activeProps={{
+              className:
+                'flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium bg-primary-light text-primary',
+            }}
+            inactiveProps={{
+              className:
+                'flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-800',
+            }}
+          >
+            <AlertsNavIcon />
+            <span>Alerts</span>
+            {alerts.length > 0 && (
+              <span className="ml-auto min-w-[18px] h-[18px] bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
+                {alerts.length > 99 ? '99+' : alerts.length}
+              </span>
+            )}
+          </Link>
 
           <DisabledNavItem label="Service">
             <ServiceIcon />
