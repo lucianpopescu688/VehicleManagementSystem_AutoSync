@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:5432/${POSTGRES_DB:vehicle_db}
     username: ${POSTGRES_USER:user}
-    password: ${POSTGRES_PASSWORD:changeme}
+    password: ${POSTGRES_PASSWORD:pass123}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -19,7 +19,7 @@ spring:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: ${RABBITMQ_DEFAULT_USER:user}
-    password: ${RABBITMQ_DEFAULT_PASS:changeme}
+    password: ${RABBITMQ_DEFAULT_PASS:pass123}
 
   mail:
     host: ${MAIL_HOST:localhost}
@@ -32,7 +32,7 @@ spring:
             enable: false
 
 server:
-  port: 8081
+  port: 8080
 
 jwt:
   secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
