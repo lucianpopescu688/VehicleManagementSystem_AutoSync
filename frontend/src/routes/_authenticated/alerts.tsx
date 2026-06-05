@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/lib/query-keys'
 import { getUnresolved, resolve } from '@/api/generated/alert-controller/alert-controller'
 import type { MaintenanceAlert, AlertType } from '@/api/schemas'
+import { StatCard, PageHeader } from '@/components'
 
 export const Route = createFileRoute('/_authenticated/alerts')({
   component: AlertsPage,
@@ -32,11 +33,11 @@ function AlertsPage() {
 
   return (
     <div className="p-8">
-      <div className="mb-6">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Maintenance</p>
-        <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Alerts</h1>
-        <p className="text-sm text-slate-500 mt-0.5">Active maintenance and document expiry alerts</p>
-      </div>
+      <PageHeader
+        eyebrow="Maintenance"
+        title="Alerts"
+        subtitle="Active maintenance and document expiry alerts"
+      />
 
       {isLoading ? (
         <div className="flex items-center gap-2 text-slate-400 text-sm">
@@ -63,9 +64,9 @@ function AlertsPage() {
         <div className="space-y-6 max-w-2xl">
           {/* Summary row */}
           <div className="grid grid-cols-2 gap-4">
-            <SummaryCard
+            <StatCard
               label="Wear Alerts"
-              count={wearAlerts.length}
+              value={String(wearAlerts.length)}
               accent="#EF4444"
               accentBg="#FEF2F2"
               icon={
@@ -74,9 +75,9 @@ function AlertsPage() {
                 </svg>
               }
             />
-            <SummaryCard
+            <StatCard
               label="Expiry Alerts"
-              count={expiryAlerts.length}
+              value={String(expiryAlerts.length)}
               accent="#F59E0B"
               accentBg="#FFFBEB"
               icon={
@@ -185,34 +186,3 @@ function AlertRow({
   )
 }
 
-function SummaryCard({
-  label,
-  count,
-  icon,
-  accent,
-  accentBg,
-}: {
-  label: string
-  count: number
-  icon: React.ReactNode
-  accent: string
-  accentBg: string
-}) {
-  return (
-    <div
-      className="bg-white border border-slate-100 shadow-sm p-5"
-      style={{ borderRadius: '12px', boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}
-    >
-      <div className="flex items-start justify-between mb-3">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</p>
-        <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-          style={{ backgroundColor: accentBg, color: accent }}
-        >
-          {icon}
-        </div>
-      </div>
-      <p className="text-2xl font-[Manrope] font-extrabold text-neutral-dark">{count}</p>
-    </div>
-  )
-}

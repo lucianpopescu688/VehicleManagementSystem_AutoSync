@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { list } from '@/api/generated/vehicle-controller/vehicle-controller'
 import type { Vehicle } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
-import { StatusBadge } from '@/components/StatusBadge'
+import { StatusBadge, StatCard, PageHeader } from '@/components'
 import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 import { getUnresolved, resolve } from '@/api/generated/alert-controller/alert-controller'
@@ -64,18 +64,16 @@ function DashboardPage() {
   return (
     <div className="p-8">
       {/* Page header */}
-      <div className="mb-6">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">
-          {role ? (roleLabelMap[role] ?? role) : 'Dashboard'}
-        </p>
-        <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Kinetic Engine</h1>
-        <p className="text-sm text-slate-500 mt-0.5">Fleet Overview &amp; Management</p>
-      </div>
+      <PageHeader
+        eyebrow={role ? (roleLabelMap[role] ?? role) : 'Dashboard'}
+        title="Kinetic Engine"
+        subtitle="Fleet Overview &amp; Management"
+      />
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          title="Total Vehicles"
+          label="Total Vehicles"
           value={isLoading ? '…' : String(total)}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -88,7 +86,7 @@ function DashboardPage() {
           accentBg="#E6F0FF"
         />
         <StatCard
-          title="Fleet Mileage"
+          label="Fleet Mileage"
           value={isLoading ? '…' : `${fleetMileage.toLocaleString()} km`}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -99,7 +97,7 @@ function DashboardPage() {
           accentBg="#E6F0FF"
         />
         <StatCard
-          title="Assigned"
+          label="Assigned"
           value={isLoading ? '…' : String(assigned)}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -110,7 +108,7 @@ function DashboardPage() {
           accentBg="#E6F0FF"
         />
         <StatCard
-          title="Active Alerts"
+          label="Active Alerts"
           value={String(alerts.length)}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -280,39 +278,3 @@ function DashboardPage() {
   )
 }
 
-function StatCard({
-  title,
-  value,
-  icon,
-  accent,
-  accentBg,
-}: {
-  title: string
-  value: string
-  icon: React.ReactNode
-  accent: string
-  accentBg: string
-}) {
-  return (
-    <div
-      className="bg-white border border-slate-100 p-5 shadow-sm"
-      style={{ borderRadius: '12px', boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}
-    >
-      <div className="flex items-start justify-between mb-3">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{title}</p>
-        <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-          style={{ backgroundColor: accentBg, color: accent }}
-        >
-          {icon}
-        </div>
-      </div>
-      <p
-        className="text-2xl font-[Manrope] font-extrabold"
-        style={{ color: accent === '#F97316' ? '#0F172A' : '#0F172A' }}
-      >
-        {value}
-      </p>
-    </div>
-  )
-}
