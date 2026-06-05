@@ -1,44 +1,54 @@
+# =============================================================================
+#  Vehicle Management System — Docker Compose (production-ready)
+# =============================================================================
+#
+#  Full stack:  docker compose up --build
+#  Dev extras (MailHog, exposed ports) are loaded automatically from
+#  docker-compose.override.yml when present.
+#
+#  Prod-only:  docker compose -f docker-compose.yml up -d
+# =============================================================================
+
 services:
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
   db:
     image: postgres:15-alpine
     container_name: vehicle_db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
+  # ── RabbitMQ ────────────────────────────────────────────────────────────────
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: vehicle_rabbitmq
-    restart: always
+    restart: unless-stopped
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: vehicle_mailhog
-    restart: always
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-
+  # ── Spring Boot Backend ─────────────────────────────────────────────────────
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     container_name: vehicle_backend
-    restart: on-failure
+    restart: unless-stopped
     environment:
       DB_HOST: db
       POSTGRES_USER: ${POSTGRES_USER}
@@ -47,15 +57,24 @@ services:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-      MAIL_HOST: mailhog
-      MAIL_PORT: 1025
+      MAIL_HOST: ${MAIL_HOST:-mailhog}
+      MAIL_PORT: ${MAIL_PORT:-1025}
       JWT_SECRET: ${JWT_SECRET}
-    ports:
-      - "8081:8080"
     depends_on:
-      - db
-      - rabbitmq
-      - mailhog
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ── React / Nginx Frontend ─────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: vehicle_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

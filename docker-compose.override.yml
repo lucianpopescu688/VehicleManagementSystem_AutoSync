@@ -1,0 +1,35 @@
+# =============================================================================
+#  Dev overrides — loaded automatically by `docker compose up`
+#  Adds MailHog, exposes database/RabbitMQ/backend ports for local tooling.
+#  Skipped in prod: docker compose -f docker-compose.yml up -d
+# =============================================================================
+
+services:
+
+  # Fake SMTP inbox — view emails at http://localhost:8025
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: vehicle_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  # Expose database for DBeaver / pgAdmin
+  db:
+    ports:
+      - "5432:5432"
+
+  # Expose RabbitMQ management UI
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # Expose backend directly for Swagger UI / debugging
+  backend:
+    ports:
+      - "8081:8080"
+    depends_on:
+      mailhog:
+        condition: service_started
