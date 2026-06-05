@@ -13,6 +13,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class AppointmentCompletionTest extends BaseIntegrationTest {
 
     @Autowired

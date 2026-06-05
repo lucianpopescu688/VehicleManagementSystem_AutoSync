@@ -88,7 +88,7 @@ function RegisterPage() {
     setLoading(true)
 
     try {
-      const payloadData: any = { ...result.data }
+      const payloadData: Record<string, unknown> = { ...result.data }
       if (form.role === 'SERVICE_SHOP_REPRESENTATIVE') {
         if (form.serviceShopMode === 'join') {
           if (!form.serviceShopId) {
@@ -324,7 +324,7 @@ function RegisterPage() {
                       className={selectCls}
                     >
                       <option value="" disabled>-- Select a Shop --</option>
-                      {approvedShops.map((shop: any) => (
+                      {approvedShops.map((shop: { id: string; name: string; address: string }) => (
                         <option key={shop.id} value={shop.id}>
                           {shop.name} ({shop.address})
                         </option>
