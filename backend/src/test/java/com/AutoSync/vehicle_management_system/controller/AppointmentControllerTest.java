@@ -57,6 +57,8 @@ class AppointmentControllerTest extends BaseIntegrationTest {
         User manager = userRepository.save(User.builder()
                 .email("manager_appt@example.com")
                 .password("hash")
+                .firstName("Manager")
+                .lastName("Test")
                 .role(Role.FLEET_MANAGER)
                 .build());
 
@@ -114,12 +116,16 @@ class AppointmentControllerTest extends BaseIntegrationTest {
         User manager = userRepository.save(User.builder()
                 .email("mgr_cross@example.com")
                 .password("h")
+                .firstName("Cross")
+                .lastName("Manager")
                 .role(Role.FLEET_MANAGER)
                 .build());
 
         User rep2 = userRepository.save(User.builder()
                 .email("rep2@example.com")
                 .password("h")
+                .firstName("Rep")
+                .lastName("Two")
                 .role(Role.SERVICE_SHOP_REPRESENTATIVE)
                 .serviceShopId(shop2.getId())
                 .build());
