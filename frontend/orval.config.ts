@@ -1,6 +1,6 @@
 import { defineConfig } from 'orval'
 
-// Run `npm run generate` while the backend is running on port 8081.
+// Run `npm run generate` while the backend is running on port 8080.
 // Generated files land in src/api/generated/ and replace the hand-written stubs in src/api/auth.ts
 // and src/api/vehicles.ts.
 //

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,8 +33,7 @@ class AppointmentControllerTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
     @Autowired
     private UserRepository userRepository;
@@ -57,7 +56,9 @@ class AppointmentControllerTest extends BaseIntegrationTest {
     void createAppointment_managerCreates_returns201() throws Exception {
         User manager = userRepository.save(User.builder()
                 .email("manager_appt@example.com")
-                .passwordHash("hash")
+                .password("hash")
+                .firstName("Manager")
+                .lastName("Test")
                 .role(Role.FLEET_MANAGER)
                 .build());
 
@@ -73,7 +74,7 @@ class AppointmentControllerTest extends BaseIntegrationTest {
         ServiceShop shop = serviceShopRepository.save(ServiceShop.builder()
                 .name("Shop")
                 .address("123 St")
-                .email("shop_appt@example.com")
+                .contactEmail("shop_appt@example.com")
                 .build());
 
         AppointmentRequest request = new AppointmentRequest();
@@ -103,24 +104,28 @@ class AppointmentControllerTest extends BaseIntegrationTest {
         ServiceShop shop1 = serviceShopRepository.save(ServiceShop.builder()
                 .name("Shop 1")
                 .address("123 St")
-                .email("shop1@example.com")
+                .contactEmail("shop1@example.com")
                 .build());
 
         ServiceShop shop2 = serviceShopRepository.save(ServiceShop.builder()
                 .name("Shop 2")
                 .address("123 St")
-                .email("shop2@example.com")
+                .contactEmail("shop2@example.com")
                 .build());
 
         User manager = userRepository.save(User.builder()
                 .email("mgr_cross@example.com")
-                .passwordHash("h")
+                .password("h")
+                .firstName("Cross")
+                .lastName("Manager")
                 .role(Role.FLEET_MANAGER)
                 .build());
 
         User rep2 = userRepository.save(User.builder()
                 .email("rep2@example.com")
-                .passwordHash("h")
+                .password("h")
+                .firstName("Rep")
+                .lastName("Two")
                 .role(Role.SERVICE_SHOP_REPRESENTATIVE)
                 .serviceShopId(shop2.getId())
                 .build());

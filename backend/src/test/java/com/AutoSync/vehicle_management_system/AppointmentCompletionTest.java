@@ -13,6 +13,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class AppointmentCompletionTest extends BaseIntegrationTest {
 
     @Autowired
@@ -41,7 +44,7 @@ public class AppointmentCompletionTest extends BaseIntegrationTest {
         // 1. Setup Test Data
         User owner = userRepository.save(User.builder()
                 .email("owner_comp@example.com")
-                .passwordHash("hash")
+                .password("hash")
                 .firstName("Owner")
                 .lastName("Comp")
                 .role(Role.STANDARD_USER)
@@ -49,7 +52,7 @@ public class AppointmentCompletionTest extends BaseIntegrationTest {
 
         User mechanic = userRepository.save(User.builder()
                 .email("mech_comp@example.com")
-                .passwordHash("hash")
+                .password("hash")
                 .firstName("Mech")
                 .lastName("Comp")
                 .role(Role.SERVICE_SHOP_REPRESENTATIVE)
@@ -58,7 +61,7 @@ public class AppointmentCompletionTest extends BaseIntegrationTest {
         ServiceShop shop = serviceShopRepository.save(ServiceShop.builder()
                 .name("Comp Shop")
                 .address("123 Comp St")
-                .email("shop_comp@example.com")
+                .contactEmail("shop_comp@example.com")
                 .build());
 
         Vehicle vehicle = vehicleRepository.save(Vehicle.builder()
@@ -72,19 +75,17 @@ public class AppointmentCompletionTest extends BaseIntegrationTest {
 
         ConsumablePart part = partRepository.save(ConsumablePart.builder()
                 .vehicle(vehicle)
-                .name("Oil Filter")
-                .partNumber("OF-123")
-                .expectedLifespanMileage(5000)
+                .partName("Oil Filter")
+                .lifespanKm(5000)
                 .lastReplacedMileage(0)
                 .maintenanceRequired(true)
                 .build());
 
         MaintenanceAlert alert = alertRepository.save(MaintenanceAlert.builder()
                 .vehicle(vehicle)
-                .part(part)
-                .type(AlertType.MAINTENANCE_REQUIRED)
-                .severity(AlertSeverity.HIGH)
-                .status(AlertStatus.UNRESOLVED)
+                .referenceId(part.getId().toString())
+                .alertType(AlertType.WEAR)
+                .resolved(false)
                 .message("Needs Oil Filter")
                 .build());
 
@@ -122,7 +123,7 @@ public class AppointmentCompletionTest extends BaseIntegrationTest {
         assertThat(updatedPart.getLastReplacedMileage()).isEqualTo(10500);
 
         MaintenanceAlert updatedAlert = alertRepository.findById(alert.getId()).orElseThrow();
-        assertThat(updatedAlert.getStatus()).isEqualTo(AlertStatus.RESOLVED);
+        assertThat(updatedAlert.isResolved()).isTrue();
         assertThat(updatedAlert.getResolvedAt()).isNotNull();
     }
 }
