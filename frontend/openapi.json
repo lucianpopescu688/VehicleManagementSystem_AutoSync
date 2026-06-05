@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://127.0.0.1:8081",
       "description": "Generated server url"
     }
   ],
@@ -1046,24 +1046,13 @@
         }
       }
     },
-    "/v1/appointments/shop/{shopId}": {
+    "/v1/appointments/shop/my-appointments": {
       "get": {
         "tags": [
           "Appointment"
         ],
-        "summary": "Get appointments for a service shop",
+        "summary": "Get appointments for the logged-in representative's service shop",
         "operationId": "getAppointmentsByShop",
-        "parameters": [
-          {
-            "name": "shopId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1551,6 +1540,13 @@
               "SERVICE_SHOP_REPRESENTATIVE",
               "ADMIN"
             ]
+          },
+          "serviceShopId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "newServiceShop": {
+            "$ref": "#/components/schemas/ServiceShopRequest"
           }
         }
       },
@@ -1704,6 +1700,10 @@
           "last": {
             "type": "boolean"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -1721,10 +1721,6 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
           "empty": {
             "type": "boolean"
           }
@@ -1733,12 +1729,12 @@
       "PageableObject": {
         "type": "object",
         "properties": {
-          "paged": {
-            "type": "boolean"
-          },
           "pageNumber": {
             "type": "integer",
             "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
           },
           "pageSize": {
             "type": "integer",
@@ -1790,6 +1786,10 @@
           "last": {
             "type": "boolean"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -1806,10 +1806,6 @@
           },
           "sort": {
             "$ref": "#/components/schemas/SortObject"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
           },
           "empty": {
             "type": "boolean"

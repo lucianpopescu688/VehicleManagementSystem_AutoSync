@@ -4,10 +4,7 @@
  * Vehicle Management System API
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,572 +17,846 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
   AppointmentDto,
   AppointmentRequest,
-  UpdateAppointmentStatusParams
+  UpdateAppointmentStatusParams,
 } from '../zod';
 
 import { orvalInstance } from '../../../lib/axios';
-
-
-
 
 /**
  * @summary Create a new appointment
  */
 export const createAppointment = (
-    appointmentRequest: AppointmentRequest,
- signal?: AbortSignal
+  appointmentRequest: AppointmentRequest,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<AppointmentDto>({
+    url: `/v1/appointments`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: appointmentRequest,
+    signal,
+  });
+};
 
+export const getCreateAppointmentMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createAppointment>>,
+    TError,
+    { data: AppointmentRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createAppointment>>,
+  TError,
+  { data: AppointmentRequest },
+  TContext
+> => {
+  const mutationKey = ['createAppointment'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<AppointmentDto>(
-      {url: `/v1/appointments`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: appointmentRequest, signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createAppointment>>,
+    { data: AppointmentRequest }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return createAppointment(data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getCreateAppointmentMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{data: AppointmentRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{data: AppointmentRequest}, TContext> => {
+export type CreateAppointmentMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createAppointment>>
+>;
+export type CreateAppointmentMutationBody = AppointmentRequest;
+export type CreateAppointmentMutationError = unknown;
 
-const mutationKey = ['createAppointment'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAppointment>>, {data: AppointmentRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createAppointment(data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof createAppointment>>>
-    export type CreateAppointmentMutationBody = AppointmentRequest
-    export type CreateAppointmentMutationError = unknown
-
-    /**
+/**
  * @summary Create a new appointment
  */
-export const useCreateAppointment = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{data: AppointmentRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createAppointment>>,
-        TError,
-        {data: AppointmentRequest},
-        TContext
-      > => {
-      return useMutation(getCreateAppointmentMutationOptions(options), queryClient);
-    }
-    /**
+export const useCreateAppointment = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createAppointment>>,
+      TError,
+      { data: AppointmentRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof createAppointment>>,
+  TError,
+  { data: AppointmentRequest },
+  TContext
+> => {
+  return useMutation(getCreateAppointmentMutationOptions(options), queryClient);
+};
+/**
  * @summary Update appointment status
  */
 export const updateAppointmentStatus = (
-    id: string,
-    params: UpdateAppointmentStatusParams,
- signal?: AbortSignal
+  id: string,
+  params: UpdateAppointmentStatusParams,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<AppointmentDto>({
+    url: `/v1/appointments/${id}/status`,
+    method: 'PATCH',
+    params,
+    signal,
+  });
+};
 
+export const getUpdateAppointmentStatusMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateAppointmentStatus>>,
+    TError,
+    { id: string; params: UpdateAppointmentStatusParams },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateAppointmentStatus>>,
+  TError,
+  { id: string; params: UpdateAppointmentStatusParams },
+  TContext
+> => {
+  const mutationKey = ['updateAppointmentStatus'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<AppointmentDto>(
-      {url: `/v1/appointments/${id}/status`, method: 'PATCH',
-        params, signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateAppointmentStatus>>,
+    { id: string; params: UpdateAppointmentStatusParams }
+  > = (props) => {
+    const { id, params } = props ?? {};
 
+    return updateAppointmentStatus(id, params);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getUpdateAppointmentStatusMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAppointmentStatus>>, TError,{id: string;params: UpdateAppointmentStatusParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof updateAppointmentStatus>>, TError,{id: string;params: UpdateAppointmentStatusParams}, TContext> => {
+export type UpdateAppointmentStatusMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateAppointmentStatus>>
+>;
 
-const mutationKey = ['updateAppointmentStatus'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+export type UpdateAppointmentStatusMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAppointmentStatus>>, {id: string;params: UpdateAppointmentStatusParams}> = (props) => {
-          const {id,params} = props ?? {};
-
-          return  updateAppointmentStatus(id,params,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateAppointmentStatusMutationResult = NonNullable<Awaited<ReturnType<typeof updateAppointmentStatus>>>
-
-    export type UpdateAppointmentStatusMutationError = unknown
-
-    /**
+/**
  * @summary Update appointment status
  */
-export const useUpdateAppointmentStatus = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAppointmentStatus>>, TError,{id: string;params: UpdateAppointmentStatusParams}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateAppointmentStatus>>,
-        TError,
-        {id: string;params: UpdateAppointmentStatusParams},
-        TContext
-      > => {
-      return useMutation(getUpdateAppointmentStatusMutationOptions(options), queryClient);
-    }
-    /**
+export const useUpdateAppointmentStatus = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateAppointmentStatus>>,
+      TError,
+      { id: string; params: UpdateAppointmentStatusParams },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateAppointmentStatus>>,
+  TError,
+  { id: string; params: UpdateAppointmentStatusParams },
+  TContext
+> => {
+  return useMutation(
+    getUpdateAppointmentStatusMutationOptions(options),
+    queryClient
+  );
+};
+/**
  * @summary Get appointment by ID
  */
-export const getAppointment = (
-    id: string,
- signal?: AbortSignal
+export const getAppointment = (id: string, signal?: AbortSignal) => {
+  return orvalInstance<AppointmentDto>({
+    url: `/v1/appointments/${id}`,
+    method: 'GET',
+    signal,
+  });
+};
+
+export const getGetAppointmentQueryKey = (id: string) => {
+  return [`/v1/appointments/${id}`] as const;
+};
+
+export const getGetAppointmentQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAppointment>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>
+    >;
+  }
 ) => {
+  const { query: queryOptions } = options ?? {};
 
+  const queryKey = queryOptions?.queryKey ?? getGetAppointmentQueryKey(id);
 
-      return orvalInstance<AppointmentDto>(
-      {url: `/v1/appointments/${id}`, method: 'GET', signal
-    },
-      );
-    }
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAppointment>>> = ({
+    signal,
+  }) => getAppointment(id, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: id !== null && id !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAppointment>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAppointmentQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppointment>>
+>;
+export type GetAppointmentQueryError = unknown;
 
-
-export const getGetAppointmentQueryKey = (id: string,) => {
-    return [
-    `/v1/appointments/${id}`
-    ] as const;
-    }
-
-
-export const getGetAppointmentQueryOptions = <TData = Awaited<ReturnType<typeof getAppointment>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAppointmentQueryKey(id);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAppointment>>> = ({ signal }) => getAppointment(id, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAppointmentQueryResult = NonNullable<Awaited<ReturnType<typeof getAppointment>>>
-export type GetAppointmentQueryError = unknown
-
-
-export function useGetAppointment<TData = Awaited<ReturnType<typeof getAppointment>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>> & Pick<
+export function useGetAppointment<
+  TData = Awaited<ReturnType<typeof getAppointment>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointment>>,
           TError,
           Awaited<ReturnType<typeof getAppointment>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointment<TData = Awaited<ReturnType<typeof getAppointment>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointment<
+  TData = Awaited<ReturnType<typeof getAppointment>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointment>>,
           TError,
           Awaited<ReturnType<typeof getAppointment>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointment<TData = Awaited<ReturnType<typeof getAppointment>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointment<
+  TData = Awaited<ReturnType<typeof getAppointment>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get appointment by ID
  */
 
-export function useGetAppointment<TData = Awaited<ReturnType<typeof getAppointment>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAppointment<
+  TData = Awaited<ReturnType<typeof getAppointment>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAppointment>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAppointmentQueryOptions(id, options);
 
-  const queryOptions = getGetAppointmentQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
+/**
+ * @summary Delete an appointment
+ */
+export const deleteAppointment = (id: string, signal?: AbortSignal) => {
+  return orvalInstance<void>({
+    url: `/v1/appointments/${id}`,
+    method: 'DELETE',
+    signal,
+  });
+};
 
+export const getDeleteAppointmentMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteAppointment>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteAppointment>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['deleteAppointment'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteAppointment>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return deleteAppointment(id);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteAppointmentMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteAppointment>>
+>;
+
+export type DeleteAppointmentMutationError = unknown;
 
 /**
  * @summary Delete an appointment
  */
-export const deleteAppointment = (
-    id: string,
- signal?: AbortSignal
-) => {
-
-
-      return orvalInstance<void>(
-      {url: `/v1/appointments/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-
-
-
-export const getDeleteAppointmentMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteAppointment>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteAppointment>>, TError,{id: string}, TContext> => {
-
-const mutationKey = ['deleteAppointment'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteAppointment>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  deleteAppointment(id,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof deleteAppointment>>>
-
-    export type DeleteAppointmentMutationError = unknown
-
-    /**
- * @summary Delete an appointment
- */
-export const useDeleteAppointment = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteAppointment>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteAppointment>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getDeleteAppointmentMutationOptions(options), queryClient);
-    }
-    /**
+export const useDeleteAppointment = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteAppointment>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteAppointment>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getDeleteAppointmentMutationOptions(options), queryClient);
+};
+/**
  * @summary Get appointments for a vehicle
  */
 export const getAppointmentsByVehicle = (
-    vehicleId: string,
- signal?: AbortSignal
+  vehicleId: string,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<AppointmentDto[]>({
+    url: `/v1/appointments/vehicle/${vehicleId}`,
+    method: 'GET',
+    signal,
+  });
+};
 
+export const getGetAppointmentsByVehicleQueryKey = (vehicleId: string) => {
+  return [`/v1/appointments/vehicle/${vehicleId}`] as const;
+};
 
-      return orvalInstance<AppointmentDto[]>(
-      {url: `/v1/appointments/vehicle/${vehicleId}`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
-
-export const getGetAppointmentsByVehicleQueryKey = (vehicleId: string,) => {
-    return [
-    `/v1/appointments/vehicle/${vehicleId}`
-    ] as const;
-    }
-
-
-export const getGetAppointmentsByVehicleQueryOptions = <TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError = unknown>(vehicleId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData>>, }
+export const getGetAppointmentsByVehicleQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+        TError,
+        TData
+      >
+    >;
+  }
 ) => {
+  const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetAppointmentsByVehicleQueryKey(vehicleId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAppointmentsByVehicleQueryKey(vehicleId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAppointmentsByVehicle>>
+  > = ({ signal }) => getAppointmentsByVehicle(vehicleId, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: vehicleId !== null && vehicleId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAppointmentsByVehicleQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppointmentsByVehicle>>
+>;
+export type GetAppointmentsByVehicleQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAppointmentsByVehicle>>> = ({ signal }) => getAppointmentsByVehicle(vehicleId, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: vehicleId !== null && vehicleId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAppointmentsByVehicleQueryResult = NonNullable<Awaited<ReturnType<typeof getAppointmentsByVehicle>>>
-export type GetAppointmentsByVehicleQueryError = unknown
-
-
-export function useGetAppointmentsByVehicle<TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError = unknown>(
- vehicleId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData>> & Pick<
+export function useGetAppointmentsByVehicle<
+  TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
           TError,
           Awaited<ReturnType<typeof getAppointmentsByVehicle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointmentsByVehicle<TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError = unknown>(
- vehicleId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsByVehicle<
+  TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
           TError,
           Awaited<ReturnType<typeof getAppointmentsByVehicle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointmentsByVehicle<TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError = unknown>(
- vehicleId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsByVehicle<
+  TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get appointments for a vehicle
  */
 
-export function useGetAppointmentsByVehicle<TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError = unknown>(
- vehicleId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByVehicle>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAppointmentsByVehicle<
+  TData = Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByVehicle>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAppointmentsByVehicleQueryOptions(
+    vehicleId,
+    options
+  );
 
-  const queryOptions = getGetAppointmentsByVehicleQueryOptions(vehicleId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
- * @summary Get appointments for a service shop
+ * @summary Get appointments for the logged-in representative's service shop
  */
-export const getAppointmentsByShop = (
-    shopId: string,
- signal?: AbortSignal
-) => {
+export const getAppointmentsByShop = (signal?: AbortSignal) => {
+  return orvalInstance<AppointmentDto[]>({
+    url: `/v1/appointments/shop/my-appointments`,
+    method: 'GET',
+    signal,
+  });
+};
 
+export const getGetAppointmentsByShopQueryKey = () => {
+  return [`/v1/appointments/shop/my-appointments`] as const;
+};
 
-      return orvalInstance<AppointmentDto[]>(
-      {url: `/v1/appointments/shop/${shopId}`, method: 'GET', signal
-    },
-      );
-    }
+export const getGetAppointmentsByShopQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAppointmentsByShop>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getAppointmentsByShop>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
 
+  const queryKey = queryOptions?.queryKey ?? getGetAppointmentsByShopQueryKey();
 
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAppointmentsByShop>>
+  > = ({ signal }) => getAppointmentsByShop(signal);
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAppointmentsByShop>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-export const getGetAppointmentsByShopQueryKey = (shopId: string,) => {
-    return [
-    `/v1/appointments/shop/${shopId}`
-    ] as const;
-    }
+export type GetAppointmentsByShopQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppointmentsByShop>>
+>;
+export type GetAppointmentsByShopQueryError = unknown;
 
-
-export const getGetAppointmentsByShopQueryOptions = <TData = Awaited<ReturnType<typeof getAppointmentsByShop>>, TError = unknown>(shopId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAppointmentsByShopQueryKey(shopId);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAppointmentsByShop>>> = ({ signal }) => getAppointmentsByShop(shopId, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: shopId !== null && shopId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAppointmentsByShopQueryResult = NonNullable<Awaited<ReturnType<typeof getAppointmentsByShop>>>
-export type GetAppointmentsByShopQueryError = unknown
-
-
-export function useGetAppointmentsByShop<TData = Awaited<ReturnType<typeof getAppointmentsByShop>>, TError = unknown>(
- shopId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData>> & Pick<
+export function useGetAppointmentsByShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsByShop>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByShop>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointmentsByShop>>,
           TError,
           Awaited<ReturnType<typeof getAppointmentsByShop>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointmentsByShop<TData = Awaited<ReturnType<typeof getAppointmentsByShop>>, TError = unknown>(
- shopId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsByShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsByShop>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByShop>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAppointmentsByShop>>,
           TError,
           Awaited<ReturnType<typeof getAppointmentsByShop>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAppointmentsByShop<TData = Awaited<ReturnType<typeof getAppointmentsByShop>>, TError = unknown>(
- shopId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsByShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsByShop>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByShop>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
- * @summary Get appointments for a service shop
+ * @summary Get appointments for the logged-in representative's service shop
  */
 
-export function useGetAppointmentsByShop<TData = Awaited<ReturnType<typeof getAppointmentsByShop>>, TError = unknown>(
- shopId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAppointmentsByShop>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAppointmentsByShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsByShop>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsByShop>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAppointmentsByShopQueryOptions(options);
 
-  const queryOptions = getGetAppointmentsByShopQueryOptions(shopId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
  * @summary Get appointments requested by current user
  */
-export const getMyRequestedAppointments = (
-
- signal?: AbortSignal
-) => {
-
-
-      return orvalInstance<AppointmentDto[]>(
-      {url: `/v1/appointments/my-requests`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
+export const getMyRequestedAppointments = (signal?: AbortSignal) => {
+  return orvalInstance<AppointmentDto[]>({
+    url: `/v1/appointments/my-requests`,
+    method: 'GET',
+    signal,
+  });
+};
 
 export const getGetMyRequestedAppointmentsQueryKey = () => {
-    return [
-    `/v1/appointments/my-requests`
-    ] as const;
-    }
+  return [`/v1/appointments/my-requests`] as const;
+};
 
+export const getGetMyRequestedAppointmentsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
 
-export const getGetMyRequestedAppointmentsQueryOptions = <TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData>>, }
-) => {
+  const queryKey =
+    queryOptions?.queryKey ?? getGetMyRequestedAppointmentsQueryKey();
 
-const {query: queryOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getMyRequestedAppointments>>
+  > = ({ signal }) => getMyRequestedAppointments(signal);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetMyRequestedAppointmentsQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetMyRequestedAppointmentsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getMyRequestedAppointments>>
+>;
+export type GetMyRequestedAppointmentsQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMyRequestedAppointments>>> = ({ signal }) => getMyRequestedAppointments(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetMyRequestedAppointmentsQueryResult = NonNullable<Awaited<ReturnType<typeof getMyRequestedAppointments>>>
-export type GetMyRequestedAppointmentsQueryError = unknown
-
-
-export function useGetMyRequestedAppointments<TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData>> & Pick<
+export function useGetMyRequestedAppointments<
+  TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getMyRequestedAppointments>>,
           TError,
           Awaited<ReturnType<typeof getMyRequestedAppointments>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetMyRequestedAppointments<TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetMyRequestedAppointments<
+  TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getMyRequestedAppointments>>,
           TError,
           Awaited<ReturnType<typeof getMyRequestedAppointments>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetMyRequestedAppointments<TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetMyRequestedAppointments<
+  TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get appointments requested by current user
  */
 
-export function useGetMyRequestedAppointments<TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMyRequestedAppointments>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetMyRequestedAppointments<
+  TData = Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMyRequestedAppointments>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetMyRequestedAppointmentsQueryOptions(options);
 
-  const queryOptions = getGetMyRequestedAppointmentsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

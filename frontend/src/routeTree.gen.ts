@@ -14,6 +14,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAlertsRouteImport } from './routes/_authenticated/alerts'
 import { Route as AuthenticatedVehiclesIndexRouteImport } from './routes/_authenticated/vehicles/index'
 import { Route as AuthenticatedVehiclesVehicleIdRouteImport } from './routes/_authenticated/vehicles/$vehicleId'
@@ -42,6 +44,17 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAppointmentsRoute =
+  AuthenticatedAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedAlertsRoute = AuthenticatedAlertsRouteImport.update({
   id: '/alerts',
   path: '/alerts',
@@ -65,6 +78,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/alerts': typeof AuthenticatedAlertsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vehicles/$vehicleId': typeof AuthenticatedVehiclesVehicleIdRoute
   '/vehicles/': typeof AuthenticatedVehiclesIndexRoute
@@ -74,6 +89,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/alerts': typeof AuthenticatedAlertsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vehicles/$vehicleId': typeof AuthenticatedVehiclesVehicleIdRoute
   '/vehicles': typeof AuthenticatedVehiclesIndexRoute
@@ -85,6 +102,8 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/alerts': typeof AuthenticatedAlertsRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/vehicles/$vehicleId': typeof AuthenticatedVehiclesVehicleIdRoute
   '/_authenticated/vehicles/': typeof AuthenticatedVehiclesIndexRoute
@@ -96,6 +115,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/alerts'
+    | '/analytics'
+    | '/appointments'
     | '/dashboard'
     | '/vehicles/$vehicleId'
     | '/vehicles/'
@@ -105,6 +126,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/alerts'
+    | '/analytics'
+    | '/appointments'
     | '/dashboard'
     | '/vehicles/$vehicleId'
     | '/vehicles'
@@ -115,6 +138,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_authenticated/alerts'
+    | '/_authenticated/analytics'
+    | '/_authenticated/appointments'
     | '/_authenticated/dashboard'
     | '/_authenticated/vehicles/$vehicleId'
     | '/_authenticated/vehicles/'
@@ -164,6 +189,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/appointments': {
+      id: '/_authenticated/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/alerts': {
       id: '/_authenticated/alerts'
       path: '/alerts'
@@ -190,6 +229,8 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedAlertsRoute: typeof AuthenticatedAlertsRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedVehiclesVehicleIdRoute: typeof AuthenticatedVehiclesVehicleIdRoute
   AuthenticatedVehiclesIndexRoute: typeof AuthenticatedVehiclesIndexRoute
@@ -197,6 +238,8 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAlertsRoute: AuthenticatedAlertsRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedVehiclesVehicleIdRoute: AuthenticatedVehiclesVehicleIdRoute,
   AuthenticatedVehiclesIndexRoute: AuthenticatedVehiclesIndexRoute,

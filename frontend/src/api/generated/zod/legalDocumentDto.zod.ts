@@ -7,15 +7,17 @@
 import { z as zod } from 'zod';
 
 export const LegalDocumentDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "documentType": zod.enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER']).optional(),
-  "documentNumber": zod.string().optional(),
-  "expiryDate": zod.iso.date().optional(),
-  "notes": zod.string().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional(),
-  "updatedAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  vehicleId: zod.uuid().optional(),
+  documentType: zod
+    .enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER'])
+    .optional(),
+  documentNumber: zod.string().optional(),
+  expiryDate: zod.iso.date().optional(),
+  notes: zod.string().optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+  updatedAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type LegalDocumentDto = zod.input<typeof LegalDocumentDto>;
 export type LegalDocumentDtoOutput = zod.output<typeof LegalDocumentDto>;

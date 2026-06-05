@@ -7,42 +7,52 @@
 import { z as zod } from 'zod';
 
 export const PageVehicleDto = zod.object({
-  "totalElements": zod.number().optional(),
-  "totalPages": zod.number().optional(),
-  "pageable": zod.object({
-  "paged": zod.boolean().optional(),
-  "pageNumber": zod.number().optional(),
-  "pageSize": zod.number().optional(),
-  "unpaged": zod.boolean().optional(),
-  "offset": zod.number().optional(),
-  "sort": zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-}).optional()
-}).optional(),
-  "first": zod.boolean().optional(),
-  "last": zod.boolean().optional(),
-  "size": zod.number().optional(),
-  "content": zod.array(zod.object({
-  "id": zod.uuid().optional(),
-  "vin": zod.string().optional(),
-  "name": zod.string().optional(),
-  "model": zod.string().optional(),
-  "year": zod.number().optional(),
-  "currentMileage": zod.number().optional(),
-  "assignedDriverId": zod.uuid().optional(),
-  "ownerId": zod.uuid().optional()
-})).optional(),
-  "number": zod.number().optional(),
-  "sort": zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-}).optional(),
-  "numberOfElements": zod.number().optional(),
-  "empty": zod.boolean().optional()
-})
+  totalElements: zod.number().optional(),
+  totalPages: zod.number().optional(),
+  pageable: zod
+    .object({
+      pageNumber: zod.number().optional(),
+      paged: zod.boolean().optional(),
+      pageSize: zod.number().optional(),
+      unpaged: zod.boolean().optional(),
+      offset: zod.number().optional(),
+      sort: zod
+        .object({
+          sorted: zod.boolean().optional(),
+          unsorted: zod.boolean().optional(),
+          empty: zod.boolean().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+  first: zod.boolean().optional(),
+  last: zod.boolean().optional(),
+  numberOfElements: zod.number().optional(),
+  size: zod.number().optional(),
+  content: zod
+    .array(
+      zod.object({
+        id: zod.uuid().optional(),
+        vin: zod.string().optional(),
+        name: zod.string().optional(),
+        model: zod.string().optional(),
+        year: zod.number().optional(),
+        currentMileage: zod.number().optional(),
+        assignedDriverId: zod.uuid().optional(),
+        ownerId: zod.uuid().optional(),
+      })
+    )
+    .optional(),
+  number: zod.number().optional(),
+  sort: zod
+    .object({
+      sorted: zod.boolean().optional(),
+      unsorted: zod.boolean().optional(),
+      empty: zod.boolean().optional(),
+    })
+    .optional(),
+  empty: zod.boolean().optional(),
+});
 
 export type PageVehicleDto = zod.input<typeof PageVehicleDto>;
 export type PageVehicleDtoOutput = zod.output<typeof PageVehicleDto>;

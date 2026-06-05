@@ -7,9 +7,9 @@
 import { z as zod } from 'zod';
 
 export const LoginRequest = zod.object({
-  "email": zod.string().optional(),
-  "password": zod.string().optional()
-})
+  email: zod.string().optional(),
+  password: zod.string().optional(),
+});
 
 export type LoginRequest = zod.input<typeof LoginRequest>;
 export type LoginRequestOutput = zod.output<typeof LoginRequest>;

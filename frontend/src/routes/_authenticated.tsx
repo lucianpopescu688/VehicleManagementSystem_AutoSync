@@ -337,13 +337,13 @@ function AuthenticatedLayout() {
             )}
           </Link>
 
-          <DisabledNavItem label="Service">
+          <NavItem to="/appointments" label="Service">
             <ServiceIcon />
-          </DisabledNavItem>
+          </NavItem>
 
-          <DisabledNavItem label="Analytics">
+          <NavItem to="/analytics" label="Analytics">
             <AnalyticsIcon />
-          </DisabledNavItem>
+          </NavItem>
         </nav>
 
         {/* Bottom section */}

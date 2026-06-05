@@ -7,8 +7,10 @@
 import { z as zod } from 'zod';
 
 export const AuthenticationResponse = zod.object({
-  "token": zod.string().optional()
-})
+  token: zod.string().optional(),
+});
 
 export type AuthenticationResponse = zod.input<typeof AuthenticationResponse>;
-export type AuthenticationResponseOutput = zod.output<typeof AuthenticationResponse>;
+export type AuthenticationResponseOutput = zod.output<
+  typeof AuthenticationResponse
+>;

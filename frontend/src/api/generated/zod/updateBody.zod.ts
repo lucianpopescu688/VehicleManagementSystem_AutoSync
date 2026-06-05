@@ -6,20 +6,16 @@
  */
 import { z as zod } from 'zod';
 
-
-
-
 export const updateBodyYearMin = 1900;
 
-
 export const UpdateBody = zod.object({
-  "vin": zod.string().min(1).optional(),
-  "name": zod.string().min(1).optional(),
-  "model": zod.string().min(1).optional(),
-  "year": zod.number().min(updateBodyYearMin).optional(),
-  "currentMileage": zod.number(),
-  "assignedDriverId": zod.uuid().optional()
-})
+  vin: zod.string().min(1).optional(),
+  name: zod.string().min(1).optional(),
+  model: zod.string().min(1).optional(),
+  year: zod.number().min(updateBodyYearMin).optional(),
+  currentMileage: zod.number(),
+  assignedDriverId: zod.uuid().optional(),
+});
 
 export type UpdateBody = zod.input<typeof UpdateBody>;
 export type UpdateBodyOutput = zod.output<typeof UpdateBody>;

@@ -7,9 +7,9 @@
 import { z as zod } from 'zod';
 
 export const HealthResponse = zod.object({
-  "status": zod.string().optional(),
-  "message": zod.string().optional()
-})
+  status: zod.string().optional(),
+  message: zod.string().optional(),
+});
 
 export type HealthResponse = zod.input<typeof HealthResponse>;
 export type HealthResponseOutput = zod.output<typeof HealthResponse>;

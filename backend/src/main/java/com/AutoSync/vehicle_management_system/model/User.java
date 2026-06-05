@@ -49,6 +49,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @Column(name = "service_shop_id")
+    private UUID serviceShopId;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

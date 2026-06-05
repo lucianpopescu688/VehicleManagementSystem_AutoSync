@@ -4,10 +4,7 @@
  * Vehicle Management System API
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,541 +17,751 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
-import type {
-  ServiceShopDto,
-  ServiceShopRequest
-} from '../zod';
+import type { ServiceShopDto, ServiceShopRequest } from '../zod';
 
 import { orvalInstance } from '../../../lib/axios';
-
-
-
 
 /**
  * @summary Get service shop by ID
  */
-export const getServiceShop = (
-    id: string,
- signal?: AbortSignal
+export const getServiceShop = (id: string, signal?: AbortSignal) => {
+  return orvalInstance<ServiceShopDto>({
+    url: `/v1/service-shops/${id}`,
+    method: 'GET',
+    signal,
+  });
+};
+
+export const getGetServiceShopQueryKey = (id: string) => {
+  return [`/v1/service-shops/${id}`] as const;
+};
+
+export const getGetServiceShopQueryOptions = <
+  TData = Awaited<ReturnType<typeof getServiceShop>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>
+    >;
+  }
 ) => {
+  const { query: queryOptions } = options ?? {};
 
+  const queryKey = queryOptions?.queryKey ?? getGetServiceShopQueryKey(id);
 
-      return orvalInstance<ServiceShopDto>(
-      {url: `/v1/service-shops/${id}`, method: 'GET', signal
-    },
-      );
-    }
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceShop>>> = ({
+    signal,
+  }) => getServiceShop(id, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: id !== null && id !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getServiceShop>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetServiceShopQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getServiceShop>>
+>;
+export type GetServiceShopQueryError = unknown;
 
-
-export const getGetServiceShopQueryKey = (id: string,) => {
-    return [
-    `/v1/service-shops/${id}`
-    ] as const;
-    }
-
-
-export const getGetServiceShopQueryOptions = <TData = Awaited<ReturnType<typeof getServiceShop>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetServiceShopQueryKey(id);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceShop>>> = ({ signal }) => getServiceShop(id, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetServiceShopQueryResult = NonNullable<Awaited<ReturnType<typeof getServiceShop>>>
-export type GetServiceShopQueryError = unknown
-
-
-export function useGetServiceShop<TData = Awaited<ReturnType<typeof getServiceShop>>, TError = unknown>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>> & Pick<
+export function useGetServiceShop<
+  TData = Awaited<ReturnType<typeof getServiceShop>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getServiceShop>>,
           TError,
           Awaited<ReturnType<typeof getServiceShop>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetServiceShop<TData = Awaited<ReturnType<typeof getServiceShop>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetServiceShop<
+  TData = Awaited<ReturnType<typeof getServiceShop>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getServiceShop>>,
           TError,
           Awaited<ReturnType<typeof getServiceShop>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetServiceShop<TData = Awaited<ReturnType<typeof getServiceShop>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetServiceShop<
+  TData = Awaited<ReturnType<typeof getServiceShop>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get service shop by ID
  */
 
-export function useGetServiceShop<TData = Awaited<ReturnType<typeof getServiceShop>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetServiceShop<
+  TData = Awaited<ReturnType<typeof getServiceShop>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getServiceShop>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetServiceShopQueryOptions(id, options);
 
-  const queryOptions = getGetServiceShopQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * @summary Update service shop details
  */
 export const updateServiceShop = (
-    id: string,
-    serviceShopRequest: ServiceShopRequest,
- signal?: AbortSignal
+  id: string,
+  serviceShopRequest: ServiceShopRequest,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<ServiceShopDto>({
+    url: `/v1/service-shops/${id}`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: serviceShopRequest,
+    signal,
+  });
+};
 
+export const getUpdateServiceShopMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateServiceShop>>,
+    TError,
+    { id: string; data: ServiceShopRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateServiceShop>>,
+  TError,
+  { id: string; data: ServiceShopRequest },
+  TContext
+> => {
+  const mutationKey = ['updateServiceShop'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<ServiceShopDto>(
-      {url: `/v1/service-shops/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: serviceShopRequest, signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateServiceShop>>,
+    { id: string; data: ServiceShopRequest }
+  > = (props) => {
+    const { id, data } = props ?? {};
 
+    return updateServiceShop(id, data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getUpdateServiceShopMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateServiceShop>>, TError,{id: string;data: ServiceShopRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof updateServiceShop>>, TError,{id: string;data: ServiceShopRequest}, TContext> => {
+export type UpdateServiceShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateServiceShop>>
+>;
+export type UpdateServiceShopMutationBody = ServiceShopRequest;
+export type UpdateServiceShopMutationError = unknown;
 
-const mutationKey = ['updateServiceShop'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateServiceShop>>, {id: string;data: ServiceShopRequest}> = (props) => {
-          const {id,data} = props ?? {};
-
-          return  updateServiceShop(id,data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateServiceShopMutationResult = NonNullable<Awaited<ReturnType<typeof updateServiceShop>>>
-    export type UpdateServiceShopMutationBody = ServiceShopRequest
-    export type UpdateServiceShopMutationError = unknown
-
-    /**
+/**
  * @summary Update service shop details
  */
-export const useUpdateServiceShop = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateServiceShop>>, TError,{id: string;data: ServiceShopRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateServiceShop>>,
-        TError,
-        {id: string;data: ServiceShopRequest},
-        TContext
-      > => {
-      return useMutation(getUpdateServiceShopMutationOptions(options), queryClient);
-    }
-    /**
+export const useUpdateServiceShop = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateServiceShop>>,
+      TError,
+      { id: string; data: ServiceShopRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateServiceShop>>,
+  TError,
+  { id: string; data: ServiceShopRequest },
+  TContext
+> => {
+  return useMutation(getUpdateServiceShopMutationOptions(options), queryClient);
+};
+/**
  * @summary Delete a service shop
  */
-export const deleteServiceShop = (
-    id: string,
- signal?: AbortSignal
-) => {
+export const deleteServiceShop = (id: string, signal?: AbortSignal) => {
+  return orvalInstance<void>({
+    url: `/v1/service-shops/${id}`,
+    method: 'DELETE',
+    signal,
+  });
+};
 
+export const getDeleteServiceShopMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteServiceShop>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteServiceShop>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['deleteServiceShop'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<void>(
-      {url: `/v1/service-shops/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteServiceShop>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return deleteServiceShop(id);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getDeleteServiceShopMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteServiceShop>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteServiceShop>>, TError,{id: string}, TContext> => {
+export type DeleteServiceShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteServiceShop>>
+>;
 
-const mutationKey = ['deleteServiceShop'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+export type DeleteServiceShopMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteServiceShop>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  deleteServiceShop(id,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteServiceShopMutationResult = NonNullable<Awaited<ReturnType<typeof deleteServiceShop>>>
-
-    export type DeleteServiceShopMutationError = unknown
-
-    /**
+/**
  * @summary Delete a service shop
  */
-export const useDeleteServiceShop = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteServiceShop>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteServiceShop>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getDeleteServiceShopMutationOptions(options), queryClient);
-    }
-    /**
+export const useDeleteServiceShop = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteServiceShop>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteServiceShop>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(getDeleteServiceShopMutationOptions(options), queryClient);
+};
+/**
  * @summary Get all service shops
  */
-export const getAllServiceShops = (
-
- signal?: AbortSignal
-) => {
-
-
-      return orvalInstance<ServiceShopDto[]>(
-      {url: `/v1/service-shops`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
+export const getAllServiceShops = (signal?: AbortSignal) => {
+  return orvalInstance<ServiceShopDto[]>({
+    url: `/v1/service-shops`,
+    method: 'GET',
+    signal,
+  });
+};
 
 export const getGetAllServiceShopsQueryKey = () => {
-    return [
-    `/v1/service-shops`
-    ] as const;
-    }
+  return [`/v1/service-shops`] as const;
+};
 
+export const getGetAllServiceShopsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllServiceShops>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getAllServiceShops>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
 
-export const getGetAllServiceShopsQueryOptions = <TData = Awaited<ReturnType<typeof getAllServiceShops>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData>>, }
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetAllServiceShopsQueryKey();
 
-const {query: queryOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAllServiceShops>>
+  > = ({ signal }) => getAllServiceShops(signal);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllServiceShopsQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllServiceShops>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAllServiceShopsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllServiceShops>>
+>;
+export type GetAllServiceShopsQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllServiceShops>>> = ({ signal }) => getAllServiceShops(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllServiceShopsQueryResult = NonNullable<Awaited<ReturnType<typeof getAllServiceShops>>>
-export type GetAllServiceShopsQueryError = unknown
-
-
-export function useGetAllServiceShops<TData = Awaited<ReturnType<typeof getAllServiceShops>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData>> & Pick<
+export function useGetAllServiceShops<
+  TData = Awaited<ReturnType<typeof getAllServiceShops>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllServiceShops>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllServiceShops>>,
           TError,
           Awaited<ReturnType<typeof getAllServiceShops>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllServiceShops<TData = Awaited<ReturnType<typeof getAllServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllServiceShops<
+  TData = Awaited<ReturnType<typeof getAllServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllServiceShops>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllServiceShops>>,
           TError,
           Awaited<ReturnType<typeof getAllServiceShops>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllServiceShops<TData = Awaited<ReturnType<typeof getAllServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllServiceShops<
+  TData = Awaited<ReturnType<typeof getAllServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllServiceShops>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get all service shops
  */
 
-export function useGetAllServiceShops<TData = Awaited<ReturnType<typeof getAllServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllServiceShops>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllServiceShops<
+  TData = Awaited<ReturnType<typeof getAllServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllServiceShops>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllServiceShopsQueryOptions(options);
 
-  const queryOptions = getGetAllServiceShopsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * @summary Register a new service shop
  */
 export const createServiceShop = (
-    serviceShopRequest: ServiceShopRequest,
- signal?: AbortSignal
+  serviceShopRequest: ServiceShopRequest,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<ServiceShopDto>({
+    url: `/v1/service-shops`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: serviceShopRequest,
+    signal,
+  });
+};
 
+export const getCreateServiceShopMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createServiceShop>>,
+    TError,
+    { data: ServiceShopRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createServiceShop>>,
+  TError,
+  { data: ServiceShopRequest },
+  TContext
+> => {
+  const mutationKey = ['createServiceShop'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<ServiceShopDto>(
-      {url: `/v1/service-shops`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: serviceShopRequest, signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createServiceShop>>,
+    { data: ServiceShopRequest }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return createServiceShop(data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getCreateServiceShopMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createServiceShop>>, TError,{data: ServiceShopRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof createServiceShop>>, TError,{data: ServiceShopRequest}, TContext> => {
+export type CreateServiceShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createServiceShop>>
+>;
+export type CreateServiceShopMutationBody = ServiceShopRequest;
+export type CreateServiceShopMutationError = unknown;
 
-const mutationKey = ['createServiceShop'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createServiceShop>>, {data: ServiceShopRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createServiceShop(data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateServiceShopMutationResult = NonNullable<Awaited<ReturnType<typeof createServiceShop>>>
-    export type CreateServiceShopMutationBody = ServiceShopRequest
-    export type CreateServiceShopMutationError = unknown
-
-    /**
+/**
  * @summary Register a new service shop
  */
-export const useCreateServiceShop = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createServiceShop>>, TError,{data: ServiceShopRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createServiceShop>>,
-        TError,
-        {data: ServiceShopRequest},
-        TContext
-      > => {
-      return useMutation(getCreateServiceShopMutationOptions(options), queryClient);
-    }
-    /**
+export const useCreateServiceShop = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createServiceShop>>,
+      TError,
+      { data: ServiceShopRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof createServiceShop>>,
+  TError,
+  { data: ServiceShopRequest },
+  TContext
+> => {
+  return useMutation(getCreateServiceShopMutationOptions(options), queryClient);
+};
+/**
  * @summary Approve a service shop
  */
-export const approveServiceShop = (
-    id: string,
- signal?: AbortSignal
-) => {
+export const approveServiceShop = (id: string, signal?: AbortSignal) => {
+  return orvalInstance<ServiceShopDto>({
+    url: `/v1/service-shops/${id}/approve`,
+    method: 'PATCH',
+    signal,
+  });
+};
 
+export const getApproveServiceShopMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof approveServiceShop>>,
+    TError,
+    { id: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof approveServiceShop>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['approveServiceShop'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<ServiceShopDto>(
-      {url: `/v1/service-shops/${id}/approve`, method: 'PATCH', signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof approveServiceShop>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return approveServiceShop(id);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getApproveServiceShopMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveServiceShop>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof approveServiceShop>>, TError,{id: string}, TContext> => {
+export type ApproveServiceShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof approveServiceShop>>
+>;
 
-const mutationKey = ['approveServiceShop'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+export type ApproveServiceShopMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof approveServiceShop>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  approveServiceShop(id,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ApproveServiceShopMutationResult = NonNullable<Awaited<ReturnType<typeof approveServiceShop>>>
-
-    export type ApproveServiceShopMutationError = unknown
-
-    /**
+/**
  * @summary Approve a service shop
  */
-export const useApproveServiceShop = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveServiceShop>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof approveServiceShop>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getApproveServiceShopMutationOptions(options), queryClient);
-    }
-    /**
+export const useApproveServiceShop = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof approveServiceShop>>,
+      TError,
+      { id: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof approveServiceShop>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(
+    getApproveServiceShopMutationOptions(options),
+    queryClient
+  );
+};
+/**
  * @summary Get all approved service shops
  */
-export const getApprovedServiceShops = (
-
- signal?: AbortSignal
-) => {
-
-
-      return orvalInstance<ServiceShopDto[]>(
-      {url: `/v1/service-shops/approved`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
+export const getApprovedServiceShops = (signal?: AbortSignal) => {
+  return orvalInstance<ServiceShopDto[]>({
+    url: `/v1/service-shops/approved`,
+    method: 'GET',
+    signal,
+  });
+};
 
 export const getGetApprovedServiceShopsQueryKey = () => {
-    return [
-    `/v1/service-shops/approved`
-    ] as const;
-    }
+  return [`/v1/service-shops/approved`] as const;
+};
 
+export const getGetApprovedServiceShopsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApprovedServiceShops>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getApprovedServiceShops>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
 
-export const getGetApprovedServiceShopsQueryOptions = <TData = Awaited<ReturnType<typeof getApprovedServiceShops>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData>>, }
-) => {
+  const queryKey =
+    queryOptions?.queryKey ?? getGetApprovedServiceShopsQueryKey();
 
-const {query: queryOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getApprovedServiceShops>>
+  > = ({ signal }) => getApprovedServiceShops(signal);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApprovedServiceShopsQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApprovedServiceShops>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApprovedServiceShopsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApprovedServiceShops>>
+>;
+export type GetApprovedServiceShopsQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApprovedServiceShops>>> = ({ signal }) => getApprovedServiceShops(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApprovedServiceShopsQueryResult = NonNullable<Awaited<ReturnType<typeof getApprovedServiceShops>>>
-export type GetApprovedServiceShopsQueryError = unknown
-
-
-export function useGetApprovedServiceShops<TData = Awaited<ReturnType<typeof getApprovedServiceShops>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData>> & Pick<
+export function useGetApprovedServiceShops<
+  TData = Awaited<ReturnType<typeof getApprovedServiceShops>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApprovedServiceShops>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApprovedServiceShops>>,
           TError,
           Awaited<ReturnType<typeof getApprovedServiceShops>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApprovedServiceShops<TData = Awaited<ReturnType<typeof getApprovedServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApprovedServiceShops<
+  TData = Awaited<ReturnType<typeof getApprovedServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApprovedServiceShops>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApprovedServiceShops>>,
           TError,
           Awaited<ReturnType<typeof getApprovedServiceShops>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApprovedServiceShops<TData = Awaited<ReturnType<typeof getApprovedServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApprovedServiceShops<
+  TData = Awaited<ReturnType<typeof getApprovedServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApprovedServiceShops>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get all approved service shops
  */
 
-export function useGetApprovedServiceShops<TData = Awaited<ReturnType<typeof getApprovedServiceShops>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApprovedServiceShops>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApprovedServiceShops<
+  TData = Awaited<ReturnType<typeof getApprovedServiceShops>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApprovedServiceShops>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetApprovedServiceShopsQueryOptions(options);
 
-  const queryOptions = getGetApprovedServiceShopsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

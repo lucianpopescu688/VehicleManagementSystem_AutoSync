@@ -7,9 +7,9 @@
 import { z as zod } from 'zod';
 
 export const LogBody = zod.object({
-  "vehicleId": zod.uuid(),
-  "newMileage": zod.number()
-})
+  vehicleId: zod.uuid(),
+  newMileage: zod.number(),
+});
 
 export type LogBody = zod.input<typeof LogBody>;
 export type LogBodyOutput = zod.output<typeof LogBody>;

@@ -7,15 +7,15 @@
 import { z as zod } from 'zod';
 
 export const MaintenanceAlertDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "vehicleName": zod.string().optional(),
-  "alertType": zod.enum(['WEAR', 'EXPIRY']).optional(),
-  "message": zod.string().optional(),
-  "resolved": zod.boolean().optional(),
-  "resolvedAt": zod.iso.datetime({"offset":true}).optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  vehicleId: zod.uuid().optional(),
+  vehicleName: zod.string().optional(),
+  alertType: zod.enum(['WEAR', 'EXPIRY']).optional(),
+  message: zod.string().optional(),
+  resolved: zod.boolean().optional(),
+  resolvedAt: zod.iso.datetime({ offset: true }).optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type MaintenanceAlertDto = zod.input<typeof MaintenanceAlertDto>;
 export type MaintenanceAlertDtoOutput = zod.output<typeof MaintenanceAlertDto>;

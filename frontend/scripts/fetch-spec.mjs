@@ -4,7 +4,7 @@
  * but it is invalid per OpenAPI 3.0 and breaks Orval's strict validator),
  * then writes the cleaned spec to openapi.json for Orval to consume.
  */
-const res = await fetch('http://localhost:8081/v3/api-docs')
+const res = await fetch('http://127.0.0.1:8081/v3/api-docs')
 if (!res.ok) throw new Error(`Backend returned ${res.status} — is it running on port 8081?`)
 
 const spec = await res.json()

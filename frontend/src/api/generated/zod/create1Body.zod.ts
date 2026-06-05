@@ -7,12 +7,12 @@
 import { z as zod } from 'zod';
 
 export const Create1Body = zod.object({
-  "vehicleId": zod.uuid(),
-  "documentType": zod.enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER']),
-  "documentNumber": zod.string().optional(),
-  "expiryDate": zod.iso.date(),
-  "notes": zod.string().optional()
-})
+  vehicleId: zod.uuid(),
+  documentType: zod.enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER']),
+  documentNumber: zod.string().optional(),
+  expiryDate: zod.iso.date(),
+  notes: zod.string().optional(),
+});
 
 export type Create1Body = zod.input<typeof Create1Body>;
 export type Create1BodyOutput = zod.output<typeof Create1Body>;

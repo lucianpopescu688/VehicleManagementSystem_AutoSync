@@ -7,12 +7,29 @@
 import { z as zod } from 'zod';
 
 export const RegisterBody = zod.object({
-  "firstName": zod.string().optional(),
-  "lastName": zod.string().optional(),
-  "email": zod.string().optional(),
-  "password": zod.string().optional(),
-  "role": zod.enum(['STANDARD_USER', 'FLEET_MANAGER', 'FLEET_DRIVER', 'SERVICE_SHOP_REPRESENTATIVE', 'ADMIN']).optional()
-})
+  firstName: zod.string().optional(),
+  lastName: zod.string().optional(),
+  email: zod.string().optional(),
+  password: zod.string().optional(),
+  role: zod
+    .enum([
+      'STANDARD_USER',
+      'FLEET_MANAGER',
+      'FLEET_DRIVER',
+      'SERVICE_SHOP_REPRESENTATIVE',
+      'ADMIN',
+    ])
+    .optional(),
+  serviceShopId: zod.uuid().optional(),
+  newServiceShop: zod
+    .object({
+      name: zod.string().min(1).optional(),
+      address: zod.string().optional(),
+      contactEmail: zod.string().optional(),
+      contactPhone: zod.string().optional(),
+    })
+    .optional(),
+});
 
 export type RegisterBody = zod.input<typeof RegisterBody>;
 export type RegisterBodyOutput = zod.output<typeof RegisterBody>;

@@ -10,10 +10,10 @@ export const listParamsPageDefault = 0;
 export const listParamsSizeDefault = 20;
 export const listParamsSortDefault = `name`;
 export const ListParams = zod.object({
-  "page": zod.number().default(listParamsPageDefault),
-  "size": zod.number().default(listParamsSizeDefault),
-  "sort": zod.string().default(listParamsSortDefault)
-})
+  page: zod.number().default(listParamsPageDefault),
+  size: zod.number().default(listParamsSizeDefault),
+  sort: zod.string().default(listParamsSortDefault),
+});
 
 export type ListParams = zod.input<typeof ListParams>;
 export type ListParamsOutput = zod.output<typeof ListParams>;

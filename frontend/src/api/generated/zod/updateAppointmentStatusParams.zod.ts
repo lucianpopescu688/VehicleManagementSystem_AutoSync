@@ -7,8 +7,18 @@
 import { z as zod } from 'zod';
 
 export const UpdateAppointmentStatusParams = zod.object({
-  "status": zod.enum(['PENDING', 'ACCEPTED', 'REJECTED', 'COMPLETED', 'CANCELLED'])
-})
+  status: zod.enum([
+    'PENDING',
+    'ACCEPTED',
+    'REJECTED',
+    'COMPLETED',
+    'CANCELLED',
+  ]),
+});
 
-export type UpdateAppointmentStatusParams = zod.input<typeof UpdateAppointmentStatusParams>;
-export type UpdateAppointmentStatusParamsOutput = zod.output<typeof UpdateAppointmentStatusParams>;
+export type UpdateAppointmentStatusParams = zod.input<
+  typeof UpdateAppointmentStatusParams
+>;
+export type UpdateAppointmentStatusParamsOutput = zod.output<
+  typeof UpdateAppointmentStatusParams
+>;

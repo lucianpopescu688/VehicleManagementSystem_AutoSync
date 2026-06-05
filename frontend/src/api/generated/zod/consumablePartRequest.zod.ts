@@ -6,15 +6,15 @@
  */
 import { z as zod } from 'zod';
 
-
-
 export const ConsumablePartRequest = zod.object({
-  "vehicleId": zod.uuid(),
-  "partName": zod.string().min(1).optional(),
-  "lifespanKm": zod.number(),
-  "lastReplacedMileage": zod.number(),
-  "notes": zod.string().optional()
-})
+  vehicleId: zod.uuid(),
+  partName: zod.string().min(1).optional(),
+  lifespanKm: zod.number(),
+  lastReplacedMileage: zod.number(),
+  notes: zod.string().optional(),
+});
 
 export type ConsumablePartRequest = zod.input<typeof ConsumablePartRequest>;
-export type ConsumablePartRequestOutput = zod.output<typeof ConsumablePartRequest>;
+export type ConsumablePartRequestOutput = zod.output<
+  typeof ConsumablePartRequest
+>;

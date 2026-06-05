@@ -63,7 +63,7 @@ public class VehicleController {
             @RequestParam(defaultValue = "name") String sort,
             @AuthenticationPrincipal User user) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        if (user.getRole() == Role.ADMIN || user.getRole() == Role.FLEET_MANAGER) {
+        if (user.getRole() == Role.ADMIN) {
             return ResponseEntity.ok(vehicleService.listAll(pageable).map(vehicleMapper::toDto));
         }
         return ResponseEntity.ok(vehicleService.listAccessibleByUser(user.getId(), pageable).map(vehicleMapper::toDto));

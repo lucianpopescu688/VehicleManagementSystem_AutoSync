@@ -7,12 +7,14 @@
 import { z as zod } from 'zod';
 
 export const LegalDocumentRequest = zod.object({
-  "vehicleId": zod.uuid(),
-  "documentType": zod.enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER']),
-  "documentNumber": zod.string().optional(),
-  "expiryDate": zod.iso.date(),
-  "notes": zod.string().optional()
-})
+  vehicleId: zod.uuid(),
+  documentType: zod.enum(['INSURANCE', 'INSPECTION', 'REGISTRATION', 'OTHER']),
+  documentNumber: zod.string().optional(),
+  expiryDate: zod.iso.date(),
+  notes: zod.string().optional(),
+});
 
 export type LegalDocumentRequest = zod.input<typeof LegalDocumentRequest>;
-export type LegalDocumentRequestOutput = zod.output<typeof LegalDocumentRequest>;
+export type LegalDocumentRequestOutput = zod.output<
+  typeof LegalDocumentRequest
+>;

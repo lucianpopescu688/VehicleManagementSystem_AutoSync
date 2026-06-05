@@ -7,17 +7,19 @@
 import { z as zod } from 'zod';
 
 export const PageableObject = zod.object({
-  "paged": zod.boolean().optional(),
-  "pageNumber": zod.number().optional(),
-  "pageSize": zod.number().optional(),
-  "unpaged": zod.boolean().optional(),
-  "offset": zod.number().optional(),
-  "sort": zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-}).optional()
-})
+  pageNumber: zod.number().optional(),
+  paged: zod.boolean().optional(),
+  pageSize: zod.number().optional(),
+  unpaged: zod.boolean().optional(),
+  offset: zod.number().optional(),
+  sort: zod
+    .object({
+      sorted: zod.boolean().optional(),
+      unsorted: zod.boolean().optional(),
+      empty: zod.boolean().optional(),
+    })
+    .optional(),
+});
 
 export type PageableObject = zod.input<typeof PageableObject>;
 export type PageableObjectOutput = zod.output<typeof PageableObject>;

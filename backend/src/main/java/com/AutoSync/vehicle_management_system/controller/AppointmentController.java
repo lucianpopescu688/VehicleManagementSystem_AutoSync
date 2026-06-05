@@ -27,6 +27,7 @@ public class AppointmentController {
 
     @PostMapping
     @Operation(summary = "Create a new appointment")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'FLEET_MANAGER', 'STANDARD_USER') and @vehicleAccess.canAccessVehicle(#request.vehicleId)")
     public ResponseEntity<AppointmentDto> createAppointment(
             @Valid @RequestBody AppointmentRequest request,
             @AuthenticationPrincipal User user) {
@@ -51,14 +52,19 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointmentsByRequestedBy(user.getId()));
     }
 
-    @GetMapping("/shop/{shopId}")
-    @Operation(summary = "Get appointments for a service shop")
-    public ResponseEntity<List<AppointmentDto>> getAppointmentsByShop(@PathVariable UUID shopId) {
-        return ResponseEntity.ok(appointmentService.getAppointmentsByShop(shopId));
+    @GetMapping("/shop/my-appointments")
+    @Operation(summary = "Get appointments for the logged-in representative's service shop")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('SERVICE_SHOP_REPRESENTATIVE')")
+    public ResponseEntity<List<AppointmentDto>> getAppointmentsByShop(@AuthenticationPrincipal User user) {
+        if (user.getServiceShopId() == null) {
+            throw new com.AutoSync.vehicle_management_system.exception.BadRequestException("User is not associated with a service shop");
+        }
+        return ResponseEntity.ok(appointmentService.getAppointmentsByShop(user.getServiceShopId()));
     }
 
     @PatchMapping("/{id}/status")
     @Operation(summary = "Update appointment status")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'SERVICE_SHOP_REPRESENTATIVE')")
     public ResponseEntity<AppointmentDto> updateAppointmentStatus(
             @PathVariable UUID id,
             @RequestParam AppointmentStatus status) {

@@ -6,14 +6,14 @@
  */
 import { z as zod } from 'zod';
 
-
-
 export const UpdateServiceShopBody = zod.object({
-  "name": zod.string().min(1).optional(),
-  "address": zod.string().optional(),
-  "contactEmail": zod.string().optional(),
-  "contactPhone": zod.string().optional()
-})
+  name: zod.string().min(1).optional(),
+  address: zod.string().optional(),
+  contactEmail: zod.string().optional(),
+  contactPhone: zod.string().optional(),
+});
 
 export type UpdateServiceShopBody = zod.input<typeof UpdateServiceShopBody>;
-export type UpdateServiceShopBodyOutput = zod.output<typeof UpdateServiceShopBody>;
+export type UpdateServiceShopBodyOutput = zod.output<
+  typeof UpdateServiceShopBody
+>;

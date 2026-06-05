@@ -7,15 +7,15 @@
 import { z as zod } from 'zod';
 
 export const VehicleDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vin": zod.string().optional(),
-  "name": zod.string().optional(),
-  "model": zod.string().optional(),
-  "year": zod.number().optional(),
-  "currentMileage": zod.number().optional(),
-  "assignedDriverId": zod.uuid().optional(),
-  "ownerId": zod.uuid().optional()
-})
+  id: zod.uuid().optional(),
+  vin: zod.string().optional(),
+  name: zod.string().optional(),
+  model: zod.string().optional(),
+  year: zod.number().optional(),
+  currentMileage: zod.number().optional(),
+  assignedDriverId: zod.uuid().optional(),
+  ownerId: zod.uuid().optional(),
+});
 
 export type VehicleDto = zod.input<typeof VehicleDto>;
 export type VehicleDtoOutput = zod.output<typeof VehicleDto>;

@@ -4,10 +4,7 @@
  * Vehicle Management System API
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,169 +17,232 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
   HistoryParams,
   LogMileageRequest,
   MileageLogDto,
-  PageMileageLogDto
+  PageMileageLogDto,
 } from '../zod';
 
 import { orvalInstance } from '../../../lib/axios';
 
-
-
-
 export const log = (
-    logMileageRequest: LogMileageRequest,
- signal?: AbortSignal
+  logMileageRequest: LogMileageRequest,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<MileageLogDto>({
+    url: `/v1/mileage`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: logMileageRequest,
+    signal,
+  });
+};
 
+export const getLogMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof log>>,
+    TError,
+    { data: LogMileageRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof log>>,
+  TError,
+  { data: LogMileageRequest },
+  TContext
+> => {
+  const mutationKey = ['log'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-      return orvalInstance<MileageLogDto>(
-      {url: `/v1/mileage`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: logMileageRequest, signal
-    },
-      );
-    }
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof log>>,
+    { data: LogMileageRequest }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return log(data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-export const getLogMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof log>>, TError,{data: LogMileageRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof log>>, TError,{data: LogMileageRequest}, TContext> => {
+export type LogMutationResult = NonNullable<Awaited<ReturnType<typeof log>>>;
+export type LogMutationBody = LogMileageRequest;
+export type LogMutationError = unknown;
 
-const mutationKey = ['log'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof log>>, {data: LogMileageRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  log(data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type LogMutationResult = NonNullable<Awaited<ReturnType<typeof log>>>
-    export type LogMutationBody = LogMileageRequest
-    export type LogMutationError = unknown
-
-    export const useLog = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof log>>, TError,{data: LogMileageRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof log>>,
-        TError,
-        {data: LogMileageRequest},
-        TContext
-      > => {
-      return useMutation(getLogMutationOptions(options), queryClient);
-    }
-    export const history = (
-    vehicleId: string,
-    params?: HistoryParams,
- signal?: AbortSignal
+export const useLog = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof log>>,
+      TError,
+      { data: LogMileageRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof log>>,
+  TError,
+  { data: LogMileageRequest },
+  TContext
+> => {
+  return useMutation(getLogMutationOptions(options), queryClient);
+};
+export const history = (
+  vehicleId: string,
+  params?: HistoryParams,
+  signal?: AbortSignal
 ) => {
+  return orvalInstance<PageMileageLogDto>({
+    url: `/v1/mileage/vehicles/${vehicleId}/history`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
 
-
-      return orvalInstance<PageMileageLogDto>(
-      {url: `/v1/mileage/vehicles/${vehicleId}/history`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-
-
-
-
-export const getHistoryQueryKey = (vehicleId: string,
-    params?: HistoryParams,) => {
-    return [
-    `/v1/mileage/vehicles/${vehicleId}/history`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getHistoryQueryOptions = <TData = Awaited<ReturnType<typeof history>>, TError = unknown>(vehicleId: string,
-    params?: HistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>>, }
+export const getHistoryQueryKey = (
+  vehicleId: string,
+  params?: HistoryParams
 ) => {
+  return [
+    `/v1/mileage/vehicles/${vehicleId}/history`,
+    ...(params ? [params] : []),
+  ] as const;
+};
 
-const {query: queryOptions} = options ?? {};
+export const getHistoryQueryOptions = <
+  TData = Awaited<ReturnType<typeof history>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  params?: HistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>
+    >;
+  }
+) => {
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getHistoryQueryKey(vehicleId,params);
+  const queryKey =
+    queryOptions?.queryKey ?? getHistoryQueryKey(vehicleId, params);
 
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof history>>> = ({
+    signal,
+  }) => history(vehicleId, params, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: vehicleId !== null && vehicleId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof history>>> = ({ signal }) => history(vehicleId,params, signal);
+export type HistoryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof history>>
+>;
+export type HistoryQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, enabled: vehicleId !== null && vehicleId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type HistoryQueryResult = NonNullable<Awaited<ReturnType<typeof history>>>
-export type HistoryQueryError = unknown
-
-
-export function useHistory<TData = Awaited<ReturnType<typeof history>>, TError = unknown>(
- vehicleId: string,
-    params: undefined |  HistoryParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>> & Pick<
+export function useHistory<
+  TData = Awaited<ReturnType<typeof history>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  params: undefined | HistoryParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof history>>,
           TError,
           Awaited<ReturnType<typeof history>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHistory<TData = Awaited<ReturnType<typeof history>>, TError = unknown>(
- vehicleId: string,
-    params?: HistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useHistory<
+  TData = Awaited<ReturnType<typeof history>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  params?: HistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof history>>,
           TError,
           Awaited<ReturnType<typeof history>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useHistory<TData = Awaited<ReturnType<typeof history>>, TError = unknown>(
- vehicleId: string,
-    params?: HistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useHistory<
+  TData = Awaited<ReturnType<typeof history>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  params?: HistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useHistory<TData = Awaited<ReturnType<typeof history>>, TError = unknown>(
- vehicleId: string,
-    params?: HistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useHistory<
+  TData = Awaited<ReturnType<typeof history>>,
+  TError = unknown,
+>(
+  vehicleId: string,
+  params?: HistoryParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof history>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getHistoryQueryOptions(vehicleId, params, options);
 
-  const queryOptions = getHistoryQueryOptions(vehicleId,params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

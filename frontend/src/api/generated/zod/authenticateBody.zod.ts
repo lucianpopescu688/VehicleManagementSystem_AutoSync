@@ -7,9 +7,9 @@
 import { z as zod } from 'zod';
 
 export const AuthenticateBody = zod.object({
-  "email": zod.string().optional(),
-  "password": zod.string().optional()
-})
+  email: zod.string().optional(),
+  password: zod.string().optional(),
+});
 
 export type AuthenticateBody = zod.input<typeof AuthenticateBody>;
 export type AuthenticateBodyOutput = zod.output<typeof AuthenticateBody>;

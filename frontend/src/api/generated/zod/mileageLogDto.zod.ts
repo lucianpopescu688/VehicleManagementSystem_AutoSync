@@ -7,12 +7,12 @@
 import { z as zod } from 'zod';
 
 export const MileageLogDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "recordedMileage": zod.number().optional(),
-  "recordedById": zod.uuid().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  vehicleId: zod.uuid().optional(),
+  recordedMileage: zod.number().optional(),
+  recordedById: zod.uuid().optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type MileageLogDto = zod.input<typeof MileageLogDto>;
 export type MileageLogDtoOutput = zod.output<typeof MileageLogDto>;

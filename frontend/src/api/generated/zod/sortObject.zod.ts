@@ -7,10 +7,10 @@
 import { z as zod } from 'zod';
 
 export const SortObject = zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-})
+  sorted: zod.boolean().optional(),
+  unsorted: zod.boolean().optional(),
+  empty: zod.boolean().optional(),
+});
 
 export type SortObject = zod.input<typeof SortObject>;
 export type SortObjectOutput = zod.output<typeof SortObject>;

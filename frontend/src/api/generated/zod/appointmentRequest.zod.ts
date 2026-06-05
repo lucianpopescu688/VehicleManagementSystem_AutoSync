@@ -7,11 +7,11 @@
 import { z as zod } from 'zod';
 
 export const AppointmentRequest = zod.object({
-  "vehicleId": zod.uuid(),
-  "targetShopId": zod.uuid(),
-  "scheduledFor": zod.iso.datetime({"offset":true}).optional(),
-  "notes": zod.string().optional()
-})
+  vehicleId: zod.uuid(),
+  targetShopId: zod.uuid(),
+  scheduledFor: zod.iso.datetime({ offset: true }).optional(),
+  notes: zod.string().optional(),
+});
 
 export type AppointmentRequest = zod.input<typeof AppointmentRequest>;
 export type AppointmentRequestOutput = zod.output<typeof AppointmentRequest>;

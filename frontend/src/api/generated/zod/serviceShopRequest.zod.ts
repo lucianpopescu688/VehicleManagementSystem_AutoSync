@@ -6,14 +6,12 @@
  */
 import { z as zod } from 'zod';
 
-
-
 export const ServiceShopRequest = zod.object({
-  "name": zod.string().min(1).optional(),
-  "address": zod.string().optional(),
-  "contactEmail": zod.string().optional(),
-  "contactPhone": zod.string().optional()
-})
+  name: zod.string().min(1).optional(),
+  address: zod.string().optional(),
+  contactEmail: zod.string().optional(),
+  contactPhone: zod.string().optional(),
+});
 
 export type ServiceShopRequest = zod.input<typeof ServiceShopRequest>;
 export type ServiceShopRequestOutput = zod.output<typeof ServiceShopRequest>;

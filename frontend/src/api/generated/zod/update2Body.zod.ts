@@ -6,15 +6,13 @@
  */
 import { z as zod } from 'zod';
 
-
-
 export const Update2Body = zod.object({
-  "vehicleId": zod.uuid(),
-  "partName": zod.string().min(1).optional(),
-  "lifespanKm": zod.number(),
-  "lastReplacedMileage": zod.number(),
-  "notes": zod.string().optional()
-})
+  vehicleId: zod.uuid(),
+  partName: zod.string().min(1).optional(),
+  lifespanKm: zod.number(),
+  lastReplacedMileage: zod.number(),
+  notes: zod.string().optional(),
+});
 
 export type Update2Body = zod.input<typeof Update2Body>;
 export type Update2BodyOutput = zod.output<typeof Update2Body>;

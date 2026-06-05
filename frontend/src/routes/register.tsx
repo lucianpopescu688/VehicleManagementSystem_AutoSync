@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { decodeJwtPayload } from '@/api/auth'
 import { register } from '@/api/generated/auth-controller/auth-controller'
 import { RegisterSchema } from '@/api/schemas'
@@ -49,10 +50,25 @@ function RegisterPage() {
     email: '',
     password: '',
     role: 'STANDARD_USER' as Exclude<Role, 'ADMIN'>,
+    serviceShopMode: 'join' as 'join' | 'new',
+    serviceShopId: '',
+    newServiceShopName: '',
+    newServiceShopAddress: '',
+    newServiceShopEmail: '',
+    newServiceShopPhone: '',
   })
   const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({})
   const [serverError, setServerError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const { data: approvedShops = [] } = useQuery({
+    queryKey: ['approved-shops'],
+    queryFn: async () => {
+      // Need to import getApprovedServiceShops
+      const { getApprovedServiceShops } = await import('@/api/generated/service-shop/service-shop')
+      return getApprovedServiceShops() ?? []
+    },
+  })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -72,7 +88,31 @@ function RegisterPage() {
     setLoading(true)
 
     try {
-      const data = await register(result.data)
+      const payloadData: any = { ...result.data }
+      if (form.role === 'SERVICE_SHOP_REPRESENTATIVE') {
+        if (form.serviceShopMode === 'join') {
+          if (!form.serviceShopId) {
+            setServerError('Please select a service shop.')
+            setLoading(false)
+            return
+          }
+          payloadData.serviceShopId = form.serviceShopId
+        } else {
+          if (!form.newServiceShopName) {
+            setServerError('Shop name is required.')
+            setLoading(false)
+            return
+          }
+          payloadData.newServiceShop = {
+            name: form.newServiceShopName,
+            address: form.newServiceShopAddress,
+            contactEmail: form.newServiceShopEmail,
+            contactPhone: form.newServiceShopPhone,
+          }
+        }
+      }
+
+      const data = await register(payloadData)
       const payload = decodeJwtPayload(data.token ?? '')
       const email = typeof payload.sub === 'string' ? payload.sub : form.email
       const role = (payload.role ?? form.role) as Role
@@ -248,6 +288,93 @@ function RegisterPage() {
                 )}
               </select>
             </Field>
+
+            {form.role === 'SERVICE_SHOP_REPRESENTATIVE' && (
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-4">
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="shopMode"
+                      value="join"
+                      checked={form.serviceShopMode === 'join'}
+                      onChange={(e) => setForm({ ...form, serviceShopMode: 'join' })}
+                      className="text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-slate-700">Join Existing Shop</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="shopMode"
+                      value="new"
+                      checked={form.serviceShopMode === 'new'}
+                      onChange={(e) => setForm({ ...form, serviceShopMode: 'new' })}
+                      className="text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-slate-700">Register New Shop</span>
+                  </label>
+                </div>
+
+                {form.serviceShopMode === 'join' ? (
+                  <Field label="Select Service Shop">
+                    <select
+                      value={form.serviceShopId}
+                      onChange={set('serviceShopId')}
+                      className={selectCls}
+                    >
+                      <option value="" disabled>-- Select a Shop --</option>
+                      {approvedShops.map((shop: any) => (
+                        <option key={shop.id} value={shop.id}>
+                          {shop.name} ({shop.address})
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                ) : (
+                  <div className="space-y-3">
+                    <Field label="Shop Name">
+                      <input
+                        type="text"
+                        value={form.newServiceShopName}
+                        onChange={set('newServiceShopName')}
+                        placeholder="e.g. AutoFix Garage"
+                        className={inputCls}
+                      />
+                    </Field>
+                    <Field label="Shop Address">
+                      <input
+                        type="text"
+                        value={form.newServiceShopAddress}
+                        onChange={set('newServiceShopAddress')}
+                        placeholder="123 Main St"
+                        className={inputCls}
+                      />
+                    </Field>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field label="Contact Email">
+                        <input
+                          type="email"
+                          value={form.newServiceShopEmail}
+                          onChange={set('newServiceShopEmail')}
+                          placeholder="shop@example.com"
+                          className={inputCls}
+                        />
+                      </Field>
+                      <Field label="Contact Phone">
+                        <input
+                          type="text"
+                          value={form.newServiceShopPhone}
+                          onChange={set('newServiceShopPhone')}
+                          placeholder="555-0123"
+                          className={inputCls}
+                        />
+                      </Field>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               type="submit"

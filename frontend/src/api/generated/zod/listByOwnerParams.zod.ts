@@ -9,9 +9,9 @@ import { z as zod } from 'zod';
 export const listByOwnerParamsPageDefault = 0;
 export const listByOwnerParamsSizeDefault = 20;
 export const ListByOwnerParams = zod.object({
-  "page": zod.number().default(listByOwnerParamsPageDefault),
-  "size": zod.number().default(listByOwnerParamsSizeDefault)
-})
+  page: zod.number().default(listByOwnerParamsPageDefault),
+  size: zod.number().default(listByOwnerParamsSizeDefault),
+});
 
 export type ListByOwnerParams = zod.input<typeof ListByOwnerParams>;
 export type ListByOwnerParamsOutput = zod.output<typeof ListByOwnerParams>;

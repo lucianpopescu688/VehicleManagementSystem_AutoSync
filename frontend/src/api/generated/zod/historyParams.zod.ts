@@ -9,9 +9,9 @@ import { z as zod } from 'zod';
 export const historyParamsPageDefault = 0;
 export const historyParamsSizeDefault = 20;
 export const HistoryParams = zod.object({
-  "page": zod.number().default(historyParamsPageDefault),
-  "size": zod.number().default(historyParamsSizeDefault)
-})
+  page: zod.number().default(historyParamsPageDefault),
+  size: zod.number().default(historyParamsSizeDefault),
+});
 
 export type HistoryParams = zod.input<typeof HistoryParams>;
 export type HistoryParamsOutput = zod.output<typeof HistoryParams>;

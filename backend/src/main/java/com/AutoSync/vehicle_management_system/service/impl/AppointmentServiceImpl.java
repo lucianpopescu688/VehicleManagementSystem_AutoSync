@@ -13,6 +13,10 @@ import com.AutoSync.vehicle_management_system.repository.AppointmentRepository;
 import com.AutoSync.vehicle_management_system.repository.ServiceShopRepository;
 import com.AutoSync.vehicle_management_system.repository.UserRepository;
 import com.AutoSync.vehicle_management_system.repository.VehicleRepository;
+import com.AutoSync.vehicle_management_system.model.MaintenanceAlert;
+import com.AutoSync.vehicle_management_system.model.ConsumablePart;
+import com.AutoSync.vehicle_management_system.repository.ConsumablePartRepository;
+import com.AutoSync.vehicle_management_system.service.AlertService;
 import com.AutoSync.vehicle_management_system.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final UserRepository userRepository;
     private final ServiceShopRepository serviceShopRepository;
     private final AppointmentMapper appointmentMapper;
+    private final AlertService alertService;
+    private final ConsumablePartRepository consumablePartRepository;
 
     @Override
     @Transactional
@@ -92,6 +98,27 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
         appointment.setStatus(status);
+
+        if (status == AppointmentStatus.COMPLETED) {
+            Vehicle vehicle = appointment.getVehicle();
+            
+            // Resolve all active alerts for this vehicle
+            List<MaintenanceAlert> alerts = alertService.getUnresolvedForVehicle(vehicle.getId());
+            for (MaintenanceAlert alert : alerts) {
+                alertService.resolve(alert.getId());
+            }
+
+            // Reset all consumable parts requiring maintenance
+            List<ConsumablePart> parts = consumablePartRepository.findByVehicle_Id(vehicle.getId());
+            for (ConsumablePart part : parts) {
+                if (part.isMaintenanceRequired()) {
+                    part.setMaintenanceRequired(false);
+                    part.setLastReplacedMileage(vehicle.getCurrentMileage());
+                    consumablePartRepository.save(part);
+                }
+            }
+        }
+
         return appointmentMapper.toDto(appointmentRepository.save(appointment));
     }
 

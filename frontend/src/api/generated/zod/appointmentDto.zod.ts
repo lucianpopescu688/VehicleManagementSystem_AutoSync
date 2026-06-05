@@ -7,17 +7,19 @@
 import { z as zod } from 'zod';
 
 export const AppointmentDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "requestedById": zod.uuid().optional(),
-  "targetShopId": zod.uuid().optional(),
-  "requestedAt": zod.iso.datetime({"offset":true}).optional(),
-  "scheduledFor": zod.iso.datetime({"offset":true}).optional(),
-  "status": zod.enum(['PENDING', 'ACCEPTED', 'REJECTED', 'COMPLETED', 'CANCELLED']).optional(),
-  "notes": zod.string().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional(),
-  "updatedAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  vehicleId: zod.uuid().optional(),
+  requestedById: zod.uuid().optional(),
+  targetShopId: zod.uuid().optional(),
+  requestedAt: zod.iso.datetime({ offset: true }).optional(),
+  scheduledFor: zod.iso.datetime({ offset: true }).optional(),
+  status: zod
+    .enum(['PENDING', 'ACCEPTED', 'REJECTED', 'COMPLETED', 'CANCELLED'])
+    .optional(),
+  notes: zod.string().optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+  updatedAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type AppointmentDto = zod.input<typeof AppointmentDto>;
 export type AppointmentDtoOutput = zod.output<typeof AppointmentDto>;

@@ -7,39 +7,49 @@
 import { z as zod } from 'zod';
 
 export const PageMileageLogDto = zod.object({
-  "totalElements": zod.number().optional(),
-  "totalPages": zod.number().optional(),
-  "pageable": zod.object({
-  "paged": zod.boolean().optional(),
-  "pageNumber": zod.number().optional(),
-  "pageSize": zod.number().optional(),
-  "unpaged": zod.boolean().optional(),
-  "offset": zod.number().optional(),
-  "sort": zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-}).optional()
-}).optional(),
-  "first": zod.boolean().optional(),
-  "last": zod.boolean().optional(),
-  "size": zod.number().optional(),
-  "content": zod.array(zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "recordedMileage": zod.number().optional(),
-  "recordedById": zod.uuid().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional()
-})).optional(),
-  "number": zod.number().optional(),
-  "sort": zod.object({
-  "sorted": zod.boolean().optional(),
-  "unsorted": zod.boolean().optional(),
-  "empty": zod.boolean().optional()
-}).optional(),
-  "numberOfElements": zod.number().optional(),
-  "empty": zod.boolean().optional()
-})
+  totalElements: zod.number().optional(),
+  totalPages: zod.number().optional(),
+  pageable: zod
+    .object({
+      pageNumber: zod.number().optional(),
+      paged: zod.boolean().optional(),
+      pageSize: zod.number().optional(),
+      unpaged: zod.boolean().optional(),
+      offset: zod.number().optional(),
+      sort: zod
+        .object({
+          sorted: zod.boolean().optional(),
+          unsorted: zod.boolean().optional(),
+          empty: zod.boolean().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+  first: zod.boolean().optional(),
+  last: zod.boolean().optional(),
+  numberOfElements: zod.number().optional(),
+  size: zod.number().optional(),
+  content: zod
+    .array(
+      zod.object({
+        id: zod.uuid().optional(),
+        vehicleId: zod.uuid().optional(),
+        recordedMileage: zod.number().optional(),
+        recordedById: zod.uuid().optional(),
+        createdAt: zod.iso.datetime({ offset: true }).optional(),
+      })
+    )
+    .optional(),
+  number: zod.number().optional(),
+  sort: zod
+    .object({
+      sorted: zod.boolean().optional(),
+      unsorted: zod.boolean().optional(),
+      empty: zod.boolean().optional(),
+    })
+    .optional(),
+  empty: zod.boolean().optional(),
+});
 
 export type PageMileageLogDto = zod.input<typeof PageMileageLogDto>;
 export type PageMileageLogDtoOutput = zod.output<typeof PageMileageLogDto>;

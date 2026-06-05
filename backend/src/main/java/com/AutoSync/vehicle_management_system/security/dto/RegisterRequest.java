@@ -16,4 +16,10 @@ public class RegisterRequest {
     private String email;
     private String password;
     private Role role;
+    
+    // Optional: ID of an existing service shop to join
+    private java.util.UUID serviceShopId;
+    
+    // Optional: Details to create a brand new service shop
+    private com.AutoSync.vehicle_management_system.dto.ServiceShopRequest newServiceShop;
 }

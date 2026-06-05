@@ -7,15 +7,15 @@
 import { z as zod } from 'zod';
 
 export const ServiceShopDto = zod.object({
-  "id": zod.uuid().optional(),
-  "name": zod.string().optional(),
-  "address": zod.string().optional(),
-  "contactEmail": zod.string().optional(),
-  "contactPhone": zod.string().optional(),
-  "approved": zod.boolean().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional(),
-  "updatedAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  name: zod.string().optional(),
+  address: zod.string().optional(),
+  contactEmail: zod.string().optional(),
+  contactPhone: zod.string().optional(),
+  approved: zod.boolean().optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+  updatedAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type ServiceShopDto = zod.input<typeof ServiceShopDto>;
 export type ServiceShopDtoOutput = zod.output<typeof ServiceShopDto>;

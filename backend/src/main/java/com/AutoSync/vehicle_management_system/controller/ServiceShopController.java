@@ -23,6 +23,7 @@ public class ServiceShopController {
 
     @PostMapping
     @Operation(summary = "Register a new service shop")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceShopDto> createServiceShop(@Valid @RequestBody ServiceShopRequest request) {
         return new ResponseEntity<>(serviceShopService.createServiceShop(request), HttpStatus.CREATED);
     }

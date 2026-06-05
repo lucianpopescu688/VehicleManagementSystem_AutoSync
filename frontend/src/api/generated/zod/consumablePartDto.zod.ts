@@ -7,16 +7,16 @@
 import { z as zod } from 'zod';
 
 export const ConsumablePartDto = zod.object({
-  "id": zod.uuid().optional(),
-  "vehicleId": zod.uuid().optional(),
-  "partName": zod.string().optional(),
-  "lifespanKm": zod.number().optional(),
-  "lastReplacedMileage": zod.number().optional(),
-  "maintenanceRequired": zod.boolean().optional(),
-  "notes": zod.string().optional(),
-  "createdAt": zod.iso.datetime({"offset":true}).optional(),
-  "updatedAt": zod.iso.datetime({"offset":true}).optional()
-})
+  id: zod.uuid().optional(),
+  vehicleId: zod.uuid().optional(),
+  partName: zod.string().optional(),
+  lifespanKm: zod.number().optional(),
+  lastReplacedMileage: zod.number().optional(),
+  maintenanceRequired: zod.boolean().optional(),
+  notes: zod.string().optional(),
+  createdAt: zod.iso.datetime({ offset: true }).optional(),
+  updatedAt: zod.iso.datetime({ offset: true }).optional(),
+});
 
 export type ConsumablePartDto = zod.input<typeof ConsumablePartDto>;
 export type ConsumablePartDtoOutput = zod.output<typeof ConsumablePartDto>;

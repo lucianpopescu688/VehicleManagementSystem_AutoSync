@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY gradle/ gradle/
 COPY gradlew settings.gradle build.gradle ./
+RUN sed -i 's/\r$//' gradlew
 RUN ./gradlew dependencies --no-daemon -q
 
 COPY src/ src/
@@ -18,5 +19,5 @@ USER spring
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=8080"]
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=8081"]
