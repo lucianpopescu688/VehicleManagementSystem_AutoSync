@@ -499,21 +499,3 @@ function NavItem({
     </Link>
   );
 }
-
-function DisabledNavItem({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-300 cursor-not-allowed select-none">
-      {children}
-      <span>{label}</span>
-      <span className="ml-auto text-[9px] font-semibold bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded uppercase tracking-wide">
-        Soon
-      </span>
-    </div>
-  );
-}

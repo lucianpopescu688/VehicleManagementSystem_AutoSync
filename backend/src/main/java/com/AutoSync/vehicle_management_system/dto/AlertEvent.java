@@ -13,6 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlertEvent implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String recipientEmail;
     private String recipientName;
     private AlertType alertType;

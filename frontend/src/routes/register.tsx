@@ -298,7 +298,7 @@ function RegisterPage() {
                       name="shopMode"
                       value="join"
                       checked={form.serviceShopMode === 'join'}
-                      onChange={(e) => setForm({ ...form, serviceShopMode: 'join' })}
+                      onChange={() => setForm({ ...form, serviceShopMode: 'join' })}
                       className="text-primary focus:ring-primary"
                     />
                     <span className="text-sm font-medium text-slate-700">Join Existing Shop</span>
@@ -309,7 +309,7 @@ function RegisterPage() {
                       name="shopMode"
                       value="new"
                       checked={form.serviceShopMode === 'new'}
-                      onChange={(e) => setForm({ ...form, serviceShopMode: 'new' })}
+                      onChange={() => setForm({ ...form, serviceShopMode: 'new' })}
                       className="text-primary focus:ring-primary"
                     />
                     <span className="text-sm font-medium text-slate-700">Register New Shop</span>

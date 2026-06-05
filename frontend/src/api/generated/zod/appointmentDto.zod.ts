@@ -9,14 +9,21 @@ import { z as zod } from 'zod';
 export const AppointmentDto = zod.object({
   id: zod.uuid().optional(),
   vehicleId: zod.uuid().optional(),
+  vehicleName: zod.string().optional(),
   requestedById: zod.uuid().optional(),
   targetShopId: zod.uuid().optional(),
+  targetShopName: zod.string().optional(),
   requestedAt: zod.iso.datetime({ offset: true }).optional(),
   scheduledFor: zod.iso.datetime({ offset: true }).optional(),
   status: zod
     .enum(['PENDING', 'ACCEPTED', 'REJECTED', 'COMPLETED', 'CANCELLED'])
     .optional(),
   notes: zod.string().optional(),
+  recordedMileage: zod.number().optional(),
+  totalCost: zod.number().optional(),
+  mechanicNotes: zod.string().optional(),
+  completedAt: zod.iso.datetime({ offset: true }).optional(),
+  completedById: zod.uuid().optional(),
   createdAt: zod.iso.datetime({ offset: true }).optional(),
   updatedAt: zod.iso.datetime({ offset: true }).optional(),
 });

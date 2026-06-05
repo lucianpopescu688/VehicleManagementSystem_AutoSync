@@ -35,6 +35,7 @@ public class EmailConsumer {
         return switch (event.getAlertType()) {
             case WEAR -> "[AutoSync] Maintenance Required — " + event.getVehicleName();
             case EXPIRY -> "[AutoSync] Document Expiring Soon — " + event.getVehicleName();
+            case SERVICE_COMPLETED -> "[AutoSync] Service Completed — " + event.getVehicleName();
         };
     }
 

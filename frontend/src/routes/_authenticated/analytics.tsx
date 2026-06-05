@@ -49,7 +49,9 @@ function AnalyticsPage() {
   const statusCounts = { active: 0, maintenance: 0, inactive: 0 }
   vehicles.forEach(v => {
     const st = vehicleStatusFor(v)
-    if (statusCounts[st] !== undefined) statusCounts[st]++
+    if (st === 'ACTIVE') statusCounts.active++
+    else if (st === 'IN SERVICE') statusCounts.maintenance++
+    else statusCounts.inactive++
   })
   const statusData = [
     { name: 'Active', value: statusCounts.active, color: STATUS_COLORS.active },

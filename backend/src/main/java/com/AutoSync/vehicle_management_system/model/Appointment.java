@@ -56,6 +56,23 @@ public class Appointment {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    // ─── Completion data (set on POST /complete) ──────────────────────────────
+    @Column(name = "recorded_mileage")
+    private Integer recordedMileage;
+
+    @Column(name = "total_cost", precision = 12, scale = 2)
+    private java.math.BigDecimal totalCost;
+
+    @Column(name = "mechanic_notes", columnDefinition = "TEXT")
+    private String mechanicNotes;
+
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
+    @Column(name = "completed_by_id")
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID completedById;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

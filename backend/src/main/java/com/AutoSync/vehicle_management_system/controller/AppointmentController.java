@@ -2,6 +2,7 @@ package com.AutoSync.vehicle_management_system.controller;
 
 import com.AutoSync.vehicle_management_system.dto.AppointmentDto;
 import com.AutoSync.vehicle_management_system.dto.AppointmentRequest;
+import com.AutoSync.vehicle_management_system.dto.CompleteAppointmentRequest;
 import com.AutoSync.vehicle_management_system.model.AppointmentStatus;
 import com.AutoSync.vehicle_management_system.model.User;
 import com.AutoSync.vehicle_management_system.service.AppointmentService;
@@ -69,6 +70,16 @@ public class AppointmentController {
             @PathVariable UUID id,
             @RequestParam AppointmentStatus status) {
         return ResponseEntity.ok(appointmentService.updateAppointmentStatus(id, status));
+    }
+
+    @PostMapping("/{id}/complete")
+    @Operation(summary = "Complete an appointment: reset serviced parts, resolve alerts, notify owner")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'SERVICE_SHOP_REPRESENTATIVE')")
+    public ResponseEntity<AppointmentDto> completeAppointment(
+            @PathVariable UUID id,
+            @Valid @RequestBody CompleteAppointmentRequest request,
+            @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(appointmentService.completeAppointment(id, request, user.getId()));
     }
 
     @DeleteMapping("/{id}")

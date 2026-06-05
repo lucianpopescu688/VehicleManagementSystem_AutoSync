@@ -9,6 +9,8 @@ export * from './appointmentDto.zod';
 export * from './appointmentRequest.zod';
 export * from './authenticateBody.zod';
 export * from './authenticationResponse.zod';
+export * from './completeAppointmentBody.zod';
+export * from './completeAppointmentRequest.zod';
 export * from './consumablePartDto.zod';
 export * from './consumablePartRequest.zod';
 export * from './create1Body.zod';

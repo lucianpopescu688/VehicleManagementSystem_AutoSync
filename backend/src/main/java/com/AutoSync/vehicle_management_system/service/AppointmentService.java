@@ -2,6 +2,7 @@ package com.AutoSync.vehicle_management_system.service;
 
 import com.AutoSync.vehicle_management_system.dto.AppointmentDto;
 import com.AutoSync.vehicle_management_system.dto.AppointmentRequest;
+import com.AutoSync.vehicle_management_system.dto.CompleteAppointmentRequest;
 import com.AutoSync.vehicle_management_system.model.AppointmentStatus;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface AppointmentService {
     List<AppointmentDto> getAppointmentsByRequestedBy(UUID userId);
     List<AppointmentDto> getAppointmentsByShop(UUID shopId);
     AppointmentDto updateAppointmentStatus(UUID id, AppointmentStatus status);
+    AppointmentDto completeAppointment(UUID id, CompleteAppointmentRequest request, UUID completedById);
     void deleteAppointment(UUID id);
 }

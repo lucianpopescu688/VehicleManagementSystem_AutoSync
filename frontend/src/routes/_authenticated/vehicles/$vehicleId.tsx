@@ -8,12 +8,13 @@ import { queryKeys } from '@/lib/query-keys'
 import { log, history as fetchMileageHistory } from '@/api/generated/mileage-controller/mileage-controller'
 import { create2, update2, delete2, listByVehicle1 } from '@/api/generated/consumable-part-controller/consumable-part-controller'
 import { create1, update1, delete1, listByVehicle } from '@/api/generated/legal-document-controller/legal-document-controller'
+import { useGetAppointmentsByVehicle } from '@/api/generated/appointment/appointment'
 
 export const Route = createFileRoute('/_authenticated/vehicles/$vehicleId')({
   component: VehicleDetailPage,
 })
 
-type Tab = 'details' | 'mileage' | 'parts' | 'documents'
+type Tab = 'details' | 'mileage' | 'parts' | 'documents' | 'service'
 
 function VehicleDetailPage() {
   const { vehicleId } = Route.useParams()
@@ -64,6 +65,7 @@ function VehicleDetailPage() {
     { key: 'mileage', label: 'Mileage' },
     { key: 'parts', label: 'Parts' },
     { key: 'documents', label: 'Documents' },
+    { key: 'service', label: 'Service' },
   ]
 
   return (
@@ -104,6 +106,72 @@ function VehicleDetailPage() {
       {activeTab === 'mileage' && <MileageTab vehicle={vehicle} />}
       {activeTab === 'parts' && <ConsumablePartsTab vehicle={vehicle} />}
       {activeTab === 'documents' && <LegalDocumentsTab vehicle={vehicle} />}
+      {activeTab === 'service' && <ServiceTab vehicle={vehicle} />}
+    </div>
+  )
+}
+
+// ─── Service Tab ──────────────────────────────────────────────────────────────
+
+const APPT_STATUS_STYLES: Record<string, string> = {
+  COMPLETED: 'bg-green-100 text-green-700',
+  CANCELLED: 'bg-red-100 text-red-700',
+  REJECTED: 'bg-red-100 text-red-700',
+  ACCEPTED: 'bg-blue-100 text-blue-700',
+  PENDING: 'bg-amber-100 text-amber-700',
+}
+
+function ServiceTab({ vehicle }: { vehicle: Vehicle }) {
+  // Poll every 10s so a completion by the shop shows up without a manual refresh.
+  const { data: appointments = [], isLoading } = useGetAppointmentsByVehicle(vehicle.id, {
+    query: { refetchInterval: 10_000 },
+  })
+
+  if (isLoading) {
+    return <p className="text-sm text-slate-400 py-4">Loading service history…</p>
+  }
+
+  if (appointments.length === 0) {
+    return <p className="text-sm text-slate-400 py-4">No service appointments for this vehicle yet.</p>
+  }
+
+  return (
+    <div className="max-w-2xl space-y-4">
+      <h3 className="font-[Manrope] font-bold text-sm text-neutral-dark">Service History</h3>
+      <div className="bg-white border border-slate-100 shadow-sm overflow-hidden" style={{ borderRadius: '12px' }}>
+        <ul className="divide-y divide-slate-50">
+          {appointments.map((a) => (
+            <li key={a.id} className="px-5 py-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-sm text-neutral-dark">
+                      {a.targetShopName ?? 'Service shop'}
+                    </span>
+                    <span
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase ${APPT_STATUS_STYLES[a.status ?? 'PENDING'] ?? 'bg-slate-100 text-slate-600'}`}
+                    >
+                      {a.status}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    {a.scheduledFor ? `Scheduled ${new Date(a.scheduledFor).toLocaleDateString()}` : 'Not scheduled'}
+                    {a.completedAt && ` · Completed ${new Date(a.completedAt).toLocaleDateString()}`}
+                  </p>
+                  {a.notes && <p className="text-xs text-slate-500 mt-1">{a.notes}</p>}
+                  {a.status === 'COMPLETED' && (
+                    <p className="text-xs text-slate-500 mt-1">
+                      {a.recordedMileage != null && `Mileage: ${a.recordedMileage.toLocaleString()} km`}
+                      {a.totalCost != null && ` · Cost: ${a.totalCost}`}
+                      {a.mechanicNotes && ` · ${a.mechanicNotes}`}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

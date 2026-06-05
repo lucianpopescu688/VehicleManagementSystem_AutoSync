@@ -10,7 +10,7 @@ export const MaintenanceAlertDto = zod.object({
   id: zod.uuid().optional(),
   vehicleId: zod.uuid().optional(),
   vehicleName: zod.string().optional(),
-  alertType: zod.enum(['WEAR', 'EXPIRY']).optional(),
+  alertType: zod.enum(['WEAR', 'EXPIRY', 'SERVICE_COMPLETED']).optional(),
   message: zod.string().optional(),
   resolved: zod.boolean().optional(),
   resolvedAt: zod.iso.datetime({ offset: true }).optional(),

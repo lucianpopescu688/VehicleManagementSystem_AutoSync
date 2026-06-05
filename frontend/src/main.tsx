@@ -6,6 +6,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 // If TypeScript shows an error here, run `npm run dev` once to generate the file.
 import { routeTree } from './routeTree.gen'
 import { queryClient } from './lib/query-client'
+import { ToastProvider } from './components/Toast'
 import './index.css'
 
 const router = createRouter({
@@ -22,7 +23,9 @@ declare module '@tanstack/react-router' {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

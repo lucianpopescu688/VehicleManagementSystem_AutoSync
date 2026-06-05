@@ -25,9 +25,9 @@ export const PageVehicleDto = zod.object({
         .optional(),
     })
     .optional(),
+  numberOfElements: zod.number().optional(),
   first: zod.boolean().optional(),
   last: zod.boolean().optional(),
-  numberOfElements: zod.number().optional(),
   size: zod.number().optional(),
   content: zod
     .array(

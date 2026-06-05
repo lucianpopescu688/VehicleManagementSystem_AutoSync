@@ -23,6 +23,7 @@ import type {
 import type {
   AppointmentDto,
   AppointmentRequest,
+  CompleteAppointmentRequest,
   UpdateAppointmentStatusParams,
 } from '../zod';
 
@@ -107,6 +108,90 @@ export const useCreateAppointment = <TError = unknown, TContext = unknown>(
   TContext
 > => {
   return useMutation(getCreateAppointmentMutationOptions(options), queryClient);
+};
+/**
+ * @summary Complete an appointment: reset serviced parts, resolve alerts, notify owner
+ */
+export const completeAppointment = (
+  id: string,
+  completeAppointmentRequest: CompleteAppointmentRequest,
+  signal?: AbortSignal
+) => {
+  return orvalInstance<AppointmentDto>({
+    url: `/v1/appointments/${id}/complete`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: completeAppointmentRequest,
+    signal,
+  });
+};
+
+export const getCompleteAppointmentMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof completeAppointment>>,
+    TError,
+    { id: string; data: CompleteAppointmentRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof completeAppointment>>,
+  TError,
+  { id: string; data: CompleteAppointmentRequest },
+  TContext
+> => {
+  const mutationKey = ['completeAppointment'];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof completeAppointment>>,
+    { id: string; data: CompleteAppointmentRequest }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return completeAppointment(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CompleteAppointmentMutationResult = NonNullable<
+  Awaited<ReturnType<typeof completeAppointment>>
+>;
+export type CompleteAppointmentMutationBody = CompleteAppointmentRequest;
+export type CompleteAppointmentMutationError = unknown;
+
+/**
+ * @summary Complete an appointment: reset serviced parts, resolve alerts, notify owner
+ */
+export const useCompleteAppointment = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof completeAppointment>>,
+      TError,
+      { id: string; data: CompleteAppointmentRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof completeAppointment>>,
+  TError,
+  { id: string; data: CompleteAppointmentRequest },
+  TContext
+> => {
+  return useMutation(
+    getCompleteAppointmentMutationOptions(options),
+    queryClient
+  );
 };
 /**
  * @summary Update appointment status

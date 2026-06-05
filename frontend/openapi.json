@@ -652,6 +652,48 @@
         }
       }
     },
+    "/v1/appointments/{id}/complete": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "summary": "Complete an appointment: reset serviced parts, resolve alerts, notify owner",
+        "operationId": "completeAppointment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteAppointmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/alerts/{id}/resolve": {
       "post": {
         "tags": [
@@ -1604,6 +1646,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "vehicleName": {
+            "type": "string"
+          },
           "requestedById": {
             "type": "string",
             "format": "uuid"
@@ -1611,6 +1656,9 @@
           "targetShopId": {
             "type": "string",
             "format": "uuid"
+          },
+          "targetShopName": {
+            "type": "string"
           },
           "requestedAt": {
             "type": "string",
@@ -1633,6 +1681,24 @@
           "notes": {
             "type": "string"
           },
+          "recordedMileage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCost": {
+            "type": "number"
+          },
+          "mechanicNotes": {
+            "type": "string"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedById": {
+            "type": "string",
+            "format": "uuid"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1640,6 +1706,35 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "CompleteAppointmentRequest": {
+        "type": "object",
+        "properties": {
+          "recordedMileage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCost": {
+            "type": "number"
+          },
+          "mechanicNotes": {
+            "type": "string"
+          },
+          "resetPartIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "resolveAlertIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -1661,7 +1756,8 @@
             "type": "string",
             "enum": [
               "WEAR",
-              "EXPIRY"
+              "EXPIRY",
+              "SERVICE_COMPLETED"
             ]
           },
           "message": {
@@ -1694,15 +1790,15 @@
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
           },
           "size": {
             "type": "integer",
@@ -1780,15 +1876,15 @@
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
           },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
           },
           "size": {
             "type": "integer",
