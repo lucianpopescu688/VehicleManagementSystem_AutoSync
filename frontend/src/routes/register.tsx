@@ -324,7 +324,7 @@ function RegisterPage() {
                       className={selectCls}
                     >
                       <option value="" disabled>-- Select a Shop --</option>
-                      {approvedShops.map((shop: { id: string; name: string; address: string }) => (
+                      {approvedShops.map((shop) => (
                         <option key={shop.id} value={shop.id}>
                           {shop.name} ({shop.address})
                         </option>

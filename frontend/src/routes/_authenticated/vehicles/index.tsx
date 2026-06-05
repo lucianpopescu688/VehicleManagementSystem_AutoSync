@@ -9,7 +9,7 @@ import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/')({
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): { q?: string } => {
     return {
       q: (search.q as string) || undefined,
     }

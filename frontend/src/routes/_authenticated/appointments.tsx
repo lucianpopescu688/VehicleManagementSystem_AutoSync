@@ -360,7 +360,7 @@ function CompleteAppointmentModal({
                     {unresolvedAlerts.map(alert => (
                       <label key={alert.id} className="flex items-start space-x-2 text-sm text-slate-700 cursor-pointer">
                         <input type="checkbox" name="resolveAlertIds" value={alert.id} defaultChecked className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                        <span>{alert.message} <span className="text-xs text-slate-400">({alert.type})</span></span>
+                        <span>{alert.message} <span className="text-xs text-slate-400">({alert.alertType})</span></span>
                       </label>
                     ))}
                   </div>
@@ -374,7 +374,7 @@ function CompleteAppointmentModal({
                     {partsNeedingMaintenance.map(part => (
                       <label key={part.id} className="flex items-start space-x-2 text-sm text-slate-700 cursor-pointer">
                         <input type="checkbox" name="resetPartIds" value={part.id} defaultChecked className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                        <span>{part.name} <span className="text-xs text-slate-400">({part.partNumber})</span></span>
+                        <span>{part.partName}</span>
                       </label>
                     ))}
                   </div>
