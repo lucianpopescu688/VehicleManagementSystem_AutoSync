@@ -52,6 +52,8 @@ jobs:
 
       - name: Build and Test Backend
         working-directory: ./backend
+        env:
+          JWT_SECRET: ci-test-secret-not-for-production-use-0123456789abcdef0123456789abcdef
         run: ./gradlew build
 
   # ── Frontend: lint + build ─────────────────────────────────────────────────
