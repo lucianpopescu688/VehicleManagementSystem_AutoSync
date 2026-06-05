@@ -6,6 +6,8 @@ import com.AutoSync.vehicle_management_system.model.Vehicle;
 import com.AutoSync.vehicle_management_system.repository.ConsumablePartRepository;
 import com.AutoSync.vehicle_management_system.repository.LegalDocumentRepository;
 import com.AutoSync.vehicle_management_system.repository.MaintenanceAlertRepository;
+import com.AutoSync.vehicle_management_system.repository.AppointmentRepository;
+import com.AutoSync.vehicle_management_system.model.Appointment;
 import com.AutoSync.vehicle_management_system.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,29 +25,48 @@ public class VehicleOwnershipService {
     private final ConsumablePartRepository consumablePartRepository;
     private final LegalDocumentRepository legalDocumentRepository;
     private final MaintenanceAlertRepository alertRepository;
+    private final AppointmentRepository appointmentRepository;
+
+    public boolean canCompleteAppointment(UUID appointmentId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !(auth.getPrincipal() instanceof User user)) return false;
+        if (user.getRole() == Role.ADMIN) return true;
+
+        return appointmentRepository.findById(appointmentId)
+                .map(Appointment::getTargetShop)
+                .map(shop -> Objects.equals(shop.getId(), user.getServiceShopId()))
+                .orElse(false);
+    }
+
+    public boolean canAccessAppointment(UUID appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .map(Appointment::getVehicle)
+                .map(this::isAllowed)
+                .orElse(false);
+    }
 
     public boolean canAccessVehicle(UUID vehicleId) {
         return vehicleRepository.findById(vehicleId)
                 .map(this::isAllowed)
-                .orElse(true);
+                .orElse(false);
     }
 
     public boolean canAccessPart(UUID partId) {
         return consumablePartRepository.findById(partId)
                 .map(p -> isAllowed(p.getVehicle()))
-                .orElse(true);
+                .orElse(false);
     }
 
     public boolean canAccessDocument(UUID docId) {
         return legalDocumentRepository.findById(docId)
                 .map(d -> isAllowed(d.getVehicle()))
-                .orElse(true);
+                .orElse(false);
     }
 
     public boolean canAccessAlert(UUID alertId) {
         return alertRepository.findById(alertId)
                 .map(a -> isAllowed(a.getVehicle()))
-                .orElse(true);
+                .orElse(false);
     }
 
     private boolean isAllowed(Vehicle vehicle) {

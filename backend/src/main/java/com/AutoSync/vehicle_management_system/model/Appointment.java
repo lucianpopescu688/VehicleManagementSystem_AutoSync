@@ -10,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -72,6 +74,15 @@ public class Appointment {
     @Column(name = "completed_by_id")
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID completedById;
+
+    @ManyToMany
+    @JoinTable(
+        name = "appointment_reset_parts",
+        joinColumns = @JoinColumn(name = "appointment_id"),
+        inverseJoinColumns = @JoinColumn(name = "part_id")
+    )
+    @Builder.Default
+    private List<ConsumablePart> resetParts = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

@@ -9,6 +9,11 @@ import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 
 export const Route = createFileRoute('/_authenticated/vehicles/')({
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      q: (search.q as string) || undefined,
+    }
+  },
   component: VehiclesPage,
 })
 
@@ -25,11 +30,22 @@ const emptyForm: FormState = { vin: '', name: '', model: '', year: '', currentMi
 function VehiclesPage() {
   const role = useAuthStore((s) => s.role)
   const canManage = role === 'FLEET_MANAGER' || role === 'ADMIN' || role === 'STANDARD_USER'
+  const { q } = Route.useSearch()
 
   const qc = useQueryClient()
   const { data: vehicles = [], isLoading } = useQuery({
     queryKey: queryKeys.vehicles.all,
     queryFn: async () => ((await list()).content ?? []) as Vehicle[],
+  })
+
+  const filteredVehicles = vehicles.filter((v) => {
+    if (!q) return true
+    const s = q.toLowerCase()
+    return (
+      v.name?.toLowerCase().includes(s) ||
+      v.model?.toLowerCase().includes(s) ||
+      v.vin?.toLowerCase().includes(s)
+    )
   })
 
   const createMutation = useMutation({
@@ -108,7 +124,7 @@ function VehiclesPage() {
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Fleet</p>
           <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Fleet Details</h1>
           <p className="text-sm text-slate-500 mt-0.5">
-            {isLoading ? 'Loading…' : `${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''} in fleet`}
+            {isLoading ? 'Loading…' : `${filteredVehicles.length} vehicle${filteredVehicles.length !== 1 ? 's' : ''} found`}
           </p>
         </div>
         {canManage && (
@@ -128,15 +144,16 @@ function VehiclesPage() {
         )}
       </div>
 
-      {/* Table card */}
-      <div
-        className="bg-white border border-slate-100 shadow-sm overflow-hidden"
-        style={{ borderRadius: '12px', boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}
-      >
+      {/* Grid container */}
+      <div className="w-full">
         {isLoading ? (
-          <div className="p-12 text-center text-slate-400 text-sm">Loading vehicles…</div>
-        ) : vehicles.length === 0 ? (
-          <div className="p-12 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <VehiclePlaceholder />
+            <VehiclePlaceholder />
+            <VehiclePlaceholder />
+          </div>
+        ) : filteredVehicles.length === 0 ? (
+          <div className="p-12 text-center bg-white rounded-xl border border-slate-100 shadow-sm" style={{ boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}>
             <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
               <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V9a2 2 0 012-2h3l2-3h4l2 3h3a2 2 0 012 2v6a2 2 0 01-2 2h-4" />
@@ -144,44 +161,28 @@ function VehiclesPage() {
                 <circle cx="16.5" cy="17" r="1.5" />
               </svg>
             </div>
-            <p className="text-sm font-medium text-slate-500">No vehicles yet</p>
-            {canManage && (
+            <p className="text-sm font-medium text-slate-500">
+              {q ? `No vehicles match "${q}"` : 'No vehicles yet'}
+            </p>
+            {!q && canManage && (
               <p className="text-xs text-slate-400 mt-1">Click "Add Vehicle" to get started.</p>
             )}
           </div>
         ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="text-left px-5 py-3.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Vehicle
-                </th>
-                <th className="text-left px-5 py-3.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="text-left px-5 py-3.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Mileage
-                </th>
-                <th className="text-right px-5 py-3.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {vehicles.map((v) => (
-                <VehicleRow
-                  key={v.id}
-                  vehicle={v}
-                  maxMileage={maxMileage}
-                  canManage={canManage}
-                  onDelete={() => {
-                    setDeleteConfirmId(v.id)
-                    setDeleteVehicleName(v.name)
-                  }}
-                />
-              ))}
-            </tbody>
-          </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredVehicles.map((v) => (
+              <VehicleCard
+                key={v.id}
+                vehicle={v}
+                maxMileage={maxMileage}
+                canManage={canManage}
+                onDelete={() => {
+                  setDeleteConfirmId(v.id)
+                  setDeleteVehicleName(v.name)
+                }}
+              />
+            ))}
+          </div>
         )}
       </div>
 
@@ -295,7 +296,7 @@ function VehiclesPage() {
   )
 }
 
-function VehicleRow({
+function VehicleCard({
   vehicle: v,
   maxMileage,
   canManage,
@@ -310,29 +311,36 @@ function VehicleRow({
   const pct = Math.min(100, Math.round((v.currentMileage / maxMileage) * 100))
 
   return (
-    <tr className="border-b border-slate-50 hover:bg-slate-50/60 transition-colors">
-      {/* Vehicle info */}
-      <td className="px-5 py-3.5">
-        <div>
-          <p className="font-semibold text-neutral-dark">{v.name}</p>
-          <p className="text-xs text-slate-400 mt-0.5">
-            {v.model} &middot; {v.year} &middot; <span className="font-mono">{v.vin}</span>
-          </p>
+    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col hover:border-slate-200 transition-colors shadow-sm hover:shadow-md group relative"
+         style={{ boxShadow: '0 2px 8px -2px rgba(0,0,0,0.05)' }}>
+      {/* Top Banner (simulated placeholder image space) */}
+      <div className="h-24 bg-gradient-to-br from-slate-100 to-slate-200 relative">
+        <div className="absolute top-3 right-3">
+          <StatusBadge status={status} />
         </div>
-      </td>
-
-      {/* Status badge */}
-      <td className="px-5 py-3.5">
-        <StatusBadge status={status} />
-      </td>
-
-      {/* Mileage with progress bar */}
-      <td className="px-5 py-3.5">
-        <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-slate-700">{v.currentMileage.toLocaleString()} km</span>
-          <div className="w-28 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+      </div>
+      
+      {/* Content */}
+      <div className="px-5 pt-3 pb-5 flex flex-col flex-1">
+        <h3 className="font-bold text-neutral-dark text-lg mb-0.5 truncate">{v.name}</h3>
+        <p className="text-sm text-slate-500 font-medium mb-3">
+          {v.year} {v.model}
+        </p>
+        
+        <div className="flex items-center gap-2 mb-4">
+          <div className="px-2 py-1 bg-slate-100 rounded text-xs font-mono text-slate-600 font-medium truncate">
+            VIN: {v.vin}
+          </div>
+        </div>
+        
+        <div className="mt-auto pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Mileage</span>
+            <span className="text-sm font-semibold text-neutral-dark">{v.currentMileage.toLocaleString()} km</span>
+          </div>
+          <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div
-              className="h-full rounded-full"
+              className="h-full rounded-full transition-all duration-500"
               style={{
                 width: `${pct}%`,
                 backgroundColor: pct > 80 ? '#F97316' : '#0052CC',
@@ -340,35 +348,53 @@ function VehicleRow({
             />
           </div>
         </div>
-      </td>
+      </div>
 
-      {/* Actions */}
-      <td className="px-5 py-3.5">
-        {canManage && (
-          <div className="flex items-center gap-2 justify-end">
-            <Link
-              to="/vehicles/$vehicleId"
-              params={{ vehicleId: String(v.id) }}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-dark bg-primary-light hover:bg-blue-100 px-2.5 py-1.5 rounded-lg transition-colors"
-            >
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      {/* Overlay Actions */}
+      {canManage && (
+        <div className="absolute inset-0 bg-white/95 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3">
+          <Link
+            to="/vehicles/$vehicleId"
+            params={{ vehicleId: String(v.id) }}
+            className="flex flex-col items-center gap-1.5 text-primary hover:text-primary-dark transition-colors"
+          >
+            <div className="w-10 h-10 bg-primary-light rounded-full flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
-              Edit
-            </Link>
-            <button
-              onClick={onDelete}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
-            >
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            </div>
+            <span className="text-xs font-bold">Edit / View</span>
+          </Link>
+          <button
+            onClick={onDelete}
+            className="flex flex-col items-center gap-1.5 text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+          >
+            <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
-              Delete
-            </button>
-          </div>
-        )}
-      </td>
-    </tr>
+            </div>
+            <span className="text-xs font-bold">Delete</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function VehiclePlaceholder() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col shadow-sm animate-pulse h-64">
+      <div className="h-24 bg-slate-200" />
+      <div className="p-5 flex flex-col flex-1 gap-3">
+        <div className="h-6 bg-slate-200 rounded w-2/3" />
+        <div className="h-4 bg-slate-100 rounded w-1/2" />
+        <div className="mt-auto">
+          <div className="h-4 bg-slate-100 rounded w-1/3 mb-2" />
+          <div className="w-full h-1.5 bg-slate-100 rounded-full" />
+        </div>
+      </div>
+    </div>
   )
 }
 
