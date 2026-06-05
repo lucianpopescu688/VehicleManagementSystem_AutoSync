@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { list, create, _delete } from '@/api/generated/vehicle-controller/vehicle-controller'
 import { CreateVehicleSchema, type CreateVehicleInput, type Vehicle } from '@/api/schemas'
 import { useAuthStore } from '@/store/auth.store'
-import { StatusBadge } from '@/components/StatusBadge'
+import { StatusBadge, Modal, Field, TextInput, PageHeader } from '@/components'
 import { vehicleStatusFor } from '@/lib/vehicle-status'
 import { queryKeys } from '@/lib/query-keys'
 
@@ -119,30 +119,28 @@ function VehiclesPage() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Fleet</p>
-          <h1 className="font-[Manrope] text-2xl font-extrabold text-neutral-dark">Fleet Details</h1>
-          <p className="text-sm text-slate-500 mt-0.5">
-            {isLoading ? 'Loading…' : `${filteredVehicles.length} vehicle${filteredVehicles.length !== 1 ? 's' : ''} found`}
-          </p>
-        </div>
-        {canManage && (
-          <button
-            onClick={() => {
-              setForm(emptyForm)
-              setFormErrors({})
-              setModalOpen(true)
-            }}
-            className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-            Add Vehicle
-          </button>
-        )}
-      </div>
+      <PageHeader
+        eyebrow="Fleet"
+        title="Fleet Details"
+        subtitle={isLoading ? 'Loading…' : `${filteredVehicles.length} vehicle${filteredVehicles.length !== 1 ? 's' : ''} found`}
+        actions={
+          canManage && (
+            <button
+              onClick={() => {
+                setForm(emptyForm)
+                setFormErrors({})
+                setModalOpen(true)
+              }}
+              className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Vehicle
+            </button>
+          )
+        }
+      />
 
       {/* Grid container */}
       <div className="w-full">
@@ -189,6 +187,7 @@ function VehiclesPage() {
       {/* Create modal */}
       {modalOpen && (
         <Modal
+          open={true}
           title="Add Vehicle"
           onClose={() => {
             setModalOpen(false)
@@ -197,31 +196,30 @@ function VehiclesPage() {
           }}
         >
           <form onSubmit={handleCreate} className="space-y-4">
-            <FormField label="VIN" error={formErrors.vin}>
-              <input
+            <Field label="VIN" error={formErrors.vin}>
+              <TextInput
                 type="text"
                 {...field('vin')}
                 placeholder="17-character VIN"
-                className={inputCls}
               />
-            </FormField>
+            </Field>
 
             <div className="grid grid-cols-2 gap-3">
-              <FormField label="Name" error={formErrors.name}>
-                <input type="text" {...field('name')} placeholder="My Truck" className={inputCls} />
-              </FormField>
-              <FormField label="Model" error={formErrors.model}>
-                <input type="text" {...field('model')} placeholder="Ford F-150" className={inputCls} />
-              </FormField>
+              <Field label="Name" error={formErrors.name}>
+                <TextInput type="text" {...field('name')} placeholder="My Truck" />
+              </Field>
+              <Field label="Model" error={formErrors.model}>
+                <TextInput type="text" {...field('model')} placeholder="Ford F-150" />
+              </Field>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <FormField label="Year" error={formErrors.year}>
-                <input type="number" {...field('year')} placeholder="2024" className={inputCls} />
-              </FormField>
-              <FormField label="Mileage (km)" error={formErrors.currentMileage}>
-                <input type="number" {...field('currentMileage')} placeholder="0" className={inputCls} />
-              </FormField>
+              <Field label="Year" error={formErrors.year}>
+                <TextInput type="number" {...field('year')} placeholder="2024" />
+              </Field>
+              <Field label="Mileage (km)" error={formErrors.currentMileage}>
+                <TextInput type="number" {...field('currentMileage')} placeholder="0" />
+              </Field>
             </div>
 
             {createMutation.isError && (
@@ -256,7 +254,7 @@ function VehiclesPage() {
 
       {/* Delete confirm modal */}
       {deleteConfirmId !== null && (
-        <Modal title="Delete Vehicle" onClose={() => setDeleteConfirmId(null)}>
+        <Modal open={true} title="Delete Vehicle" onClose={() => setDeleteConfirmId(null)}>
           <div className="flex items-start gap-3 mb-5">
             <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center shrink-0">
               <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -398,56 +396,3 @@ function VehiclePlaceholder() {
   )
 }
 
-function Modal({
-  title,
-  onClose,
-  children,
-}: {
-  title: string
-  onClose: () => void
-  children: React.ReactNode
-}) {
-  return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div
-        className="bg-white w-full max-w-md shadow-2xl"
-        style={{ borderRadius: '16px' }}
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="font-[Manrope] font-bold text-neutral-dark">{title}</h3>
-          <button
-            onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
-            aria-label="Close"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div className="p-6">{children}</div>
-      </div>
-    </div>
-  )
-}
-
-function FormField({
-  label,
-  error,
-  children,
-}: {
-  label: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div>
-      <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">{label}</label>
-      {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
-  )
-}
-
-const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'

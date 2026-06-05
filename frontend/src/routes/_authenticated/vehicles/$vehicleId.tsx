@@ -9,6 +9,7 @@ import { log, history as fetchMileageHistory } from '@/api/generated/mileage-con
 import { create2, update2, delete2, listByVehicle1 } from '@/api/generated/consumable-part-controller/consumable-part-controller'
 import { create1, update1, delete1, listByVehicle } from '@/api/generated/legal-document-controller/legal-document-controller'
 import { useGetAppointmentsByVehicle } from '@/api/generated/appointment/appointment'
+import { Field, TextInput, Select } from '@/components'
 
 export const Route = createFileRoute('/_authenticated/vehicles/$vehicleId')({
   component: VehicleDetailPage,
@@ -227,14 +228,14 @@ function EditVehicleForm({ vehicle }: { vehicle: Vehicle }) {
         <h2 className="font-[Manrope] font-bold text-sm text-neutral-dark">Edit Vehicle Details</h2>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Field label="VIN" error={formErrors.vin}><input type="text" {...field('vin')} className={inputCls} /></Field>
+        <Field label="VIN" error={formErrors.vin}><TextInput type="text" {...field('vin')} /></Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Name" error={formErrors.name}><input type="text" {...field('name')} className={inputCls} /></Field>
-          <Field label="Model" error={formErrors.model}><input type="text" {...field('model')} className={inputCls} /></Field>
+          <Field label="Name" error={formErrors.name}><TextInput type="text" {...field('name')} /></Field>
+          <Field label="Model" error={formErrors.model}><TextInput type="text" {...field('model')} /></Field>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Year" error={formErrors.year}><input type="number" {...field('year')} className={inputCls} /></Field>
-          <Field label="Mileage (km)" error={formErrors.currentMileage}><input type="number" {...field('currentMileage')} className={inputCls} /></Field>
+          <Field label="Year" error={formErrors.year}><TextInput type="number" {...field('year')} /></Field>
+          <Field label="Mileage (km)" error={formErrors.currentMileage}><TextInput type="number" {...field('currentMileage')} /></Field>
         </div>
         {updateMutation.isError && <div className="bg-red-50 border border-red-200 rounded-lg p-3"><p className="text-red-600 text-xs font-medium">Update failed. Please try again.</p></div>}
         {savedOk && (
@@ -299,12 +300,12 @@ function MileageTab({ vehicle }: { vehicle: Vehicle }) {
         <h3 className="font-[Manrope] font-bold text-sm text-neutral-dark mb-4">Log New Mileage</h3>
         <p className="text-xs text-slate-500 mb-4">Current: <span className="font-semibold text-neutral-dark">{vehicle.currentMileage.toLocaleString()} km</span></p>
         <form onSubmit={handleLog} className="flex gap-3">
-          <input
+          <TextInput
             type="number"
             value={newMileage}
             onChange={(e) => { setNewMileage(e.target.value); setSuccess(false) }}
             placeholder="New mileage (km)"
-            className={`${inputCls} flex-1`}
+            className="flex-1"
           />
           <button type="submit" disabled={logMut.isPending} className="px-4 py-2 text-sm bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg cursor-pointer transition-colors shrink-0">
             {logMut.isPending ? 'Saving…' : 'Save'}
@@ -392,12 +393,12 @@ function ConsumablePartsTab({ vehicle }: { vehicle: Vehicle }) {
         <div className="bg-white border border-slate-100 shadow-sm p-5" style={{ borderRadius: '12px' }}>
           <h4 className="font-semibold text-sm text-neutral-dark mb-4">{editing ? 'Edit Part' : 'New Part'}</h4>
           <form onSubmit={handleSubmit} className="space-y-3">
-            <Field label="Part Name"><input type="text" value={form.partName} onChange={(e) => setForm({ ...form, partName: e.target.value })} className={inputCls} required /></Field>
+            <Field label="Part Name"><TextInput type="text" value={form.partName} onChange={(e) => setForm({ ...form, partName: e.target.value })} required /></Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Lifespan (km)"><input type="number" value={form.lifespanKm} onChange={(e) => setForm({ ...form, lifespanKm: e.target.value })} className={inputCls} required /></Field>
-              <Field label="Last Replaced At (km)"><input type="number" value={form.lastReplacedMileage} onChange={(e) => setForm({ ...form, lastReplacedMileage: e.target.value })} className={inputCls} required /></Field>
+              <Field label="Lifespan (km)"><TextInput type="number" value={form.lifespanKm} onChange={(e) => setForm({ ...form, lifespanKm: e.target.value })} required /></Field>
+              <Field label="Last Replaced At (km)"><TextInput type="number" value={form.lastReplacedMileage} onChange={(e) => setForm({ ...form, lastReplacedMileage: e.target.value })} required /></Field>
             </div>
-            <Field label="Notes (optional)"><input type="text" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className={inputCls} /></Field>
+            <Field label="Notes (optional)"><TextInput type="text" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></Field>
             <div className="flex justify-end gap-2 pt-1">
               <button type="button" onClick={resetForm} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer font-medium">Cancel</button>
               <button type="submit" disabled={isPending} className="px-4 py-2 text-sm bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg cursor-pointer">{isPending ? 'Saving…' : 'Save'}</button>
@@ -514,15 +515,15 @@ function LegalDocumentsTab({ vehicle }: { vehicle: Vehicle }) {
           <h4 className="font-semibold text-sm text-neutral-dark mb-4">{editing ? 'Edit Document' : 'New Document'}</h4>
           <form onSubmit={handleSubmit} className="space-y-3">
             <Field label="Document Type">
-              <select value={form.documentType} onChange={(e) => setForm({ ...form, documentType: e.target.value as DocumentType })} className={inputCls}>
+              <Select value={form.documentType} onChange={(e) => setForm({ ...form, documentType: e.target.value as DocumentType })}>
                 {(Object.keys(DOC_TYPE_LABELS) as DocumentType[]).map((t) => <option key={t} value={t}>{DOC_TYPE_LABELS[t]}</option>)}
-              </select>
+              </Select>
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Document Number (optional)"><input type="text" value={form.documentNumber} onChange={(e) => setForm({ ...form, documentNumber: e.target.value })} className={inputCls} /></Field>
-              <Field label="Expiry Date"><input type="date" min={today} value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} className={inputCls} required /></Field>
+              <Field label="Document Number (optional)"><TextInput type="text" value={form.documentNumber} onChange={(e) => setForm({ ...form, documentNumber: e.target.value })} /></Field>
+              <Field label="Expiry Date"><TextInput type="date" min={today} value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} required /></Field>
             </div>
-            <Field label="Notes (optional)"><input type="text" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className={inputCls} /></Field>
+            <Field label="Notes (optional)"><TextInput type="text" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></Field>
             <div className="flex justify-end gap-2 pt-1">
               <button type="button" onClick={resetForm} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer font-medium">Cancel</button>
               <button type="submit" disabled={isPending} className="px-4 py-2 text-sm bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-semibold rounded-lg cursor-pointer">{isPending ? 'Saving…' : 'Save'}</button>
@@ -568,17 +569,3 @@ function LegalDocumentsTab({ vehicle }: { vehicle: Vehicle }) {
   )
 }
 
-// ─── Shared helpers ───────────────────────────────────────────────────────────
-
-function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">{label}</label>
-      {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
-  )
-}
-
-const inputCls =
-  'w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-neutral-dark placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0052CC] focus:border-transparent transition-colors bg-slate-50 focus:bg-white'
