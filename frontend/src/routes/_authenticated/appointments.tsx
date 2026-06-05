@@ -24,6 +24,8 @@ import {
   getGetMyRequestedAppointmentsQueryKey,
   getGetAppointmentsByShopQueryKey,
 } from '@/api/generated/appointment/appointment'
+import { useGetUnresolvedForVehicle } from '@/api/generated/alert-controller/alert-controller'
+import { useListByVehicle1 } from '@/api/generated/consumable-part-controller/consumable-part-controller'
 import { getApprovedServiceShops } from '@/api/generated/service-shop/service-shop'
 import { list as listVehicles } from '@/api/generated/vehicle-controller/vehicle-controller'
 import type { AppointmentDto, ServiceShopDto } from '@/api/generated/zod'
@@ -275,6 +277,11 @@ function CompleteAppointmentModal({
   onSaved: () => void
 }) {
   const toast = useToast()
+  
+  const { data: unresolvedAlerts = [] } = useGetUnresolvedForVehicle(appointment.vehicleId!)
+  const { data: parts = [] } = useListByVehicle1(appointment.vehicleId!)
+  const partsNeedingMaintenance = parts.filter(p => p.maintenanceRequired)
+
   const completeMut = useCompleteAppointment({
     mutation: {
       onSuccess: () => {
@@ -291,12 +298,19 @@ function CompleteAppointmentModal({
     const fd = new FormData(e.currentTarget)
     const mileage = fd.get('recordedMileage') as string
     const cost = fd.get('totalCost') as string
+    
+    // Get all checked values
+    const resolveAlertIds = fd.getAll('resolveAlertIds') as string[]
+    const resetPartIds = fd.getAll('resetPartIds') as string[]
+
     completeMut.mutate({
       id: appointment.id!,
       data: {
         recordedMileage: mileage ? Number(mileage) : undefined,
         totalCost: cost ? Number(cost) : undefined,
         mechanicNotes: (fd.get('mechanicNotes') as string) || undefined,
+        resolveAlertIds: resolveAlertIds.length > 0 ? resolveAlertIds : undefined,
+        resetPartIds: resetPartIds.length > 0 ? resetPartIds : undefined,
       },
     })
   }
@@ -318,8 +332,7 @@ function CompleteAppointmentModal({
       }
     >
       <p className="mb-4 text-sm text-slate-500">
-        Completing resets all parts needing maintenance, resolves open alerts on this vehicle, and emails
-        the owner.
+        Record the final details of this service appointment. You can selectively choose which alerts to resolve and parts to reset.
       </p>
       <form id="complete-appointment-form" onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Recorded Mileage (km)" htmlFor="recordedMileage">
@@ -333,6 +346,43 @@ function CompleteAppointmentModal({
             <TextArea id="mechanicNotes" name="mechanicNotes" rows={3} placeholder="Work performed..." />
           </Field>
         </div>
+
+        {/* Scoped selections */}
+        {(unresolvedAlerts.length > 0 || partsNeedingMaintenance.length > 0) && (
+          <div className="sm:col-span-2 mt-2 pt-4 border-t border-slate-200">
+            <h4 className="text-sm font-semibold text-slate-900 mb-3">Service Scope</h4>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {unresolvedAlerts.length > 0 && (
+                <div>
+                  <label className="text-xs font-semibold uppercase text-slate-500 mb-2 block">Resolve Alerts</label>
+                  <div className="space-y-2">
+                    {unresolvedAlerts.map(alert => (
+                      <label key={alert.id} className="flex items-start space-x-2 text-sm text-slate-700 cursor-pointer">
+                        <input type="checkbox" name="resolveAlertIds" value={alert.id} defaultChecked className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                        <span>{alert.message} <span className="text-xs text-slate-400">({alert.type})</span></span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {partsNeedingMaintenance.length > 0 && (
+                <div>
+                  <label className="text-xs font-semibold uppercase text-slate-500 mb-2 block">Reset Parts</label>
+                  <div className="space-y-2">
+                    {partsNeedingMaintenance.map(part => (
+                      <label key={part.id} className="flex items-start space-x-2 text-sm text-slate-700 cursor-pointer">
+                        <input type="checkbox" name="resetPartIds" value={part.id} defaultChecked className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                        <span>{part.name} <span className="text-xs text-slate-400">({part.partNumber})</span></span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </form>
     </Modal>
   )

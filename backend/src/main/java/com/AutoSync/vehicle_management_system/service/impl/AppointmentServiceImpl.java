@@ -152,12 +152,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         Set<UUID> wantedParts = request.getResetPartIds() != null && !request.getResetPartIds().isEmpty()
                 ? Set.copyOf(request.getResetPartIds())
                 : null;
+        java.util.List<ConsumablePart> resetPartsList = new java.util.ArrayList<>();
         for (ConsumablePart part : parts) {
             boolean inScope = wantedParts != null ? wantedParts.contains(part.getId()) : part.isMaintenanceRequired();
             if (inScope) {
                 part.setMaintenanceRequired(false);
                 part.setLastReplacedMileage(serviceMileage);
                 consumablePartRepository.save(part);
+                resetPartsList.add(part);
             }
         }
 
@@ -168,6 +170,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setMechanicNotes(request.getMechanicNotes());
         appointment.setCompletedAt(LocalDateTime.now());
         appointment.setCompletedById(completedById);
+        appointment.setResetParts(resetPartsList);
         Appointment saved = appointmentRepository.save(appointment);
 
         // ─── Notify owner ───────────────────────────────────────────────────────

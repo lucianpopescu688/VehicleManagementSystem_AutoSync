@@ -7,15 +7,15 @@
 import { z as zod } from 'zod';
 
 export const PageableObject = zod.object({
+  unpaged: zod.boolean().optional(),
   pageNumber: zod.number().optional(),
   paged: zod.boolean().optional(),
   pageSize: zod.number().optional(),
-  unpaged: zod.boolean().optional(),
   offset: zod.number().optional(),
   sort: zod
     .object({
-      sorted: zod.boolean().optional(),
       unsorted: zod.boolean().optional(),
+      sorted: zod.boolean().optional(),
       empty: zod.boolean().optional(),
     })
     .optional(),

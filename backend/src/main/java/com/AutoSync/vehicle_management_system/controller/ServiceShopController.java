@@ -49,6 +49,7 @@ public class ServiceShopController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update service shop details")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SERVICE_SHOP_REPRESENTATIVE') and principal.serviceShopId == #id)")
     public ResponseEntity<ServiceShopDto> updateServiceShop(@PathVariable UUID id, @Valid @RequestBody ServiceShopRequest request) {
         return ResponseEntity.ok(serviceShopService.updateServiceShop(id, request));
     }

@@ -37,12 +37,14 @@ public class AppointmentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get appointment by ID")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @vehicleAccess.canAccessAppointment(#id) or @vehicleAccess.canCompleteAppointment(#id)")
     public ResponseEntity<AppointmentDto> getAppointment(@PathVariable UUID id) {
         return ResponseEntity.ok(appointmentService.getAppointment(id));
     }
 
     @GetMapping("/vehicle/{vehicleId}")
     @Operation(summary = "Get appointments for a vehicle")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @vehicleAccess.canAccessVehicle(#vehicleId)")
     public ResponseEntity<List<AppointmentDto>> getAppointmentsByVehicle(@PathVariable UUID vehicleId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByVehicle(vehicleId));
     }
@@ -63,9 +65,16 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointmentsByShop(user.getServiceShopId()));
     }
 
+    @GetMapping("/shop/{shopId}")
+    @Operation(summary = "Get appointments for a specific service shop (Admin only)")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<AppointmentDto>> getAppointmentsForShop(@PathVariable UUID shopId) {
+        return ResponseEntity.ok(appointmentService.getAppointmentsByShop(shopId));
+    }
+
     @PatchMapping("/{id}/status")
     @Operation(summary = "Update appointment status")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'SERVICE_SHOP_REPRESENTATIVE')")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or (hasRole('SERVICE_SHOP_REPRESENTATIVE') and @vehicleAccess.canCompleteAppointment(#id))")
     public ResponseEntity<AppointmentDto> updateAppointmentStatus(
             @PathVariable UUID id,
             @RequestParam AppointmentStatus status) {
@@ -74,7 +83,7 @@ public class AppointmentController {
 
     @PostMapping("/{id}/complete")
     @Operation(summary = "Complete an appointment: reset serviced parts, resolve alerts, notify owner")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'SERVICE_SHOP_REPRESENTATIVE')")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or (hasRole('SERVICE_SHOP_REPRESENTATIVE') and @vehicleAccess.canCompleteAppointment(#id))")
     public ResponseEntity<AppointmentDto> completeAppointment(
             @PathVariable UUID id,
             @Valid @RequestBody CompleteAppointmentRequest request,
@@ -84,6 +93,7 @@ public class AppointmentController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete an appointment")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN') or @vehicleAccess.canAccessAppointment(#id)")
     public ResponseEntity<Void> deleteAppointment(@PathVariable UUID id) {
         appointmentService.deleteAppointment(id);
         return ResponseEntity.noContent().build();

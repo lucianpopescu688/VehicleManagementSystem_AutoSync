@@ -656,6 +656,167 @@ export function useGetAppointmentsByVehicle<
 }
 
 /**
+ * @summary Get appointments for a specific service shop (Admin only)
+ */
+export const getAppointmentsForShop = (
+  shopId: string,
+  signal?: AbortSignal
+) => {
+  return orvalInstance<AppointmentDto[]>({
+    url: `/v1/appointments/shop/${shopId}`,
+    method: 'GET',
+    signal,
+  });
+};
+
+export const getGetAppointmentsForShopQueryKey = (shopId: string) => {
+  return [`/v1/appointments/shop/${shopId}`] as const;
+};
+
+export const getGetAppointmentsForShopQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAppointmentsForShop>>,
+  TError = unknown,
+>(
+  shopId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsForShop>>,
+        TError,
+        TData
+      >
+    >;
+  }
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetAppointmentsForShopQueryKey(shopId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAppointmentsForShop>>
+  > = ({ signal }) => getAppointmentsForShop(shopId, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: shopId !== null && shopId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAppointmentsForShop>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAppointmentsForShopQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppointmentsForShop>>
+>;
+export type GetAppointmentsForShopQueryError = unknown;
+
+export function useGetAppointmentsForShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsForShop>>,
+  TError = unknown,
+>(
+  shopId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsForShop>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppointmentsForShop>>,
+          TError,
+          Awaited<ReturnType<typeof getAppointmentsForShop>>
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsForShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsForShop>>,
+  TError = unknown,
+>(
+  shopId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsForShop>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppointmentsForShop>>,
+          TError,
+          Awaited<ReturnType<typeof getAppointmentsForShop>>
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAppointmentsForShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsForShop>>,
+  TError = unknown,
+>(
+  shopId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsForShop>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Get appointments for a specific service shop (Admin only)
+ */
+
+export function useGetAppointmentsForShop<
+  TData = Awaited<ReturnType<typeof getAppointmentsForShop>>,
+  TError = unknown,
+>(
+  shopId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppointmentsForShop>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAppointmentsForShopQueryOptions(shopId, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
  * @summary Get appointments for the logged-in representative's service shop
  */
 export const getAppointmentsByShop = (signal?: AbortSignal) => {

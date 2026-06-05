@@ -427,6 +427,16 @@ function AuthenticatedLayout() {
               type="text"
               placeholder="Search vehicles, drivers..."
               className="w-full pl-9 pr-4 py-1.5 text-sm bg-[#F1F5F9] border border-transparent rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#0052CC] focus:bg-white transition-colors"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const val = e.currentTarget.value.trim();
+                  if (val) {
+                    navigate({ to: '/vehicles', search: { q: val } });
+                  } else {
+                    navigate({ to: '/vehicles' });
+                  }
+                }
+              }}
             />
           </div>
 
