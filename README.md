@@ -1,10 +1,44 @@
+# Vehicle Management System
 
+Fleet management platform built with Spring Boot, React, PostgreSQL, and RabbitMQ. Fully containerized with Docker.
 
-Spanish Inquisition
+## How to Run
 
- To run the application:                                                                                                                                                               │
-│                                                                                                                                                                                       │
-│  1. Open a new terminal and run docker-compose up -d to start the database and other services.                                                                                        │
-│  2. In another terminal, navigate to the backend directory and run ./gradlew bootRun --args='--server.port=8080' to start the backend server.                                         │
-│  3. In a third terminal, navigate to the frontend directory, run npm install (if you haven't already), and then npm run dev.                                                          │
-│  4. Open your browser and go to the address provided by the Vite dev server (usually http://localhost:5173).
+```bash
+git clone https://github.com/lucianpopescu688/VehicleManagementSystem_AutoSync.git
+cd VehicleManagementSystem_AutoSync
+cp .env.example .env       # then set JWT_SECRET (openssl rand -hex 32)
+docker compose up --build   # starts everything on http://localhost
+```
+
+That's it. One command spins up the database, message broker, backend API, and frontend.
+
+| Service | URL |
+|---------|-----|
+| App | http://localhost |
+| Backend API | http://localhost:8081 |
+| MailHog (dev email) | http://localhost:8025 |
+| RabbitMQ management | http://localhost:15672 |
+
+## Tech Stack
+
+| | |
+|-|-|
+| **Backend** | Java 21 · Spring Boot 3 · Spring Security (JWT) · Flyway · MapStruct |
+| **Frontend** | React 19 · TypeScript · TanStack Router/Query · Tailwind CSS · Vite |
+| **Infra** | PostgreSQL 15 · RabbitMQ 3 · Nginx · Docker Compose |
+| **CI/CD** | GitHub Actions → GitHub Container Registry |
+
+## Project Structure
+
+```
+backend/          Spring Boot API + Dockerfile (JDK build → JRE runtime)
+frontend/         React SPA + Dockerfile (Node build → Nginx runtime)
+docker-compose.yml            Production stack
+docker-compose.override.yml   Dev extras (MailHog, exposed DB/broker ports)
+.github/workflows/ci.yml      CI/CD pipeline
+```
+
+## License
+
+University project.
